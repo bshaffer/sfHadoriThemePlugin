@@ -1,0 +1,46 @@
+Company:
+  actAs:
+    - Timestampable
+  columns:
+    name:           string(255)
+    city:           string(255)
+    state:          string(25)
+    zip:            string(25)
+    
+Contact:
+  actAs:
+    - Timestampable
+  columns:
+    name:           string(255)
+    address:        string(255)
+    gender:
+      type:         enum
+      values:       [Male, Female]
+    birthday:
+      type:         date
+    company_id:
+      type:         integer
+  relations:
+    Company:
+      local:        company_id
+      foreign:      id
+      foreignAlias: Contacts
+
+ContactAddress:
+  actAs:
+    - Timestampable
+  columns:
+    name:           string(255)
+    is_primary:
+      type:         boolean
+      default:      false
+    city:           string(255)
+    state:          string(25)
+    zip:            string(25)
+    contact_id:
+      type:         integer
+      notnull:      true
+  relations:
+    Contact:
+      foreignAlias: Addresses
+    

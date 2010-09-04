@@ -1,0 +1,3 @@
+all:
+  admin:
+    global_flashes: on
