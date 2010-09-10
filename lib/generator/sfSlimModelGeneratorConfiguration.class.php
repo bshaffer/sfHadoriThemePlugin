@@ -18,9 +18,12 @@ abstract class sfSlimModelGeneratorConfiguration extends sfModelGeneratorConfigu
   protected function compile()
   {
     // Load security.yml
-    $path = sfConfig::get('sf_app_module_dir').'/'.sfContext::getInstance()->getRequest()->getParameter('module').'/config/security.yml';
-    include(sfContext::getInstance()->getConfigCache()->checkConfig($path));
-
+    if (isset($this->configuration['use_security_yaml_credentials']) && $this->configuration['use_security_yaml_credentials'] && sfContext::hasInstance())
+    {
+      $path = sfConfig::get('sf_app_module_dir').'/'.sfContext::getInstance()->getRequest()->getParameter('module').'/config/security.yml';
+      include(sfContext::getInstance()->getConfigCache()->checkConfig($path));
+    }
+    
     parent::compile();
     
     // Set Legend in configuration

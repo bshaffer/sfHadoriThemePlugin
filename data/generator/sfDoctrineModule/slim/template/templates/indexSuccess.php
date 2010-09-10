@@ -1,10 +1,8 @@
 [?php use_helper('I18N', 'Date') ?]
-[?php include_partial('<?php echo $this->getModuleName() ?>/assets') ?]
-
 <div id="sf_admin_container">
   <h2 class="list_header">[?php echo <?php echo $this->getI18NString('list.title') ?> ?]</h1>
 
-  [?php include_partial('<?php echo $this->getModuleName() ?>/flashes') ?]
+  [?php include_partial('global/flashes') ?]
 
 <?php if ($this->configuration->hasFilterForm()): ?>
   <div id="sf_admin_bar">

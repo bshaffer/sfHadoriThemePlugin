@@ -1,1 +1,3 @@
 test/fixtures/project/cache/*
+test/fixtures/project/log/*
+test/fixtures/project/data/test.sqlite

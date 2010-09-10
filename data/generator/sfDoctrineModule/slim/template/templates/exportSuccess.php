@@ -1,10 +1,8 @@
 [?php use_helper('I18N', 'Date') ?]
-[?php include_partial('<?php echo $this->getModuleName() ?>/assets') ?]
-
 <div id="sf_admin_container">
   <h1 class='export_header'>[?php echo <?php echo $this->getI18NString('export.title') ?> ?]</h1>
 
-  [?php include_partial('<?php echo $this->getModuleName() ?>/flashes') ?]
+  [?php include_partial('global/flashes') ?]
 
   <div id="sf_admin_header">
     [?php include_partial('<?php echo $this->getModuleName() ?>/export_header', array('pager' => $pager)) ?]
