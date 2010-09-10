@@ -32,6 +32,7 @@ class sfSlimThemeConfiguration extends sfThemeConfiguration
     route_prefix:          %s
     with_doctrine_route:   true
     actions_base_class:    sfActions
+    use_security_yaml_credentials: false
 EOF
       ,
       $this->options['model'],

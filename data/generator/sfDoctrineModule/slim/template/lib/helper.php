@@ -72,22 +72,37 @@ abstract class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper 
 
   public function linkToNew($params)
   {
-    return '<li class="sf_admin_action_new">'.link_to(__($params['label'], array(), 'sf_admin'), '@'.$this->getUrlForAction('new'), array('title' => __('Add A New ' . $params['label'] == 'New' ? <?php echo sfInflector::humanize($this->params['model_class']) ?> : $params['label'], array(), 'sf_admin'), 'class' => 'qtip')).'</li>';
+    return link_to(__($params['label'], array(), 'sf_admin'), '@'.$this->getUrlForAction('new'), array('title' => __('Add A New ' . $params['label'] == 'New' ? <?php echo sfInflector::humanize($this->params['model_class']) ?> : $params['label'], array(), 'sf_admin')));
   }
 
   public function linkToShow($object, $params)
   {
-    return '<li class="sf_admin_action_show">'.link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('show'), $object, array('title' => __('View ', array(), 'sf_admin') . $object, 'class' => 'qtip')).'</li>';
+    return link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('show'), $object, array('title' => __('View ', array(), 'sf_admin') . $object, 'class' => 'qtip'));
   }
 
   public function linkToEdit($object, $params)
   {
-    return '<li class="sf_admin_action_edit">'.link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('edit'), $object, array('title' => __('Edit ', array(), 'sf_admin') . $object, 'class' => 'qtip')).'</li>';
+    return link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('edit'), $object, array('title' => __('Edit ', array(), 'sf_admin') . $object, 'class' => 'qtip'));
+  }
+
+  public function linkToSave($object, $params)
+  {
+    return '<input class="greyButton" type="submit" value="'.__($params['label'], array(), 'sf_admin').'" />';
+  }
+
+  public function linkToSaveAndAdd($object, $params)
+  {
+    if (!$object->isNew())
+    {
+      return '';
+    }
+
+    return '<input class="greyButton" type="submit" value="'.__($params['label'], array(), 'sf_admin').'" name="_save_and_add" />';
   }
 
   public function linkToExport($params)
   {
-    return '<li class="sf_admin_action_export">'.link_to(__($params['label'], array(), 'sf_admin'), '@'.$this->getUrlForAction('export'), array('title' => __('Export Spreadsheet of <?php echo $this->configuration->getValue('list.title') ?>', array(), 'sf_admin'), 'class' => 'qtip')).'</li>';
+    return link_to(__($params['label'], array(), 'sf_admin'), '@'.$this->getUrlForAction('export'), array('title' => __('Export Spreadsheet of <?php echo $this->configuration->getValue('list.title') ?>', array(), 'sf_admin')));
   }
 
   public function linkToDelete($object, $params)
@@ -97,21 +112,11 @@ abstract class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper 
       return '';
     }
 
-    return '<li class="sf_admin_action_delete">'.link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('delete'), $object, array('method' => 'delete', 'confirm' => !empty($params['confirm']) ? __($params['confirm'], array(), 'sf_admin') : $params['confirm'], 'title' => __('Delete ', array(), 'sf_admin') . $object, 'class' => 'qtip')).'</li>';
-  }
-
-  public function linkToDeactivate($object, $params)
-  {
-    if ($object->isNew())
-    {
-      return '';
-    }
-
-    return '<li class="sf_admin_action_deactivate' . (method_exists($object, 'isActive') && $object->isActive() ? '' : '_disabled') . '">'.link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('delete'), $object, array('method' => 'delete', 'confirm' => !empty($params['confirm']) ? __($params['confirm'], array(), 'sf_admin') : $params['confirm'], 'title' => __('Deactivate ', array(), 'sf_admin') . $object, 'class' => 'qtip')).'</li>';
+    return link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('delete'), $object, array('method' => 'delete', 'confirm' => !empty($params['confirm']) ? __($params['confirm'], array(), 'sf_admin') : $params['confirm'], 'title' => __('Delete ', array(), 'sf_admin') . $object, 'class' => 'qtip'));
   }
 
   public function linkToList($params)
   {
-    return '<li class="sf_admin_action_list">'.link_to(__($params['label'], array(), 'sf_admin'), '@'.$this->getUrlForAction('list'), array('title' => __('View All <?php echo $this->configuration->getValue('list.title') ?>', array(), 'sf_admin'), 'class' => 'qtip')).'</li>';
+    return link_to(__($params['label'], array(), 'sf_admin'), '@'.$this->getUrlForAction('list'), array('title' => __('View All <?php echo $this->configuration->getValue('list.title') ?>', array(), 'sf_admin'), 'class' => 'qtip'));
   }
 }

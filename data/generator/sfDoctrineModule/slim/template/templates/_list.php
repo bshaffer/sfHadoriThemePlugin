@@ -1,5 +1,5 @@
 [?php $with_checkboxes = isset($checkboxes) ? $checkboxes : true ?]
-<div class="sf_admin_list">
+<div id="information">
   [?php if (!$pager->getNbResults()): ?]
     <p>[?php echo __('No result', array(), 'sf_admin') ?]</p>
   [?php else: ?]
@@ -36,7 +36,9 @@
           <tr id="<?php echo $this->getModuleName() ?>_[?php echo $<?php echo $this->getSingularName() ?>['id'] ?]" class="sf_admin_row [?php echo $odd ?]">
 <?php if ($this->configuration->getValue('list.batch_actions')): ?>
         [?php if($with_checkboxes): ?]
-            [?php include_partial('<?php echo $this->getModuleName() ?>/list_td_batch_actions', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'helper' => $helper)) ?]
+          <td>
+            <input type="checkbox" name="ids[]" value="[?php echo $<?php echo $this->getSingularName() ?>->getPrimaryKey() ?]" class="sf_admin_batch_checkbox" />
+          </td>
         [?php endif ?]
 <?php endif; ?>
             [?php include_partial('<?php echo $this->getModuleName() ?>/list_td_<?php echo $this->configuration->getValue('list.layout') ?>', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>)) ?]

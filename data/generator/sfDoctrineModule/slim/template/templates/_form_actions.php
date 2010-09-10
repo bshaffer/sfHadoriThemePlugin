@@ -1,4 +1,4 @@
-<ul class="sf_admin_actions">
+<p class="form_buttons">
 <?php foreach (array('new', 'edit') as $action): ?>
 <?php if ('new' == $action): ?>
 [?php if ($form->isNew()): ?]
@@ -18,12 +18,7 @@
 <?php elseif ('_save_and_add' == $name): ?>
   <?php echo $this->configuration->addCredentialCondition($this, '[?php echo $helper->linkToSaveAndAdd($form->getObject(), '.$this->asPhp($params).') ?]', $params) ?>
 
-<?php elseif ('_back' == $name): ?>
-  <li class="sf_admin_action_back">
-    [?php echo link_to_back('<?php echo $params['label'] ?>', '<?php echo $params['route'] ?>') ?]
-  </li>
 <?php else: ?>
-  <li class="sf_admin_action_<?php echo $params['class_suffix'] ?>">
 [?php if (method_exists($helper, 'linkTo<?php echo $method = ucfirst(sfInflector::camelize($name)) ?>')): ?]
   <?php echo $this->configuration->addCredentialCondition($this, '[?php echo $helper->linkTo'.$method.'($form->getObject(), '.$this->asPhp($params).') ?]', $params) ?>
 
@@ -31,9 +26,8 @@
   <?php echo $this->configuration->addCredentialCondition($this, $this->getLinkToAction($name, $params, true), $params) ?>
 
 [?php endif; ?]
-  </li>
 <?php endif; ?>
 <?php endforeach; ?>
 <?php endforeach; ?>
 [?php endif; ?]
-</ul>
+</p>
