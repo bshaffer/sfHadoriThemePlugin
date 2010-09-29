@@ -11,9 +11,6 @@ class sfSlimThemeConfiguration extends sfThemeConfiguration
       'skeleton/actions'                => 'MODULE_DIR/actions',
       'skeleton/config'                 => 'MODULE_DIR/config',
       'skeleton/templates'              => 'MODULE_DIR/templates',
-      'skeleton/lib/helper.php'         => 'MODULE_DIR/lib/MODULE_NAMEGeneratorHelper.class.php',
-      'skeleton/lib/configuration.php'  => 'MODULE_DIR/lib/MODULE_NAMEGeneratorConfiguration.class.php',
-      'skeleton/lib/helper.php'         => 'MODULE_DIR/lib/MODULE_NAMEGeneratorHelper.class.php',
       'templates/_flashes.php'          => 'APP_DIR/templates/_flashes.php',
     );
   } 

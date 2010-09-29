@@ -8,7 +8,7 @@
  * @author     ##AUTHOR_NAME##
  * @version    SVN: $Id: helper.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
-abstract class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends sfModelGeneratorHelper
+abstract class <?php echo $this->getModuleName() ?>GeneratorHelper extends sfModelGeneratorHelper
 {
   protected $_filters = array();
   
