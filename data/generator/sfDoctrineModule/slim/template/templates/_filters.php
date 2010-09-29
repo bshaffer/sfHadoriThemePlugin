@@ -1,7 +1,4 @@
-[?php use_stylesheets_for_form($form) ?]
-[?php use_javascripts_for_form($form) ?]
-
-<div class="sf_admin_filter inner [?php echo $helper->activeFilters() ? 'active':'' ?]">
+<div class="[?php echo $helper->activeFilters() ? 'active':'inactive' ?]">
   [?php if ($form->hasGlobalErrors()): ?]
     [?php echo $form->renderGlobalErrors() ?]
   [?php endif; ?]
@@ -20,15 +17,20 @@
       <tbody>
         [?php foreach ($configuration->getFormFilterFields($form) as $name => $field): ?]
         [?php if ((isset($form[$name]) && $form[$name]->isHidden()) || (!isset($form[$name]) && $field->isReal())) continue ?]
-          [?php include_partial('<?php echo $this->getModuleName() ?>/filters_field', array(
-            'name'       => $name,
-            'attributes' => $field->getConfig('attributes', array()),
-            'label'      => $field->getConfig('label'),
-            'help'       => $field->getConfig('help'),
-            'form'       => $form,
-            'field'      => $field,
-            'class'      => 'sf_admin_form_row sf_admin_'.strtolower($field->getType()).' sf_admin_filter_field_'.$name,
-          )) ?]
+
+          <div class="[?php echo $name ?]">
+              [?php echo $form[$name]->renderLabel($field->getConfig('label')) ?]
+          </div>
+
+          <div>
+              [?php echo $form[$name]->renderError() ?]
+              [?php echo $form[$name]->render() ?]
+
+              [?php if ($help = $field->getConfig('help') || $help = $form[$name]->renderHelp()): ?]
+                <div class="help">[?php echo __($help, array(), 'messages') ?]</div>
+              [?php endif; ?]
+          </div>
+
         [?php endforeach; ?]
       </tbody>
     </table>

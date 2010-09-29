@@ -13,7 +13,6 @@
 <?php endif; ?>
 
   <div class="form-container <?php echo $this->configuration->hasFilterForm() ? ' with_filters' : '' ?>">
-    [?php include_partial('<?php echo $this->getModuleName() ?>/filter_message', array('helper' => $helper)) ?]
 <?php if ($this->configuration->getValue('list.batch_actions')): ?>
     <form action="[?php echo url_for('<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'batch')) ?]" method="post">
 <?php endif; ?>

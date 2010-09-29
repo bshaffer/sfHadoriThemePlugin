@@ -1,7 +1,7 @@
 [?php
 
-require_once(dirname(__FILE__).'/../lib/Base<?php echo ucfirst($this->moduleName) ?>GeneratorConfiguration.class.php');
-require_once(dirname(__FILE__).'/../lib/Base<?php echo ucfirst($this->moduleName) ?>GeneratorHelper.class.php');
+require_once(dirname(__FILE__).'/../lib/<?php echo $this->moduleName ?>GeneratorConfiguration.class.php');
+require_once(dirname(__FILE__).'/../lib/<?php echo $this->moduleName ?>GeneratorHelper.class.php');
 
 /**
  * <?php echo $this->getModuleName() ?> actions.

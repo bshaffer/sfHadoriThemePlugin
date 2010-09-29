@@ -84,12 +84,12 @@
 
   public function getListDisplay()
   {
-<?php if (isset($this->config['list']['display'])): ?>
-    return <?php echo $this->asPhp($this->config['list']['display']) ?>;
-<?php elseif (isset($this->config['list']['hide'])): ?>
-    return <?php echo $this->asPhp(array_diff($this->getAllFieldNames(false), $this->config['list']['hide'])) ?>;
-<?php else: ?>
-    return <?php echo $this->asPhp($this->getAllFieldNames(false)) ?>;
+<?php if ($list_fields = $this->get('list_display')): // use fields in generator.yml ?>
+    return <?php echo $this->asPhp($list_fields) ?>;
+<?php elseif ($list_hide = $this->get('list_hide')): // hide fields in generator.yml ?>
+    return <?php echo $this->asPhp(array_diff($this->getAllFieldNames(false), $list_hide)) ?>;
+<?php else:                                          // show first 5 fields ?>
+    return <?php echo $this->asPhp(array_slice($this->getAllFieldNames(false), 0, 5)) ?>;
 <?php endif; ?>
 <?php unset($this->config['list']['display'], $this->config['list']['hide']) ?>
   }

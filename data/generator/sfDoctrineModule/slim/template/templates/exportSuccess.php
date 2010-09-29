@@ -13,7 +13,6 @@
   <div class='help'>The table below represents the data that will be exported.  Use the filters to refine your export</div>
 
   <div class="<?php echo $this->configuration->hasFilterForm() ? ' with_filters' : '' ?>">
-    [?php include_partial('<?php echo $this->getModuleName() ?>/filter_message', array('helper' => $helper)) ?]
     [?php include_partial('<?php echo $this->getModuleName() ?>/list', array('pager' => $pager, 'sort' => $sort, 'helper' => $helper, 'checkboxes' => false)) ?]
     <ul class="actions">
       [?php include_partial('<?php echo $this->getModuleName() ?>/export_actions', array('helper' => $helper)) ?]

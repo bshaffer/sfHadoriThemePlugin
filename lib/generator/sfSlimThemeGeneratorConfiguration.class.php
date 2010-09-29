@@ -1,20 +1,51 @@
 <?php
 
 
-abstract class sfSlimThemeGeneratorConfiguration extends sfModelGeneratorConfiguration
+abstract class sfSlimThemeGeneratorConfiguration extends sfThemeGeneratorConfiguration
 {
-  abstract public function getExportDisplay();
+  /**
+   * Gets the fields that represents the filters.
+   *
+   * If no filter.display parameter is passed in the configuration,
+   * all the fields from the form are returned (dynamically).
+   *
+   * @param sfForm $form The form with the fields
+   */
+  public function getFormFilterFields(sfForm $form)
+  {
+    $formFields = array();
+    $fields     = $this->getFilterFields();
+    
+    foreach ($form->getWidgetSchema()->getPositions() as $name)
+    {
+      if (isset($fields[$name])) 
+      {
+        $formFields[$name] = $fields[$name];
+      }
+    }
 
-  abstract public function getExportTitle();
+    return $formFields;
+  }
+  
+  public function getFormFields(sfForm $form, $context)
+  {
+    $fields = parent::getFormFields($form, 'Form');
 
-  abstract public function getExportActions();
-
-  abstract public function getShowDisplay();
-
-  abstract public function getShowTitle();
-
-  abstract public function getShowActions();
-
+    // Unset hidden fields
+    foreach ($fields as $fieldsetName => &$fieldset) 
+    {
+      foreach ($fieldset as $name => $field) 
+      {
+        if (!$field || $form[$name]->isHidden()) 
+        {
+          unset($fieldset[$name]);
+        }
+      }
+    }
+    
+    return $fields;
+  }
+  
   public function getFormClass()
   {
     throw new sfException('Deprecated');

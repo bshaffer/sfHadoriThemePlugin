@@ -1,10 +1,10 @@
 <div id="information">
-  <table>
+  <dl>
     <?php foreach ($this->configuration->getValue('show.display') as $name => $field): ?>
-      <tr>
-        <td width="180"><strong><?php echo $field->getConfig('label', '', true) ?></strong></td>
-        <td>[?php echo <?php echo $this->renderField($field) ?>?]</td>
-      </tr>
+      [?php if($value = <?php echo $this->renderField($field) ?>): ?]
+      <dt><?php echo $field->getConfig('label', '', true) ?></dt>
+      <dd>[?php echo $value ?]</dd>
+      [?php endif ?]
     <?php endforeach; ?>
-  </table>
+  </dl>
 </div>
