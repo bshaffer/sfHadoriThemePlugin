@@ -1,7 +1,7 @@
 all:
   admin:
     # set to false to prevent generation of global flashes and addition of flashes in modules
-    global_flashes: true
+    include_flashes: true
     
     # set to false to prevent addition of view.yml in generated module's config
     stylesheets:    [/sfSlimAdminGeneratorPlugin/css/slim.css]

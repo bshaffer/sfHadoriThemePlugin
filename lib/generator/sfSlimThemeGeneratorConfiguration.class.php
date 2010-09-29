@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class sfSlimModelGeneratorConfiguration extends sfModelGeneratorConfiguration
+abstract class sfSlimThemeGeneratorConfiguration extends sfModelGeneratorConfiguration
 {
   abstract public function getExportDisplay();
 
@@ -14,6 +14,11 @@ abstract class sfSlimModelGeneratorConfiguration extends sfModelGeneratorConfigu
   abstract public function getShowTitle();
 
   abstract public function getShowActions();
+
+  public function getFormClass()
+  {
+    throw new sfException('Deprecated');
+  }
 
   protected function compile()
   {

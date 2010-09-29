@@ -8,23 +8,12 @@
  * @author     ##AUTHOR_NAME##
  * @version    SVN: $Id: configuration.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
-abstract class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorConfiguration extends sfSlimModelGeneratorConfiguration
+abstract class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorConfiguration extends sfSlimThemeGeneratorConfiguration
 {
 <?php include dirname(__FILE__).'/actionsConfiguration.php' ?>
 
 <?php include dirname(__FILE__).'/fieldsConfiguration.php' ?>
 
-  /**
-   * Gets the form class name.
-   *
-   * @return string The form class name
-   */
-  public function getFormClass()
-  {
-    return '<?php echo isset($this->config['form']['class']) ? $this->config['form']['class'] : $this->getModelClass().'Form' ?>';
-<?php unset($this->config['form']['class']) ?>
-  }
-  
   public function hasFilterForm()
   {
     return <?php echo !isset($this->config['filter']['class']) || false !== $this->config['filter']['class'] ? 'true' : 'false' ?>;
