@@ -46,10 +46,6 @@ class <?php echo $this->getModuleName() ?>GeneratorConfiguration extends sfSlimT
     return '<?php echo isset($this->config['export']['filter']['class']) && !in_array($this->config['export']['filter']['class'], array(null, true, false), true) ? $this->config['export']['filter']['class'] : $this->getModelClass().'FormFilter' ?>';
 <?php unset($this->config['export']['filter']['class']) ?>
   }
-  
-<?php include dirname(__FILE__).'/paginationConfiguration.php' ?>
-
-<?php include dirname(__FILE__).'/sortingConfiguration.php' ?>
 
   public function getTableMethod()
   {

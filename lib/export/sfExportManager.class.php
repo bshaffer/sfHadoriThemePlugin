@@ -5,196 +5,56 @@
 */
 class sfExportManager
 {
-  protected $options            = array(),
-            $_xls               = null,
-            $_sheets            = 0,
-            $_current_increment = 0,
-            $_total_increments  = 1;
+  protected 
+    $options            = array(),
+    $error              = null,
+    $response           = null,
+    $_data              = array();
   
-  public function __construct($class = null, $title = null, $multisheet = false)
+  public function __construct(sfResponse $response)
+  {    
+    $this->response = $response;
+  }
+  
+  public function export($collection, $fields, $title)
   {
-    if ($class && !class_exists($class)) 
-    {
-      throw new sfException("Invalid class: $class.  Class does not exist");
-    }
+    $this->doExport($collection, $fields, $title);
     
-    if (is_null($title))
-    {
-      $title = $this->getExportTitle($class);
-    }
-    
-    $this->_xls = new sfPhpExcel();
-    $this->_xls->getProperties()->setTitle($title);
-    $this->_xls->getProperties()->setSubject($title);
-    $this->_xls->getProperties()->setDescription($title);
-  }
-  
-  public static function create($class, $title = null, $multisheet = false)
-  {
-    $managerClass = sprintf('sfExportManager%s', sfInflector::camelize($class));
-    if (class_exists($managerClass)) 
-    {
-      return new $managerClass($class, $title, $multisheet);
-    }
-    
-    return new self($class, $title, $multisheet);
-  }
-
-  public function initialize($params = array())
-  {
-  }
-
-
-  /**
-   * Returns the current manager's options.
-   *
-   * @return array The current manager's options
-   */
-  public function getOptions()
-  {
-    return $this->options;
+    $this->output($title);
   }
 
   /**
-   * Sets an option value.
-   *
-   * @param string $name  The option name
-   * @param mixed  $value The default value
-   *
-   * @return sfExportManager The current manager instance
-   */
-  public function setOption($name, $value)
-  {
-    $this->options[$name] = $value;
-
-    return $this;
-  }
-
-  /**
-   * Gets an option value.
-   *
-   * @param string $name    The option name
-   * @param mixed  $default The default value (null by default)
-   *
-   * @param mixed  The default value
-   */
-  public function getOption($name, $default = null)
-  {
-    return isset($this->options[$name]) ? $this->options[$name] : $default;
-  }
-
-  public function getExportTitle($class = null)
-  {
-    return substr(sprintf('%sData Export', $class ? $class . ' ' : ''), 0, 31);
-  }
-   
-  public function filterColumns($fields, $ids = array())
-  {
-    return $fields;
-  }
-  
-  public function exportField($object, $field)
-  {
-    return $this->exportObjectRowFieldDefault($object, $field);
-  }
-  
-  public function exportObjectRowFieldDefault($object, $field)
-  {
-    return $object[$field];
-  }
-  
-  public function getTotalIncrements()
-  {
-    return $this->_total_increments;
-  }
-  
-  public function setTotalIncrements($total)
-  {
-    $this->_total_increments = $total;
-  }
-
-  public function getCurrentIncrement()
-  {
-    return $this->_current_increment;
-  }
-  
-  public function setCurrentIncrement($current)
-  {
-    $this->_current_increment = $current;
-  }
-
-  public function increment()
-  {
-    $this->setCurrentIncrement($this->getCurrentIncrement() + 1);
-  }
-
-  /**
-   * exportCollectionSheet
+   * doExport
    *
    * default sheet export for collection
    *
-   * @param string $object 
-   * @param string $fields 
-   * @return void
+   * @param array|object $collection 
+   * @param array $fields 
    * @author Brent Shaffer
    */
-  public function exportCollectionSheet($collection, $fields, $title = null)
+  public function doExport($collection, $fields, $title)
   {
-    if($this->_sheets > 0)
-    {
-      $workSheet = $this->_xls->createSheet();
-      $this->_sheets++;
-    }
-    else
-    {
-      $workSheet = $this->_xls->getActiveSheet();
-      $this->_sheets++;
-    }
-
-    $workSheet->setTitle($this->getExportTitle($title));
-
     // Initialize coordinate counters
-    $row = 1;
-    $col = 0;
-
+    $headers = array();
+    
     foreach ($fields as $field => $label)
     {
-      $workSheet->setCellValueByColumnAndRow($col, $row, $this->exportLabel($field, $label));
-      $workSheet->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($col))->setAutoSize(true);
-      $col++;
+      $headers[] = $this->exportHeader($field, $label);
     }
-    $row++;
-
+    $this->addLine($headers);
+    
     foreach ($collection as $record) 
     {
-      $col = 0;
+      $cells = array();
       foreach ($fields as $field => $label)
       {
-        $workSheet->setCellValueByColumnAndRow($col, $row, $this->exportField($record, $field));
-        $col++;
+        $cells[] = $this->exportField($record, $field);
       }
-      $row++;
-
-      $this->increment();
+      $this->addLine($cells);
     }
   }
   
-  public function exportLabel($field, $label)
-  {
-    return $label ? $label : sfInflector::humanize($field);
-  }
-  
-  public function getDefaultFormat()
-  {
-    if (sfConfig::get('sf_environment') == 'test') 
-    {
-      return 'HTML';
-    }
-    
-    return 'Excel5';
-  }
-  
-  public function output($filename = 'export', $format = null)
+  public function output($filename, $format = null)
   {
     if(is_null($format))
     {
@@ -208,7 +68,7 @@ class sfExportManager
         $ext = 'xlsx';
         break;
       case 'csv':
-        $content_type = 'application/vnd.ms-excel';
+        $content_type = 'text/csv';
         $ext = 'csv';
         break;
       case 'html':
@@ -225,14 +85,64 @@ class sfExportManager
     }
 
     // redirect output to client browser
-    if($format != 'HTML')
+    if(strtolower($format) != 'html')
     {
-      header('Content-Type: ' . $content_type);
-      header('Content-Disposition: attachment;filename="' . $filename . "." . $ext . '"');
-      header('Cache-Control: max-age=0');
+      $this->response->setHttpHeader('Content-Type', $content_type);
+      $this->response->setHttpHeader('Content-Disposition', sprintf('attachment;filename="%s.%s"', $filename, $ext));
+      $this->response->setHttpHeader('Cache-Control', 'max-age=0');
     }
     
-    $xlsWriter = PHPExcel_IOFactory::createWriter($this->_xls, $format);
-    $xlsWriter->save('php://output'); 
+    $this->response->setContent(implode("\r\n", $this->_data));
+
+    return true;
+  }
+  
+  public function exportHeader($field, $label)
+  {
+    return $label ? $label : sfInflector::humanize($field);
+  }
+  
+  public function exportField($object, $field)
+  {
+    return $object[$field];
+  }
+  
+  public function getDefaultFormat()
+  {
+    return 'csv';
+  }
+  
+  public function getDownloadRoute()
+  {
+    return null;
+  }
+  
+  public function getErrorMessage()
+  {
+    return $this->error;
+  }
+  
+  public function setErrorMessage($error)
+  {
+    $this->error = $error;
+  }
+  
+  protected function addLine($values)
+  {
+    foreach ($values as &$value) 
+    {
+      $value = utf8_decode($this->escapeString($value));
+    }
+    $this->_data[] = implode(',', $values);
+  }
+  
+  protected function escapeString($string)
+  {
+    $string = str_replace('"', '""', $string);
+    if (strpos($string, '"') !== false or strpos($string, ',') !== false) {
+      $string = '"'.$string.'"';
+    }
+
+    return $string;
   }
 }

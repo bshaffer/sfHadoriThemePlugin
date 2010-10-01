@@ -9,8 +9,8 @@
         <tr>
           <td>
             [?php echo $form->renderHiddenFields() ?]
-            [?php echo link_to(__('Reset', array(), 'sf_admin'), '<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'filter'), array('query_string' => '_reset&for_action=' . $sf_params->get('for_action', $sf_params->get('action')), 'method' => 'post')) ?]
-            <input type="submit" value="[?php echo __('Filter', array(), 'sf_admin') ?]" />
+            [?php echo link_to(<?php echo $this->renderTextInBlock('Reset') ?>, '<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'filter'), array('query_string' => '_reset&for_action=' . $sf_params->get('for_action', $sf_params->get('action')), 'method' => 'post')) ?]
+            <input type="submit" value="<?php echo $this->renderText('Filter') ?>" />
           </td>
         </tr>
       </tfoot>
@@ -27,7 +27,7 @@
               [?php echo $form[$name]->render() ?]
 
               [?php if ($help = $field->getConfig('help') || $help = $form[$name]->renderHelp()): ?]
-                <div class="help">[?php echo __($help, array(), 'messages') ?]</div>
+                <div class="help">[?php echo $help ?]</div>
               [?php endif; ?]
           </div>
 

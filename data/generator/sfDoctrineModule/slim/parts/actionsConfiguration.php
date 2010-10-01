@@ -24,7 +24,7 @@
 
   public function getExportActions()
   {
-    return <?php echo $this->asPhp(isset($this->config['export']['actions']) ? $this->config['export']['actions'] : array()) ?>;
+    return <?php echo $this->asPhp(isset($this->config['export']['actions']) ? $this->config['export']['actions'] : array('_list' => null)) ?>;
 <?php unset($this->config['export']['actions']) ?>
   }
   

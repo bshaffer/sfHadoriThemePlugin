@@ -4,16 +4,7 @@
 * 
 */
 class sfSlimThemeGenerator extends sfThemeGenerator
-{
-  public function linkTo($action, $params)
-  {
-    $action = strpos($action, '_') === 0 ? substr($name, 1) : $action;
-    
-    $method = sprintf('linkTo%s', sfInflector::camelize($action));
-    
-    return method_exists($this, $method) ? $this->$method($params) : $this->getLinkToAction($action, $params, true);
-  }
-  
+{ 
   public function linkToNew($params)
   {
     return '[?php echo $helper->linkToNew('.$this->asPhp($params).') ?]';
@@ -26,7 +17,7 @@ class sfSlimThemeGenerator extends sfThemeGenerator
   
   public function linkToDelete($params)
   {
-    return '[?php echo $helper->linkToDelete($form->getObject(), '.$this->asPhp($params).') ?]';
+    return '[?php echo $helper->linkToDelete($'.$this->getSingularName().','.$this->asPhp($params).') ?]';
   }
   
   public function linkToList($params)
@@ -43,12 +34,21 @@ class sfSlimThemeGenerator extends sfThemeGenerator
   {
     '[?php echo $helper->linkToSaveAndAdd($form->getObject(), '.$this->asPhp($params).') ?]';
   }
-  
-  public function renderField($field)
+    
+  public function getField($name, $config)
   {
-    if (!$field instanceof sfModelGeneratorConfigurationField) 
+    return new sfModelGeneratorConfigurationField($name, $config);
+  }
+  
+  public function renderField($name, $config = null)
+  {
+    if ($name instanceof sfModelGeneratorConfigurationField) 
     {
-      return $field;
+      $field = $name;
+    }
+    else 
+    {
+      $field = $this->getField($name, $config);
     }
     
     $html = $this->getColumnGetter($field->getName(), true);
@@ -71,7 +71,7 @@ class sfSlimThemeGenerator extends sfThemeGenerator
     }
     else if ('Boolean' == $field->getType())
     {
-      $html = sprintf("get_partial('%s/list_field_boolean', array('value' => %s))", $this->getModuleName(), $html);
+      $html = sprintf("image_tag(sfConfig::get('sf_admin_module_web_dir') . (%s ? '/images/tick.png' : '/images/cancel.png'))", $html);
     }
 
     if ($field->isLink())
@@ -109,6 +109,8 @@ class sfSlimThemeGenerator extends sfThemeGenerator
 
     $this->configuration = $this->loadConfiguration();
 
+    $this->configToOptions($this->configuration->getConfiguration());
+
     // generate files
     $this->generatePhpFiles($this->generatedModuleName, sfFinder::type('file')->relative()->in($themeDir));
 
@@ -126,6 +128,8 @@ class sfSlimThemeGenerator extends sfThemeGenerator
    */
   protected function loadConfiguration()
   {
+    $this->configToOptions($this->config);
+
     try
     {
       $this->generatorManager->getConfiguration()->getGeneratorTemplate($this->getGeneratorClass(), $this->getTheme(), '../parts/configuration.php');
@@ -160,17 +164,11 @@ class sfSlimThemeGenerator extends sfThemeGenerator
       break;
     }
 
-    // validate configuration
-    foreach ($this->config as $context => $value)
-    {
-      if (!$value)
-      {
-        continue;
-      }
+    $generatorConfiguration = new $class();
+    $generatorConfiguration->validateConfig($this->config);
 
-      throw new InvalidArgumentException(sprintf('Your generator configuration contains some errors for the "%s" context. The following configuration cannot be parsed: %s.', $context, $this->asPhp($value)));
-    }
-
-    return new $class();
+    $this->configToOptions($generatorConfiguration->getConfiguration());
+    
+    return $generatorConfiguration;
   }
 }

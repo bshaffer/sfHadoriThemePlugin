@@ -3,6 +3,18 @@
 
 abstract class sfSlimThemeGeneratorConfiguration extends sfThemeGeneratorConfiguration
 {
+  protected 
+    $availableConfigs = array(
+        'actions' => array(),
+        'fields'  => array(),
+        'list'    => array(),
+        'filter'  => array(),
+        'form'    => array(),
+        'edit'    => array(),
+        'new'     => array(),
+        'export'  => array(),
+      );
+
   /**
    * Gets the fields that represents the filters.
    *
@@ -208,50 +220,5 @@ abstract class sfSlimThemeGeneratorConfiguration extends sfThemeGeneratorConfigu
     }
     
     return $parameters;
-  }
-  
-  public function addCredentialCondition($generator, $content, $params)
-  {
-    if (isset($params['credentials']))
-    {
-      $credentials = $generator->asPhp($this->cleanCredentials($params['credentials']));
-
-      return <<<EOF
-[?php if (\$sf_user->hasCredential($credentials)): ?]
-$content
-[?php endif; ?]
-
-EOF;
-    }
-    return $content;
-  }
-  
-  public function cleanCredentials($credentials)
-  {
-    if (is_array($credentials))
-    {
-      foreach ($credentials as $i => &$credential)
-      {
-        $credential = $this->cleanCredentials($credential);
-      }
-    }
-    else
-    {
-      $credentials = $this->cleanCredential($credentials);
-    }
-
-    return $credentials;
-  }
-
-  
-  // Use constants as credentials
-  public function cleanCredential($credential)
-  {
-    if (strpos($credential, '::') !== 0
-      && class_exists(substr($credential, 0, strpos($credential, '::')))) 
-    {
-      return constant($credential);
-    }
-    return $credential;
   }
 }

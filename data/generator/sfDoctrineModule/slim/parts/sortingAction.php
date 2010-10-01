@@ -1,23 +1,8 @@
-  protected function addSortQuery($query)
-  {
-    if (array(null, null) == ($sort = $this->getSort()))
-    {
-      return;
-    }
-
-    $query->addOrderBy($sort[0] . ' ' . $sort[1]);
-  }
-
   protected function getSort()
   {
-    if (null !== $sort = $this->getUser()->getAttribute('<?php echo $this->getModuleName() ?>.sort', null, 'admin_module'))
-    {
-      return $sort;
-    }
-
-    $this->setSort($this->configuration->getDefaultSort());
-
-    return $this->getUser()->getAttribute('<?php echo $this->getModuleName() ?>.sort', null, 'admin_module');
+    $sort = $this->getUser()->getAttribute('<?php echo $this->getModuleName() ?>.sort', <?php echo $this->asPhp($this->get('list_sort', array())) ?>);
+    $this->helper->setSort($sort);
+    return $sort;
   }
 
   protected function setSort(array $sort)
@@ -27,10 +12,8 @@
       $sort[1] = 'asc';
     }
 
-    $this->getUser()->setAttribute('<?php echo $this->getModuleName() ?>.sort', $sort, 'admin_module');
-  }
-
-  protected function isValidSortColumn($column)
-  {
-    return Doctrine::getTable('<?php echo $this->getModelClass() ?>')->hasColumn($column);
+    $this->getUser()->setAttribute('<?php echo $this->getModuleName() ?>.sort', $sort);
+    
+    $this->helper->setSort($sort);
+    return $sort;
   }

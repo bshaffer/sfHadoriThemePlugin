@@ -16,15 +16,7 @@ abstract class <?php echo $this->getGeneratedModuleName() ?>Actions extends <?ph
   public function preExecute()
   {
     $this->configuration = new <?php echo $this->getModuleName() ?>GeneratorConfiguration();
-
-    if (!$this->getUser()->hasCredential($this->configuration->getCredentials($this->getActionName())))
-    {
-      $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-    }
-
-    $this->dispatcher->notify(new sfEvent($this, 'admin.pre_execute', array('configuration' => $this->configuration)));
-
-    $this->helper = new <?php echo $this->getModuleName() ?>GeneratorHelper();
+    $this->helper        = new <?php echo $this->getModuleName() ?>GeneratorHelper();
   }
 
 <?php include dirname(__FILE__).'/../../parts/indexAction.php' ?>
@@ -45,18 +37,18 @@ abstract class <?php echo $this->getGeneratedModuleName() ?>Actions extends <?ph
 
 <?php include dirname(__FILE__).'/../../parts/showAction.php' ?>
 
-<?php if ($this->configuration->getValue('list.batch_actions')): ?>
-<?php include dirname(__FILE__).'/../../parts/batchAction.php' ?>
-<?php endif; ?>
-
 <?php if ($this->configuration->hasExporting()): ?>
 <?php include dirname(__FILE__).'/../../parts/exportAction.php' ?>
+<?php endif; ?>
+
+<?php if ($this->get('list_batch_actions')): ?>
+<?php include dirname(__FILE__).'/../../parts/batchAction.php' ?>
 <?php endif; ?>
 
 <?php include dirname(__FILE__).'/../../parts/processFormAction.php' ?>
 
 <?php if ($this->configuration->hasFilterForm()): ?>
-<?php include dirname(__FILE__).'/../../parts/filtersAction.php' ?>
+<?php include dirname(__FILE__).'/../../parts/filterProtectedMethods.php' ?>
 <?php endif; ?>
 
 <?php include dirname(__FILE__).'/../../parts/paginationAction.php' ?>

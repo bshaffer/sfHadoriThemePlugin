@@ -1,10 +1,10 @@
-[?php use_helper('I18N', 'Date') ?]
+[?php use_helper('Date') ?]
 <div>
 <?php if (sfConfig::get('app_admin_include_flashes')): ?>
   [?php include_partial('global/flashes') ?]  
 <?php endif ?>
     
-  <h2 class="list_header">[?php echo <?php echo $this->getI18NString('list.title') ?> ?]</h2>
+  <h2 class="list_header"><?php echo $this->renderText($this->get('list_title')) ?></h2>
 
 <?php if ($this->configuration->hasFilterForm()): ?>
   <div class="filters form-container">
@@ -13,15 +13,30 @@
 <?php endif; ?>
 
   <div class="form-container <?php echo $this->configuration->hasFilterForm() ? ' with_filters' : '' ?>">
-<?php if ($this->configuration->getValue('list.batch_actions')): ?>
+<?php if ($this->get('list_batch_actions')): ?>
     <form action="[?php echo url_for('<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'batch')) ?]" method="post">
 <?php endif; ?>
-    [?php include_partial('<?php echo $this->getModuleName() ?>/list', array('pager' => $pager, 'sort' => $sort, 'helper' => $helper)) ?]
+    [?php include_partial('<?php echo $this->getModuleName() ?>/list', array('pager' => $pager, 'helper' => $helper)) ?]
     <ul>
-      [?php include_partial('<?php echo $this->getModuleName() ?>/list_batch_actions', array('helper' => $helper)) ?]
-      [?php include_partial('<?php echo $this->getModuleName() ?>/list_actions', array('helper' => $helper)) ?]
+<?php if ($listActions = $this->get('list_batch_actions')): ?>
+      <li>
+        <select name="batch_action">
+          <option value=""><?php echo $this->renderText('Choose an action') ?></option>
+<?php foreach ((array) $listActions as $action => $params): ?>
+        <?php echo $this->addCredentialCondition('<option value="'.$action.'">'.$params['label'].'</option>', $params) ?>
+
+<?php endforeach; ?>
+        </select>
+        <input type="submit" value="<?php echo $this->renderText('go') ?>" />
+      </li>  
+<?php endif; ?>
+
+<?php foreach ($this->get('list_actions') as $name => $params): ?>
+        <?php echo $this->linkTo($name, $params) ?>
+        
+<?php endforeach; ?>
     </ul>
-<?php if ($this->configuration->getValue('list.batch_actions')): ?>
+<?php if ($this->get('list_batch_actions')): ?>
     </form>
 <?php endif; ?>
   </div>

@@ -42,7 +42,7 @@ EOF
   {
     $primaryKey = Doctrine_Core::getTable($this->options['model'])->getIdentifier();
     $routes = array($this->options['module'] => sprintf(<<<EOF
-  class: sfDoctrineRouteCollection
+  class: sfSlimAdminRouteCollection
   options:
     model:                %s
     module:               %s

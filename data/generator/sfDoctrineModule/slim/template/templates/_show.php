@@ -1,10 +1,8 @@
 <div id="information">
   <dl>
-    <?php foreach ($this->configuration->getValue('show.display') as $name => $field): ?>
-      [?php if($value = <?php echo $this->renderField($field) ?>): ?]
-      <dt><?php echo $field->getConfig('label', '', true) ?></dt>
-      <dd>[?php echo $value ?]</dd>
-      [?php endif ?]
-    <?php endforeach; ?>
+<?php foreach ($this->get('show_display') as $name => $field): ?>
+    <dt><?php echo $field->getConfig('label', '', true) ?></dt>
+    <dd>[?php echo <?php echo $this->renderField($field) ?> ?]</dd>
+<?php endforeach; ?>
   </dl>
 </div>

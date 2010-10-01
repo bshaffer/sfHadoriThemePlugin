@@ -1,57 +1,32 @@
   public function executeExport(sfWebRequest $request)
   { 
     // sorting
-    if ($request->getParameter('sort') && $this->isValidSortColumn($request->getParameter('sort')))
+    if ($request->getParameter('sort'))
     {
-      $this->setSort(array($request->getParameter('sort'), $request->getParameter('sort_type')));
+      $this->setSort(array($request->getParameter('sort'), $request->getParameter('sort_direction')));
     }
 
-    // pager
-    if ($request->getParameter('page'))
-    {
-      $this->setPage($request->getParameter('page'));
-    }
-
-    $this->pager = $this->getPager();
-    $this->sort = $this->getSort();
+    $this->pager  = $this->getPager();
      
-    if ($request->isMethod('POST')) 
+    if ($request->isMethod('post')) 
     { 
-      $exportManager = $this->helper->getExportManager();
+      $manager = new <?php echo $this->get('export_manager_class', 'sfExportManager') ?>($this->getResponse());
       
-      // Export
-      $fields = array();
+      $export = $request->getParameter('export');
       
-      foreach ($request->getParameter('export', array()) as $name => $field) 
-      {
-        if (isset($field['include']) && $field['include']) 
-        {
-          $fields[$name] = $field['label'] ? $field['label'] : ($field['default'] ? $field['default'] : sfInflector::humanize($name));
-        }
-      }
-
-      $downloadManager = sfExportDownloadManager::create(sfConfig::get('app_export_format', 'pdf'), array('context' => $this->getContext())); 
+      $fields = array_filter($export['include'], create_function('$field', 'return isset($field["include"]) && $field["include"];'));
       
-      $filename = sprintf('%s.%s', $this->configuration->getExportFilename(), $downloadManager->getExtension());
-      
-      if(false === $downloadManager->export($exportManager, $this->getDataForExport($exportManager), $fields, $filename))
+      if(false === $manager->export($this->pager->getQuery()->limit(9999999)->execute(), $fields, <?php echo $this->asPhp($this->get('export_filename', $this->getModelClass().'Export')) ?>))
       {
         // There was an error when generating the download.  Redirect to the referer and set the error in a flash message
-        $this->redirectReferer($downloadManager->getErrorMessage());
+        $this->redirectReferer($manager->getErrorMessage());
       }
 
-      if($route = $downloadManager->getDownloadRoute())
+      if($route = $manager->getDownloadRoute())
       {
         $this->redirect($route);
       }
+      
+      return sfView::NONE;
     }
-  }
-  
-  protected function getDataForExport($exportManager)
-  {
-    $query = $this->pager
-                  ->getQuery()
-                  ->limit(9999999);
-
-    return $query->execute();
   }

@@ -7,14 +7,26 @@
 <?php foreach ($this->configuration->getFormFields(new $formClass(), 'Form') as $fieldsetName => $fields): ?>
   <fieldset class="<?php echo $fieldsetName == 'NONE' ? 'form-group' : 'form-group-'.$fieldsetName ?>">
 <?php foreach ($fields as $name => $config): ?>
-      [?php echo $form[<?php echo $name ?>]->renderError() ?]
-      [?php echo $form[<?php echo $name ?>]->renderLabel() ?]
-      [?php echo $form[<?php echo $name ?>]->render() ?]
+      [?php echo $form['<?php echo $name ?>']->renderError() ?]
+      [?php echo $form['<?php echo $name ?>']->renderLabel() ?]
+      [?php echo $form['<?php echo $name ?>']->render() ?]
 
 <?php endforeach; ?>
   </fieldset>  
 <?php endforeach; ?>
 
-  [?php include_partial('<?php echo $this->getModuleName() ?>/form_actions', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'form' => $form, 'helper' => $helper)) ?]
+  <p class="form_buttons">
+  [?php if ($form->isNew()): ?]
+<?php foreach ($this->get('new_actions') as $name => $params): ?>
+    <?php echo $this->linkTo($name, $params) ?>
+  
+<?php endforeach; ?>
+  [?php else: ?]
+<?php foreach ($this->get('edit_actions') as $name => $params): ?>
+    <?php echo $this->linkTo($name, $params) ?>
+  
+<?php endforeach; ?>
+  [?php endif; ?]
+  </p>
 </form>
 </div>

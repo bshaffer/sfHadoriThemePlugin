@@ -1,17 +1,10 @@
   public function executeIndex(sfWebRequest $request)
   {
     // sorting
-    if ($request->getParameter('sort') && $this->isValidSortColumn($request->getParameter('sort')))
+    if ($request->getParameter('sort'))
     {
-      $this->setSort(array($request->getParameter('sort'), $request->getParameter('sort_type')));
+      $this->setSort(array($request->getParameter('sort'), $request->getParameter('sort_direction')));
     }
 
-    // pager
-    if ($request->getParameter('page'))
-    {
-      $this->setPage($request->getParameter('page'));
-    }
-
-    $this->pager = $this->getPager();
-    $this->sort = $this->getSort();
+    $this->pager  = $this->getPager();
   }
