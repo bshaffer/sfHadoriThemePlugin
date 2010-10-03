@@ -4,7 +4,7 @@
 <?php if ($field->isReal()): ?>
   [?php if ($helper->isActiveSort('<?php echo $name ?>')): ?]
     [?php echo link_to('<?php echo $field->getConfig('label', '', true) ?>', <?php echo $this->urlFor('list') ?>, array('query_string' => 'sort=<?php echo $name ?>&sort_direction='.$helper->toggleSortDirection())) ?]
-    [?php echo image_tag(sfConfig::get('sf_admin_module_web_dir').'/images/'.$sort[1].'.png', array('alt' => $sort[1], 'title' => $sort[1])) ?]
+    [?php echo image_tag(sfConfig::get('sf_admin_module_web_dir').'/images/'.$helper->getSortDirection().'.png', array('alt' => $helper->getSortDirection(), 'title' => $helper->getSortDirection())) ?]
   [?php else: ?]
     [?php echo link_to('<?php echo $field->getConfig('label', '', true) ?>', <?php echo $this->urlFor('list') ?>, array('query_string' => 'sort=<?php echo $name ?>&sort_direction=asc')) ?]
   [?php endif; ?]

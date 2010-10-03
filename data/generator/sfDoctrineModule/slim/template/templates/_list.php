@@ -8,7 +8,7 @@
 <?php if ($this->get('list_batch_actions')): ?>
           <th id="sf_admin_list_batch_actions"><input id="sf_admin_list_batch_checkbox" type="checkbox" onclick="checkAll();" /></th>
 <?php endif; ?>
-          [?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('sort' => $sort, 'helper' => $helper)) ?]
+          [?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('helper' => $helper)) ?]
 <?php if ($this->get('list_object_actions')): ?>
           <th id="sf_admin_list_th_actions"><?php echo $this->renderText('Actions') ?></th>
 <?php endif; ?>
@@ -17,7 +17,7 @@
       <tfoot>
         <tr>
           <th colspan="<?php echo count($this->get('list_display')) + ($this->get('list_object_actions') ? 1 : 0) + ($this->get('list_batch_actions') ? 1 : 0) ?>">
-            [?php include_partial('<?php echo $this->getModuleName() ?>/pagination', array('pager' => $pager)) ?]
+            [?php include_partial('<?php echo $this->getModuleName() ?>/pagination', array('pager' => $pager, 'helper' => $helper)) ?]
           </th>
         </tr>
       </tfoot>

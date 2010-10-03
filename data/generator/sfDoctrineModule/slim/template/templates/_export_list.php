@@ -14,7 +14,7 @@
       <tfoot>
         <tr>
           <th colspan="<?php echo count($this->get('list_display')) + ($this->get('list_object_actions') ? 1 : 0) + ($this->get('list_batch_actions') ? 1 : 0) ?>">
-            [?php include_partial('<?php echo $this->getModuleName() ?>/pagination', array('pager' => $pager)) ?]
+            [?php include_partial('<?php echo $this->getModuleName() ?>/pagination', array('pager' => $pager, 'helper' => $helper)) ?]
           </th>
         </tr>
       </tfoot>

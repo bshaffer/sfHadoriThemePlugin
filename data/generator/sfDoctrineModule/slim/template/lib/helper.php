@@ -17,22 +17,22 @@ class <?php echo $this->getModuleName() ?>GeneratorHelper extends sfSlimThemeGen
   
   public function linkToNew($params)
   {
-    return link_to(__($params['label'], array(), 'sf_admin'), '@'.$this->getUrlForAction('new'), array('title' => __('Add A New ' . $params['label'] == 'New' ? <?php echo sfInflector::humanize($this->params['model_class']) ?> : $params['label'], array(), 'sf_admin')));
+    return link_to($params['label'], '@'.$this->getUrlForAction('new'), array('title' => 'Add A New ' . $params['label'] == 'New' ? <?php echo sfInflector::humanize($this->params['model_class']) ?> : $params['label']));
   }
 
   public function linkToShow($object, $params)
   {
-    return link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('show'), $object, array('title' => __('View ', array(), 'sf_admin') . $object, 'class' => 'qtip'));
+    return link_to($params['label'], $this->getUrlForAction('show'), $object, array('title' => 'View ' . $object));
   }
 
   public function linkToEdit($object, $params)
   {
-    return link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('edit'), $object, array('title' => __('Edit ', array(), 'sf_admin') . $object, 'class' => 'qtip'));
+    return link_to($params['label'], $this->getUrlForAction('edit'), $object, array('title' => 'Edit ' . $object));
   }
 
   public function linkToSave($object, $params)
   {
-    return '<input class="greyButton" type="submit" value="'.__($params['label'], array(), 'sf_admin').'" />';
+    return '<input class="greyButton" type="submit" value="'.$params['label'].'" />';
   }
 
   public function linkToSaveAndAdd($object, $params)
@@ -42,12 +42,12 @@ class <?php echo $this->getModuleName() ?>GeneratorHelper extends sfSlimThemeGen
       return '';
     }
 
-    return '<input class="greyButton" type="submit" value="'.__($params['label'], array(), 'sf_admin').'" name="_save_and_add" />';
+    return '<input class="greyButton" type="submit" value="'.$params['label'].'" name="_save_and_add" />';
   }
 
   public function linkToExport($params)
   {
-    return link_to(__($params['label'], array(), 'sf_admin'), '@'.$this->getUrlForAction('export'), array('title' => __('Export Spreadsheet of <?php echo $this->configuration->getValue('list.title') ?>', array(), 'sf_admin')));
+    return link_to($params['label'], '@'.$this->getUrlForAction('export'), array('title' => 'Export Spreadsheet of <?php echo $this->configuration->getValue('list.title') ?>'));
   }
 
   public function linkToDelete($object, $params)
@@ -57,11 +57,11 @@ class <?php echo $this->getModuleName() ?>GeneratorHelper extends sfSlimThemeGen
       return '';
     }
 
-    return link_to(__($params['label'], array(), 'sf_admin'), $this->getUrlForAction('delete'), $object, array('method' => 'delete', 'confirm' => !empty($params['confirm']) ? __($params['confirm'], array(), 'sf_admin') : $params['confirm'], 'title' => __('Delete ', array(), 'sf_admin') . $object, 'class' => 'qtip'));
+    return link_to($params['label'], $this->getUrlForAction('delete'), $object, array('method' => 'delete', 'confirm' => !empty($params['confirm']) ? $params['confirm'] : $params['confirm'], 'title' => 'Delete ' . $object));
   }
 
   public function linkToList($params)
   {
-    return link_to(__($params['label'], array(), 'sf_admin'), '@'.$this->getUrlForAction('list'), array('title' => __('View All <?php echo $this->configuration->getValue('list.title') ?>', array(), 'sf_admin'), 'class' => 'qtip'));
+    return link_to($params['label'], '@'.$this->getUrlForAction('list'), array('title' => 'View All <?php echo $this->configuration->getValue('list.title') ?>'));
   }
 }

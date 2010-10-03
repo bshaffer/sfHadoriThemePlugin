@@ -112,7 +112,14 @@ class sfSlimThemeGenerator extends sfThemeGenerator
     $this->configToOptions($this->configuration->getConfiguration());
 
     // generate files
-    $this->generatePhpFiles($this->generatedModuleName, sfFinder::type('file')->relative()->in($themeDir));
+    $finder = sfFinder::type('file')->relative();
+    
+    if (!$this->configuration->hasExporting()) 
+    {
+      $finder->discard('*export*');
+    }
+    
+    $this->generatePhpFiles($this->generatedModuleName, $finder->in($themeDir));
 
     // move helper file
     if (file_exists($file = $this->generatorManager->getBasePath().'/'.$this->getGeneratedModuleName().'/lib/helper.php'))

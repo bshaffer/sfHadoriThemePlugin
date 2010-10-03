@@ -6,12 +6,23 @@
 abstract class sfSlimThemeGeneratorHelper extends sfModelGeneratorHelper
 {
   protected 
-    $_filters = array(),
-    $_sort    = array();
+    $_filters         = array(),
+    $_sort            = array(),
+    $choiceFormatter  = null;
     
   public function getRouteForAction($action)
   {
     return '@'.$this->getUrlForAction($action);
+  }
+  
+  public function getChoiceFormatter()
+  {
+    if (!$this->choiceFormatter) 
+    {
+      $this->choiceFormatter = $this->format = new sfChoiceFormat();
+    }
+    
+    return $this->choiceFormatter;
   }
     
   public function setSort($sort)
