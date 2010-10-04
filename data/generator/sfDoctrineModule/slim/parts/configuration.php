@@ -86,9 +86,4 @@ class <?php echo $this->getModuleName() ?>GeneratorConfiguration extends sfSlimT
   {
     return <?php echo $this->asPhp(isset($this->params['credential_prefix'] ) ? $this->params['credential_prefix'] : null) ?>;
   }
-  
-  public function getUseSecurityYamlCredentials()
-  {
-    return <?php echo $this->asPhp(isset($this->params['use_security_yaml_credentials'] ) && $this->params['use_security_yaml_credentials']) ?>;
-  }
 }

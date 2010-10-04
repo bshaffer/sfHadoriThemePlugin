@@ -1,0 +1,215 @@
+html { background-color:#ddd; }
+
+body{font:14px/1.5 'Lucida Grande', helvetica, arial, sans-serif; }
+
+h1, h2, h3, h4, h5, p, li, th, td, dt, dd { color:#333; }
+
+a, a:visited { color:#369; }
+a:hover { text-decoration:none; }
+
+#header {
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#cd0708), to(#960807));
+  margin:0 0 25px 0;
+  padding:15px 25px;
+}
+#header #login { color:#fff; font-size:12px; margin:0; text-align:right; }
+#header #login a { color:#fff; }
+#header h1 { color:#fff; font-size:30px; font-weight:normal; margin:0; }
+
+#login-box {
+  background-color:#fff;
+  margin:25px auto;
+  width:500px;
+}
+#login-box h3 {
+  background-color:#000;
+  color:#FFF;
+  font-size:26px;
+  font-weight:normal;
+  line-height:200%;
+  margin:0;
+  padding:0 0 0 50px;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  border-top-left-radius: 10px;
+}
+#login-form {
+  padding:30px 50px 25px 50px;
+  -webkit-box-shadow:0px 0px 3px #333333;
+  -moz-box-shadow:0px 0px 3px #333333;
+  box-shadow:0px 0px 3px #333333;
+}
+#login-form p { margin:0; padding-bottom:15px; }
+#login-form label { font-size:16px; }
+#login-form .formfield {
+  border:1px solid #BBB;
+  display:block;
+  font-size:16px;
+  padding:8px 5px;
+  width:350px;
+}
+#login-form .half { float:left; width:50%; }
+#login-form .remember { padding-top:5px; }
+#login-form .remember label { font-size:14px; }
+#login-form .submit input {
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#CCCCCC));
+  border:1px solid #999;
+  font-size:16px;
+  line-height:20px;
+  width:150px;
+}
+#login-form .submit input:hover {
+  -webkit-box-shadow:0px 0px 3px #333333;
+  -moz-box-shadow:0px 0px 3px #333333;
+  box-shadow:0px 0px 3px #333333;
+}
+#login-form .forgot-password { margin:0; padding:15px 0 0 0; border-top:1px solid #CCC; }
+#login-form .forgot-password a { font-weight:normal; }
+
+#content { min-width:800px; overflow:hidden; padding:5px 0 25px 0; }
+
+#admin-nav {
+  float:left;
+  width:20%;
+}
+#admin-nav ul { list-style:none; }
+#admin-nav ul li {
+  font-size:18px;
+  margin:0;
+  padding:0 0 0 25px;
+}
+#admin-nav ul li a { color:#333; display:block; padding:3px 0; text-decoration:none; }
+#admin-nav ul li a:hover { text-decoration:underline; }
+
+#admin-nav p { padding:0 0 0 40px; }
+#admin-nav p a { color:#333; font-weight:bold; text-decoration:none; }
+#admin-nav p a:hover { text-decoration:underline; }
+
+#main {
+  background-color:#fff;
+  float:left;
+  width:78%;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+  -webkit-box-shadow:0px 0px 3px #333333;
+  -moz-box-shadow:0px 0px 3px #333333;
+  box-shadow:0px 0px 3px #333333;
+}
+#main-inner { padding:30px; }
+
+#main p.button { float:right; overflow:hidden; }
+#main p.button a {
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#ccc));
+  border:1px solid #999;
+  color:#333;
+  display:block;
+  float:left;
+  font-size:14px;
+  font-weight:bold;
+  padding:5px 10px;
+  text-decoration:none;
+}
+#main p.button:hover {
+  -webkit-box-shadow:0px 0px 3px #333333;
+  -moz-box-shadow:0px 0px 3px #333333;
+  box-shadow:0px 0px 3px #333333;
+}
+
+#information { padding:0; }
+#information h4 {
+  color:#999;
+  padding:10px 12px 8px 0;
+  margin:0 0 5px 0;
+  text-align:right;
+  font-weight:normal;
+  background:#efefef;
+}
+#information table { border-collapse:collapse; margin:0 auto 15px auto; width:100%; }
+#information th {
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666), to(#333));
+  padding:0 15px 0 15px;
+}
+#information th, #information th a {
+  color:#fff;
+  height:27px;
+  text-shadow:1px 1px #333;
+  font-size: 100%;
+  font-weight:bold;
+}
+#information th.first {
+  -webkit-border-top-left-radius: 6px;
+  -moz-border-radius-topleft: 6px;
+  border-top-left-radius: 6px;
+}
+#information th.last {
+  -webkit-border-top-right-radius: 6px;
+  -moz-border-radius-topright: 6px;
+  border-top-right-radius: 6px;
+}
+#information td { border-bottom:1px dotted #999; padding:10px 15px; }
+#information td, #information th { text-align:left; vertical-align:middle; }
+#information td.edit_delete { padding:3px 0; width:35px; }
+#information td.delete { padding-top:8px; }
+#information a { font-size:12px; font-weight:normal; }
+#information tbody tr:hover { background-color:#FFF6BF; }
+
+/************ styles for forms ************/
+.formfield { width:90%; font-size:1.4em; margin:5px 0 0 0; padding:5px; border:1px solid #BBB; }
+.formfield.title { font-size:1.55em; padding:3px 2px; }
+.selectfield { font-size:1.4em; border:1px solid #BBB; margin:5px 5px 0 0; padding:3px; }
+.formfield:focus, .selectfield:focus { border:1px solid #666; }
+
+.small { font-size:12px; }
+
+.fieldWithErrors input, .fieldWithErrors textarea, .fieldWithErrors select { border:1px solid #C00; background-color:#FFD; }
+
+.form-container {
+  padding:10px 30px 0 30px;
+}
+.form-container p { margin:0 0 15px 0; padding:0; }
+.form-container h3 { padding-left:0; }
+.form-container label { font-size:13px; }
+.form-container .required { font-weight:bold; color:#900; }
+.form-container .required:before { content:"* "; }
+
+.form-group { padding:0 0 10px 0; margin:0 0 15px 0; border-bottom:1px dotted #999; }
+.form-group h4 { margin:0; padding:0 0 10px 0; color:#900; }
+
+.form_buttons { padding:0 !important; }
+.form_buttons em { color:#999; margin-left:5px; }
+.form_buttons .cancel { float:right; font-size:12px; color:#900; }
+.form_buttons input {
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#CCCCCC));
+  border:1px solid #999;
+  cursor:pointer;
+  font-size:16px;
+  line-height:20px;
+  width:150px;
+}
+.form_buttons input:hover {
+  -webkit-box-shadow:0px 0px 3px #333333;
+  -moz-box-shadow:0px 0px 3px #333333;
+  box-shadow:0px 0px 3px #333333;
+}
+
+.errorExplanation { border:1px solid #900; background-color:#ffd; margin-bottom:20px; }
+.errorExplanation h2 { background-color:#900; color:#fff; font-size:18px; margin-bottom:10px; padding:5px 0 5px 15px; }
+.errorExplanation p { padding:0 0 0 15px; }
+.errorExplanation ul { padding:0 0 0 15px; }
+
+/************ styles for notice/error divs ************/
+#error, #notice, #success { border:2px solid #DDD; margin:0 auto 10px auto; overflow:hidden; padding:5px; width:90%; }
+#error p, #notice p, #success p { margin:0 0 0 20px; padding:0; font-size:13px; color:#000; }
+#error a, #notice a, #success a { text-decoration:none; padding:0 3px; }
+#error a:hover, #notice a:hover, #success a:hover { color:#000; border:1px solid #000; }
+#error { background-color:#FBE3E4; color:#8A1F11; border-color:#FBC2C4; }
+#notice { background-color:#FFF6BF; color:#514721; border-color:#FFD324; }
+#success { background-color:#E6EFC2; color:#264409; border-color:#C6D880; }
+#error a { border: 1px solid #8A1F11; color:#8A1F11; }
+#notice a { border: 1px solid #514721; color:#514721; }
+#success a { border: 1px solid #264409; color:#264409; }
+.close { float:right; }

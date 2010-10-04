@@ -65,13 +65,6 @@ abstract class sfSlimThemeGeneratorConfiguration extends sfThemeGeneratorConfigu
 
   protected function compile()
   {
-    // Load security.yml
-    if (isset($this->configuration['use_security_yaml_credentials']) && $this->configuration['use_security_yaml_credentials'] && sfContext::hasInstance())
-    {
-      $path = sfConfig::get('sf_app_module_dir').'/'.sfContext::getInstance()->getRequest()->getParameter('module').'/config/security.yml';
-      include(sfContext::getInstance()->getConfigCache()->checkConfig($path));
-    }
-    
     parent::compile();
     
     // Set Legend in configuration
@@ -190,7 +183,7 @@ abstract class sfSlimThemeGeneratorConfiguration extends sfThemeGeneratorConfigu
       $parameters['action'] = 'show';
     }
     
-    if ('_back' == $action && !isset($parameters['route']))
+    if ('_cancel' == $action && !isset($parameters['route']))
     {
       $parameters['route'] = '@homepage';
     }
@@ -205,14 +198,18 @@ abstract class sfSlimThemeGeneratorConfiguration extends sfThemeGeneratorConfigu
     // ===========================
 
     // Synch with security.yml
-    if ($this->getUseSecurityYamlCredentials()) 
+    if ($this->loadSecurityCredentials()) 
     {
       $actionAction = isset($parameters['action']) ? $parameters['action'] : (strpos($action, '_') === 0 ? substr($action, 1) : $action);
       if(isset($this->security[$actionAction]['credentials']))
       {
         $parameters['credentials'] = $this->security[$actionAction]['credentials'];
       }
-      elseif($this->security['all']['credentials'] && (!isset($this->security[$actionAction]['is_secure']) || $this->security[$actionAction]['is_secure']))
+      elseif(isset($this->security[$actionAction]['is_secure']) && $this->security[$actionAction]['is_secure'])
+      {
+        $parameters['credentials'] = true;
+      }
+      elseif(isset($this->security['all']['credentials']) && $this->security['all']['credentials'])
       {
         // If "All" credentials are set and the route is secure, set the credential accordingly
         $parameters['credentials'] = $this->security['all']['credentials'];
@@ -220,5 +217,29 @@ abstract class sfSlimThemeGeneratorConfiguration extends sfThemeGeneratorConfigu
     }
     
     return $parameters;
+  }
+  
+  public function loadSecurityCredentials()
+  {
+    if ($this->getConfigValue('use_security_yaml_credentials', true))
+    {
+      $path = sfConfig::get('sf_app_module_dir').'/'.sfContext::getInstance()->getRequest()->getParameter('module').'/config/security.yml';
+      if (file_exists($path)) 
+      {
+        include(sfContext::getInstance()->getConfigCache()->checkConfig($path));
+
+        return true;
+      }
+    }
+  }
+  
+  public function getConfigValue($config, $default = null)
+  {
+    if (isset($this->configuration[$config])) 
+    {
+      return $this->configuration[$config];
+    }
+    
+    return $default;
   }
 }

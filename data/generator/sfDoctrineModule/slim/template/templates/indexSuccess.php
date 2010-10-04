@@ -4,7 +4,7 @@
   [?php include_partial('global/flashes') ?]  
 <?php endif ?>
     
-  <h2 class="list_header"><?php echo $this->renderText($this->get('list_title')) ?></h2>
+  <h2><?php echo $this->renderText($this->get('list_title')) ?></h2>
 
 <?php if ($this->configuration->hasFilterForm()): ?>
   <div class="filters form-container">
@@ -17,25 +17,23 @@
     <form action="[?php echo url_for('<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'batch')) ?]" method="post">
 <?php endif; ?>
     [?php include_partial('<?php echo $this->getModuleName() ?>/list', array('pager' => $pager, 'helper' => $helper)) ?]
-    <ul>
+    <div class="actions">
 <?php if ($listActions = $this->get('list_batch_actions')): ?>
-      <li>
-        <select name="batch_action">
-          <option value=""><?php echo $this->renderText('Choose an action') ?></option>
+      <select name="batch_action">
+        <option value=""><?php echo $this->renderText('Choose an action') ?></option>
 <?php foreach ((array) $listActions as $action => $params): ?>
         <?php echo $this->addCredentialCondition('<option value="'.$action.'">'.$params['label'].'</option>', $params) ?>
 
 <?php endforeach; ?>
-        </select>
-        <input type="submit" value="<?php echo $this->renderText('go') ?>" />
-      </li>  
+      </select>
+      <input type="submit" value="<?php echo $this->renderText('go') ?>" />
 <?php endif; ?>
 
 <?php foreach ($this->get('list_actions') as $name => $params): ?>
-        <?php echo $this->linkTo($name, $params) ?>
+      <?php echo $this->linkTo($name, $params) ?>
         
 <?php endforeach; ?>
-    </ul>
+    </div>
 <?php if ($this->get('list_batch_actions')): ?>
     </form>
 <?php endif; ?>

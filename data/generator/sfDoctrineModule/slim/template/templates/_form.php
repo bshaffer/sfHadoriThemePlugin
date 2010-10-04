@@ -15,7 +15,7 @@
   </fieldset>  
 <?php endforeach; ?>
 
-  <p class="form_buttons">
+  <p class="actions">
   [?php if ($form->isNew()): ?]
 <?php foreach ($this->get('new_actions') as $name => $params): ?>
     <?php echo $this->linkTo($name, $params) ?>

@@ -8,8 +8,8 @@
     }
 
     $this->filters = new <?php echo $this->get('filter_class', $this->getModelClass().'FormFilter') ?>();
-
-    $this->filters->bind($request->getParameter($this->filters->getName()));
+    
+    $this->filters->bind(array_intersect_key($request->getParameter($this->filters->getName()), $request->getParameter('include')));
     if ($this->filters->isValid())
     {
       $this->setFilters($this->filters->getValues());

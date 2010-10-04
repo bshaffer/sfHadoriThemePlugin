@@ -17,7 +17,7 @@ class <?php echo $this->getModuleName() ?>GeneratorHelper extends sfSlimThemeGen
   
   public function linkToNew($params)
   {
-    return link_to($params['label'], '@'.$this->getUrlForAction('new'), array('title' => 'Add A New ' . $params['label'] == 'New' ? <?php echo sfInflector::humanize($this->params['model_class']) ?> : $params['label']));
+    return link_to($params['label'], '@'.$this->getUrlForAction('new'), array('title' => 'Add A New ' . $params['label'] == 'New' ? <?php echo $this->asPhp(sfInflector::humanize($this->params['model_class'])) ?> : $params['label']));
   }
 
   public function linkToShow($object, $params)

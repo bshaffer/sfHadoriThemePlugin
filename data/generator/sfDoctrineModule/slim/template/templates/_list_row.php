@@ -5,18 +5,17 @@
   </td>
 [?php endif; ?]
 <?php foreach ($this->get('list_display') as $name => $field): ?>
-<?php echo $this->addCredentialCondition(sprintf(<<<EOF
-  <td class="%s">
-    [?php echo %s ?]
+<?php echo $this->startCredentialCondition($field->getConfig()) ?>
+  <td class="<?php echo $name ?>">
+    [?php echo <?php echo $this->renderField($field) ?> ?]
   </td>
+<?php echo $this->endCredentialCondition($field->getConfig()) ?>
 
-EOF
-, $name, $this->renderField($field)), $field->getConfig()) ?>
 <?php endforeach; ?>
 <?php if ($this->get('list_object_actions')): ?>
-    <td>
+    <td class="actions">
 <?php foreach ($this->get('list_object_actions', array()) as $name => $params): ?>
-      <?php echo $this->addCredentialCondition($this->linkTo($name, $params), $params) ?>
+      <?php echo $this->linkTo($name, $params) ?>
   
 <?php endforeach; ?>
     </td>

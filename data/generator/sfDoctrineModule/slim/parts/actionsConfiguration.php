@@ -6,7 +6,7 @@
 
   public function getFormActions()
   {
-    return <?php echo $this->asPhp(isset($this->config['form']['actions']) ? $this->config['form']['actions'] : array('_delete' => null, '_save' => null, '_save_and_add' => null)) ?>;
+    return <?php echo $this->asPhp(isset($this->config['form']['actions']) ? $this->config['form']['actions'] : array('_cancel' => null, '_delete' => null, '_save' => null, '_save_and_add' => null)) ?>;
 <?php unset($this->config['form']['actions']) ?>
   }
 
@@ -24,7 +24,7 @@
 
   public function getExportActions()
   {
-    return <?php echo $this->asPhp(isset($this->config['export']['actions']) ? $this->config['export']['actions'] : array('_list' => null)) ?>;
+    return <?php echo $this->asPhp(isset($this->config['export']['actions']) ? $this->config['export']['actions'] : array('_cancel' => null)) ?>;
 <?php unset($this->config['export']['actions']) ?>
   }
   

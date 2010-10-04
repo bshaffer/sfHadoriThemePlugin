@@ -5,34 +5,89 @@
 */
 class sfSlimThemeGenerator extends sfThemeGenerator
 { 
+  public function getUrlForAction($action)
+  {
+    return in_array($action, array('list', 'index')) ? 'odc_user_management' : 'odc_user_management_'.$action;
+  }
+  
   public function linkToNew($params)
   {
-    return '[?php echo $helper->linkToNew('.$this->asPhp($params).') ?]';
+    $attributes = array_merge(array('title' => 'Add A New ' . $this->getClassLabel()), $params['attributes']);
+    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('new'), $attributes);
+  }
+  
+  public function linkToShow($params)
+  {
+    $attributes = array_merge(array('title' => 'View ' . $this->getClassLabel()), $params['attributes']);
+
+    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('show'), $attributes, true);
+  }
+  
+  public function linkToEdit($params)
+  {
+    $attributes = array_merge(array('title' => 'Edit ' . $this->getClassLabel()), $params['attributes']);
+    
+    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('edit'), $attributes, true);
   }
   
   public function linkToExport($params)
   {
-    return '[?php echo $helper->linkToNew('.$this->asPhp($params).') ?]';
-  }
-  
-  public function linkToDelete($params)
-  {
-    return '[?php echo $helper->linkToDelete($'.$this->getSingularName().','.$this->asPhp($params).') ?]';
-  }
-  
-  public function linkToList($params)
-  {
-    return '[?php echo $helper->linkToList('.$this->asPhp($params).') ?]';
+    $attributes = array_merge(array('title' => 'Export ' . $this->getClassLabel() . ' Data'), $params['attributes']);
+
+    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('export'), $attributes);
   }
   
   public function linkToSave($params)
   {
-    return '[?php echo $helper->linkToSave($form->getObject(), '.$this->asPhp($params).') ?]';
+    return '<input class="greyButton" type="submit" value="'.$params['label'].'" />';
   }
   
   public function linkToSaveAndAdd($params)
   {
-    '[?php echo $helper->linkToSaveAndAdd($form->getObject(), '.$this->asPhp($params).') ?]';
+    $link = <<<EOF
+[?php if(!$%s->isNew()): ?]
+  <input class="greyButton" type="submit" value="%s" name="_save_and_add" />
+[?php endif ?]
+EOF;
+    
+    return sprintf($link, $this->getSingularName(), $params['label']);
+  }
+
+  public function linkToDelete($params)
+  {
+    $attributes = array_merge(
+      array(
+        'method' => 'delete', 
+        'confirm' => !empty($params['confirm']) ? $params['confirm'] : $params['confirm'], 
+        'title' => 'Delete ' . $this->getClassLabel()
+        ), $params['attributes']);
+    
+    $link = <<<EOF
+[?php if(!$%s->isNew()): ?]
+  %s
+[?php endif ?]
+EOF;
+    
+    return sprintf($link, $this->getSingularName(), $this->renderLinkToBlock($params['label'], $this->getUrlForAction('delete'), $attributes, true));
+  }
+  
+  public function linkToList($params)
+  {
+    $attributes = array_merge(array('title' => 'Back to ' . $this->getClassLabel() . ' List'), $params['attributes']);
+
+    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('list'), $attributes);
+  }
+
+  public function linkToCancel($params)
+  {
+    $attributes = array_merge(array('title' => 'Back to ' . $this->getClassLabel() . ' List'), $params['attributes']);
+
+    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('list'), $attributes);
+  }
+  
+  public function getClassLabel()
+  {
+    return $this->get('class_label', $this->getModelClass());
   }
     
   public function getField($name, $config)
@@ -67,11 +122,12 @@ class sfSlimThemeGenerator extends sfThemeGenerator
     }
     else if ('Date' == $field->getType())
     {
-      $html = sprintf("false !== strtotime($html) ? format_date(%s, \"%s\") : '&nbsp;'", $html, $field->getConfig('date_format', 'f'));
+      $html = sprintf("false !== strtotime($html) ? date(%s, strtotime(%s)) : '&nbsp;'", $this->asPhp($field->getConfig('date_format', 'Y-m-d')), $html);
     }
     else if ('Boolean' == $field->getType())
     {
-      $html = sprintf("image_tag(sfConfig::get('sf_admin_module_web_dir') . (%s ? '/images/tick.png' : '/images/cancel.png'))", $html);
+      $ternary = $html." ? 'true' : 'false'";
+      $html = sprintf("content_tag('div', %s, array('class' => (%s)))", $ternary, $ternary);
     }
 
     if ($field->isLink())
@@ -109,8 +165,6 @@ class sfSlimThemeGenerator extends sfThemeGenerator
 
     $this->configuration = $this->loadConfiguration();
 
-    $this->configToOptions($this->configuration->getConfiguration());
-
     // generate files
     $finder = sfFinder::type('file')->relative();
     
@@ -136,6 +190,7 @@ class sfSlimThemeGenerator extends sfThemeGenerator
   protected function loadConfiguration()
   {
     $this->configToOptions($this->config);
+    $this->configToOptions($this->params);
 
     try
     {
@@ -178,4 +233,21 @@ class sfSlimThemeGenerator extends sfThemeGenerator
     
     return $generatorConfiguration;
   }
+
+  protected function renderLinkToBlock($label, $url, $attributes = array(), $forObject = false)
+  {
+    if ($forObject) 
+    {
+      return sprintf('[?php echo link_to(%s, %s, $%s, %s) ?]', 
+        $this->asPhp($label), 
+        $this->asPhp($url), 
+        $this->getSingularName(), 
+        $this->asPhp($attributes));
+    }
+
+    return sprintf('[?php echo link_to(%s, %s, %s) ?]', 
+      $this->asPhp($label), 
+      $this->asPhp('@'.$url), 
+      $this->asPhp($attributes));    
+  } 
 }
