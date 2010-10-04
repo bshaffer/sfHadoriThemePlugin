@@ -1,6 +1,6 @@
   protected function getPager()
   {
-    $pager = new sfDoctrinePager('<?php echo $this->getModelClass() ?>', <?php echo $this->asPhp($this->get('pager_max_per_page')) ?>);
+    $pager = new sfDoctrinePager('<?php echo $this->getModelClass() ?>', <?php echo $this->asPhp($this->get('list_pager_max_per_page', 10)) ?>);
     $pager->setQuery($this->buildQuery());
     $pager->setPage($this->getRequest()->getParameter('page'));
     $pager->init();
