@@ -1,4 +1,3 @@
 all:
   stylesheets:     [/sfSlimAdminGeneratorPlugin/css/theme.css, /sfSlimAdminGeneratorPlugin/css/slim.css]
-  
-  javascript:     [/sfSlimAdminGeneratorPlugin/js/slim.js]
+  javascripts:     [/sfSlimAdminGeneratorPlugin/js/slim.js]
