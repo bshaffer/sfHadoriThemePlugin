@@ -7,7 +7,7 @@ class sfSlimThemeGenerator extends sfThemeGenerator
 { 
   public function getUrlForAction($action)
   {
-    return in_array($action, array('list', 'index')) ? 'odc_user_management' : 'odc_user_management_'.$action;
+    return sprintf('%s%s', $this->getSingularName(), in_array($action, array('list', 'index')) ? '' : '_'.$action);
   }
   
   public function linkToNew($params)
