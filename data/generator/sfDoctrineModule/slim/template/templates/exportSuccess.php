@@ -23,7 +23,7 @@
   </div> 
 
 <?php if ($this->configuration->hasExportFilterForm()): ?>
-  <div class="filters [?php echo $helper->activeFilters() ? 'active':'' ?]">
+  <div class="filters[?php echo $helper->activeFilters() ? ' active':'' ?]">
     [?php include_partial('<?php echo $this->getModuleName() ?>/filters', array('form' => $filters, 'helper' => $helper)) ?]
   </div>
 <?php endif; ?>

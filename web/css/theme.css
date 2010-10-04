@@ -8,6 +8,7 @@ a, a:visited { color:#369; }
 a:hover { text-decoration:none; }
 
 #header {
+  background-color: #960807;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#cd0708), to(#960807));
   margin:0 0 25px 0;
   padding:15px 25px;
@@ -52,6 +53,7 @@ a:hover { text-decoration:none; }
 #login-form .remember { padding-top:5px; }
 #login-form .remember label { font-size:14px; }
 #login-form .submit input {
+  background-color: #CCCCCC;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#CCCCCC));
   border:1px solid #999;
   font-size:16px;
@@ -103,6 +105,7 @@ a:hover { text-decoration:none; }
 
 #main p.button { float:right; overflow:hidden; }
 #main p.button a {
+  background-color: #CCCCCC;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#ccc));
   border:1px solid #999;
   color:#333;
@@ -130,6 +133,7 @@ a:hover { text-decoration:none; }
 }
 #information table { border-collapse:collapse; margin:0 auto 15px auto; width:100%; }
 #information th {
+  background-color: #333333;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666), to(#333));
   padding:0 15px 0 15px;
 }
@@ -183,6 +187,7 @@ a:hover { text-decoration:none; }
 .form_buttons em { color:#999; margin-left:5px; }
 .form_buttons .cancel { float:right; font-size:12px; color:#900; }
 .form_buttons input {
+  background-color: #CCCCCC;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#CCCCCC));
   border:1px solid #999;
   cursor:pointer;

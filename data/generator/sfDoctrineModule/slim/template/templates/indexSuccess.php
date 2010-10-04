@@ -7,12 +7,12 @@
   <h2><?php echo $this->renderText($this->get('list_title')) ?></h2>
 
 <?php if ($this->configuration->hasFilterForm()): ?>
-  <div class="filters form-container">
+  <div class="filters form-container[?php echo $helper->isActiveFilter() ? ' active':'' ?]">
     [?php include_partial('<?php echo $this->getModuleName() ?>/filters', array('form' => $filters, 'helper' => $helper, 'configuration' => $configuration)) ?]
   </div>
 <?php endif; ?>
 
-  <div class="form-container <?php echo $this->configuration->hasFilterForm() ? ' with_filters' : '' ?>">
+  <div class="form-container<?php echo $this->configuration->hasFilterForm() ? ' with_filters' : '' ?>">
 <?php if ($this->get('list_batch_actions')): ?>
     <form action="[?php echo url_for('<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'batch')) ?]" method="post">
 <?php endif; ?>

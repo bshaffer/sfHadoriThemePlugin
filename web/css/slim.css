@@ -87,6 +87,28 @@
   float:right;
 }
 
+fieldset.collapsible {
+  border-width:1px 0 0;
+  font-size:0.9em;
+}
+
+fieldset {
+  border:1px solid #E4E4E4;
+  margin:0;
+}
+
+fieldset.collapsible.collapsed legend {
+  background-image:url("../images/arrow_collapsed.png");
+}
+
+fieldset.collapsible legend {
+  background:url("../images/arrow_expanded.png") no-repeat scroll 0 40% transparent;
+  cursor:pointer;
+  padding-left:16px;
+}
+
+legend { color:#484848; }
+
 /************ generic styles ************/
 .clear { clear:both; }
 

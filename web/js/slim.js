@@ -19,7 +19,11 @@ $(document).ready(function() {
   $('th.batch input').click(function() {
     $('td input').attr('checked', this.checked);
     return true;
-  }); 
+  });
+  
+ $('.filters legend').click(function() {
+   $(this).parents('fieldset').toggleClass('collapsed').find('div.inner').slideToggle();
+ });
 });
 
 
