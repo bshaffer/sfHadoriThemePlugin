@@ -183,10 +183,10 @@ a:hover { text-decoration:none; }
 .form-group { padding:0 0 10px 0; margin:0 0 15px 0; border-bottom:1px dotted #999; }
 .form-group h4 { margin:0; padding:0 0 10px 0; color:#900; }
 
-.form_buttons { padding:0 !important; }
-.form_buttons em { color:#999; margin-left:5px; }
-.form_buttons .cancel { float:right; font-size:12px; color:#900; }
-.form_buttons input {
+.actions { padding:0 !important; }
+.actions em { color:#999; margin-left:5px; }
+.actions .cancel { float:right; font-size:12px; color:#900; }
+.actions input {
   background-color: #CCCCCC;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#CCCCCC));
   border:1px solid #999;
@@ -195,7 +195,7 @@ a:hover { text-decoration:none; }
   line-height:20px;
   width:150px;
 }
-.form_buttons input:hover {
+.actions input:hover {
   -webkit-box-shadow:0px 0px 3px #333333;
   -moz-box-shadow:0px 0px 3px #333333;
   box-shadow:0px 0px 3px #333333;
