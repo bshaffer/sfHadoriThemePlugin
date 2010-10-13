@@ -21,7 +21,7 @@
   {
     $ids = $request->getParameter('ids');
 
-    $records = Doctrine_Core::getTable('<?php echo $this->getModelClass() ?>')->findById($ids);
+    $records = Doctrine_Core::getTable('<?php echo $this->getModelClass() ?>')->createQuery()->whereIn('id', $ids)->execute();
 
     $records->delete();
 
