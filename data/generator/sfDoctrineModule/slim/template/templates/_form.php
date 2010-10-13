@@ -7,9 +7,11 @@
 <?php foreach ($this->configuration->getFormFields(new $formClass(), 'Form') as $fieldsetName => $fields): ?>
   <fieldset class="<?php echo $fieldsetName == 'NONE' ? 'form-group' : 'form-group-'.$fieldsetName ?>">
 <?php foreach ($fields as $name => $config): ?>
-      [?php echo $form['<?php echo $name ?>']->renderError() ?]
-      [?php echo $form['<?php echo $name ?>']->renderLabel() ?]
-      [?php echo $form['<?php echo $name ?>']->render() ?]
+  <div class="form-element">
+    [?php echo $form['<?php echo $name ?>']->renderError() ?]
+    [?php echo $form['<?php echo $name ?>']->renderLabel() ?]
+    [?php echo $form['<?php echo $name ?>']->render() ?]
+  </div>
 
 <?php endforeach; ?>
   </fieldset>  
