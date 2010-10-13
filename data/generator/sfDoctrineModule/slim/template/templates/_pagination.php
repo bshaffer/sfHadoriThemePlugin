@@ -1,27 +1,25 @@
-
 [?php if ($pager->haveToPaginate()): ?]
-  <div class="sf_admin_pagination">
-
-    [?php $img = image_tag(sfConfig::get('sf_admin_module_web_dir').'/images/first.png', array('alt' => <?php echo $this->renderTextInBlock('First page') ?>, 'title' => <?php echo $this->renderTextInBlock('First page') ?>)) ?]
-    [?php echo link_to($img, <?php echo $this->urlFor('list', false) ?>, array('page' => 1)) ?]
-
-    [?php $img = image_tag(sfConfig::get('sf_admin_module_web_dir').'/images/previous.png', array('alt' => <?php echo $this->renderTextInBlock('Previous page') ?>, 'title' => <?php echo $this->renderTextInBlock('Previous page') ?>)) ?]
-    [?php echo link_to($img, <?php echo $this->urlFor('list', false) ?>, array('page' => $pager->getPreviousPage())) ?]
-
+  <div class="pagination">
+    [?php if($pager->getPreviousPage() != $pager->getFirstPage()): ?]
+      [?php echo link_to('First', <?php echo $this->urlFor('list', false) ?>, array('page' => 1), array('class' => 'first_page')) ?]
+    [?php else: ?]
+      <span class="disabled first_page">First</span>
+    [?php endif ?]
+    
     [?php foreach ($pager->getLinks() as $page): ?]
       [?php if ($page == $pager->getPage()): ?]
-        [?php echo $page ?]
+        <span class="current">[?php echo $page ?]</span>
       [?php else: ?]
         [?php echo link_to($page, <?php echo $this->urlFor('list', false) ?>, array('page' => $page)) ?]
       [?php endif; ?]
     [?php endforeach; ?]
 
-    [?php $img = image_tag(sfConfig::get('sf_admin_module_web_dir').'/images/next.png', array('alt' => <?php echo $this->renderTextInBlock('Next page') ?>, 'title' => <?php echo $this->renderTextInBlock('Next page') ?>)) ?]
-    [?php echo link_to($img, <?php echo $this->urlFor('list', false) ?>, array('page' => $pager->getNextPage())) ?]
+    [?php if($pager->getLastPage() != $pager->getPage()): ?]
+      [?php echo link_to('Last', <?php echo $this->urlFor('list', false) ?>, array('page' => $pager->getLastPage()), array('class' => 'last_page')) ?]
+    [?php else: ?]
+      <span class="disabled last_page">Last</span>
+    [?php endif ?]
 
-    [?php $img = image_tag(sfConfig::get('sf_admin_module_web_dir').'/images/last.png', array('alt' => <?php echo $this->renderTextInBlock('Last page') ?>, 'title' => <?php echo $this->renderTextInBlock('Last page') ?>)) ?]
-    [?php echo link_to($img, <?php echo $this->urlFor('list', false) ?>, array('page' => $pager->getLastPage())) ?]
-  
   </div>
 [?php endif; ?]
 

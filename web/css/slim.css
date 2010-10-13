@@ -7,6 +7,11 @@
 .true { background: url(../images/true.png) no-repeat 0 0;}
 .false { background: url(../images/false.png) no-repeat 0 0;}
 
+/************ styles for forms ************/
+
+dt { font-weight: bold; }
+dd { margin: 5px 0px 10px 20px}
+
 /************ styles for actions ************/
 
 .actions a { padding-left: 20px;}
@@ -87,27 +92,27 @@
   float:right;
 }
 
-fieldset.collapsible {
+.filter-form fieldset.collapsible {
   border-width:1px 0 0;
   font-size:0.9em;
 }
 
-fieldset {
+.filter-form fieldset {
   border:1px solid #E4E4E4;
   margin:0;
 }
 
-fieldset.collapsible.collapsed legend {
+.filter-form fieldset.collapsible.collapsed legend {
   background-image:url("../images/arrow_collapsed.png");
 }
 
-fieldset.collapsible legend {
+.filter-form fieldset.collapsible legend {
   background:url("../images/arrow_expanded.png") no-repeat scroll 0 40% transparent;
   cursor:pointer;
   padding-left:16px;
 }
 
-legend { color:#484848; }
+.filter-form legend { color:#484848; }
 
 /************ generic styles ************/
 .clear { clear:both; }

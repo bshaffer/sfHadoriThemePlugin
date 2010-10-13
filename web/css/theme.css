@@ -162,7 +162,7 @@ a:hover { text-decoration:none; }
 #information tbody tr:hover { background-color:#FFF6BF; }
 
 /************ styles for forms ************/
-.formfield { width:90%; font-size:1.4em; margin:5px 0 0 0; padding:5px; border:1px solid #BBB; }
+.formfield { display:block; width:90%; font-size:1.4em; margin:5px 0 0 0; padding:5px; border:1px solid #BBB; }
 .formfield.title { font-size:1.55em; padding:3px 2px; }
 .selectfield { font-size:1.4em; border:1px solid #BBB; margin:5px 5px 0 0; padding:3px; }
 .formfield:focus, .selectfield:focus { border:1px solid #666; }
@@ -180,13 +180,13 @@ a:hover { text-decoration:none; }
 .form-container .required { font-weight:bold; color:#900; }
 .form-container .required:before { content:"* "; }
 
-.form-group { padding:0 0 10px 0; margin:0 0 15px 0; border-bottom:1px dotted #999; }
-.form-group h4 { margin:0; padding:0 0 10px 0; color:#900; }
+fieldset { padding:0 0 10px 0; margin:0 0 15px 0; border-bottom:1px dotted #999; }
+fieldset h4 { margin:0; padding:0 0 10px 0; color:#900; }
 
-.form_buttons { padding:0 !important; }
-.form_buttons em { color:#999; margin-left:5px; }
-.form_buttons .cancel { float:right; font-size:12px; color:#900; }
-.form_buttons input {
+.actions { padding:0 !important; }
+.actions em { color:#999; margin-left:5px; }
+.actions .cancel { float:right; font-size:12px; color:#900; }
+.actions input {
   background-color: #CCCCCC;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#CCCCCC));
   border:1px solid #999;
@@ -195,7 +195,7 @@ a:hover { text-decoration:none; }
   line-height:20px;
   width:150px;
 }
-.form_buttons input:hover {
+.actions input:hover {
   -webkit-box-shadow:0px 0px 3px #333333;
   -moz-box-shadow:0px 0px 3px #333333;
   box-shadow:0px 0px 3px #333333;
