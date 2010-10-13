@@ -12,9 +12,7 @@
     { 
       $manager = new <?php echo $this->get('export_manager_class', 'sfExportManager') ?>($this->getResponse());
       
-      $export = $request->getParameter('export');
-      
-      $fields = array_filter($export['include'], create_function('$field', 'return isset($field["include"]) && $field["include"];'));
+      $fields = array_intersect_key($request->getParameter('export'), $request->getParameter('include'));
       
       if(false === $manager->export($this->pager->getQuery()->limit(9999999)->execute(), $fields, <?php echo $this->asPhp($this->get('export_filename', $this->getModelClass().'Export')) ?>))
       {

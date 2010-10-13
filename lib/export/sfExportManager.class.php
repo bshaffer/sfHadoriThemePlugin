@@ -37,6 +37,8 @@ class sfExportManager
     // Initialize coordinate counters
     $headers = array();
     
+    $fields = $this->cleanFields($fields);
+    
     foreach ($fields as $field => $label)
     {
       $headers[] = $this->exportHeader($field, $label);
@@ -144,5 +146,31 @@ class sfExportManager
     }
 
     return $string;
+  }
+  
+  // Makes sure fields are in "Field" => "Label" format
+  protected function cleanFields($fields)
+  {
+    foreach ($fields as $key => $value) 
+    {
+      if (is_int($key)) 
+      {
+        $clean[$value] = null;
+      }
+      else
+      {
+        $clean[$key] = $value;
+      }
+    }
+    
+    foreach ($clean as $field => $label) 
+    {
+      if (!$label) 
+      {
+        $clean[$field] = sfInflector::humanize($field);
+      }
+    }
+    
+    return $clean;
   }
 }

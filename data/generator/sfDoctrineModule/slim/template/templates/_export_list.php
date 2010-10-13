@@ -11,13 +11,6 @@
 <?php endif; ?>
         </tr>
       </thead>
-      <tfoot>
-        <tr>
-          <th colspan="<?php echo count($this->get('list_display')) + ($this->get('list_object_actions') ? 1 : 0) + ($this->get('list_batch_actions') ? 1 : 0) ?>">
-            [?php include_partial('<?php echo $this->getModuleName() ?>/pagination', array('pager' => $pager, 'helper' => $helper)) ?]
-          </th>
-        </tr>
-      </tfoot>
       <tbody>
         [?php foreach ($pager->getResults() as $i => $<?php echo $this->getSingularName() ?>): $odd = fmod(++$i, 2) ? 'odd' : 'even' ?]
           [?php include_partial('<?php echo $this->getModuleName() ?>/list_row', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'helper' => $helper, 'odd' => $odd, 'checkbox' => false)) ?]
@@ -25,12 +18,6 @@
       </tbody>
     </table>
   [?php endif; ?]
+  
+  [?php include_partial('<?php echo $this->getModuleName() ?>/pagination', array('pager' => $pager, 'helper' => $helper)) ?]
 </div>
-<script type="text/javascript">
-/* <![CDATA[ */
-function checkAll()
-{
-  var boxes = document.getElementsByTagName('input'); for(var index = 0; index < boxes.length; index++) { box = boxes[index]; if (box.type == 'checkbox' && box.className == 'sf_admin_batch_checkbox') box.checked = document.getElementById('sf_admin_list_batch_checkbox').checked } return true;
-}
-/* ]]> */
-</script>
