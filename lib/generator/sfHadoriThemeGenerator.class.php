@@ -3,7 +3,7 @@
 /**
 * 
 */
-class sfSlimThemeGenerator extends sfThemeGenerator
+class sfHadoriThemeGenerator extends sfThemeGenerator
 { 
   public function getUrlForAction($action)
   {

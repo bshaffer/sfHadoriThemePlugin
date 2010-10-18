@@ -1,11 +1,11 @@
-sfSlimAdminGeneratorPlugin
+sfHadoriThemePlugin
 ============================
 
 Before spinning up this theme, you must install the [sfThemeGeneratorPlugin](http://github.com/bshaffer/sfThemeGeneratorPlugin)
 
 1) Generate Theme
 
-    $ php symfony generate:theme slim
+    $ php symfony generate:theme hadori
     
 2) Complete the options asked by the generator
 

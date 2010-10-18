@@ -1,5 +1,5 @@
 generator:
-  class: sfSlimThemeGenerator
+  class: sfHadoriThemeGenerator
   param:
 ##CONFIG##
 

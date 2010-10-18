@@ -13,9 +13,9 @@ class ProjectConfiguration extends sfProjectConfiguration
   public function setup()
   {
     $this->setPlugins(array(
-      'sfSlimAdminGeneratorPlugin',
+      'sfHadoriThemePlugin',
       'sfDoctrinePlugin',
     ));
-    $this->setPluginPath('sfSlimAdminGeneratorPlugin', dirname(__FILE__).'/../../../..');
+    $this->setPluginPath('sfHadoriThemePlugin', dirname(__FILE__).'/../../../..');
   }
 }

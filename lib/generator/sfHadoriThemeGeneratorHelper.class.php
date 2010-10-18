@@ -3,7 +3,7 @@
 /**
 * 
 */
-abstract class sfSlimThemeGeneratorHelper extends sfModelGeneratorHelper
+abstract class sfHadoriThemeGeneratorHelper extends sfModelGeneratorHelper
 {
   protected 
     $_filters         = array(),

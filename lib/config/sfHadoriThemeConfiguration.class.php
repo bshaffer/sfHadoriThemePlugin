@@ -1,9 +1,9 @@
 <?php 
 
-class sfSlimThemeConfiguration extends sfThemeConfiguration
+class sfHadoriThemeConfiguration extends sfThemeConfiguration
 {
   protected
-    $theme = 'slim';
+    $theme = 'hadori';
 
   public function filesToCopy()
   {
@@ -42,7 +42,7 @@ EOF
   {
     $primaryKey = Doctrine_Core::getTable($this->options['model'])->getIdentifier();
     $routes = array($this->options['module'] => sprintf(<<<EOF
-  class: sfSlimAdminRouteCollection
+  class: sfHadoriAdminRouteCollection
   options:
     model:                %s
     module:               %s

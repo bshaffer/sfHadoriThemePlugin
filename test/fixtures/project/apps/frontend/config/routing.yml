@@ -3,7 +3,7 @@
 
 # default rules
 company:
-  class: sfSlimAdminRouteCollection
+  class: sfHadoriAdminRouteCollection
   options:
     model:                Company
     module:               company

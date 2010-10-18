@@ -1,6 +1,6 @@
 <?php 
 
-class sfSlimAdminRouteCollection extends sfDoctrineRouteCollection
+class sfHadoriAdminRouteCollection extends sfDoctrineRouteCollection
 {
   protected function generateRoutes()
   {

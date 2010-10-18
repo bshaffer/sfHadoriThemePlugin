@@ -4,4 +4,4 @@ all:
     include_flashes: true
     
     # set to false to prevent addition of view.yml in generated module's config
-    stylesheets:    [/sfSlimAdminGeneratorPlugin/css/slim.css]
+    stylesheets:    [/sfHadoriThemePlugin/css/hadori.css]
