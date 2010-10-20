@@ -60,6 +60,7 @@ EOF
     prefix_path:          /%s
     column:               %s
     with_wildcard_routes: true
+    with_export:          false
 EOF
       ,
       $this->options['model'], 
