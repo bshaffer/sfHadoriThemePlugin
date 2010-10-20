@@ -28,12 +28,16 @@ list view.
  1. Activate the `export` mode in the `generator.yml`. Do this by removing
     the `~` after the export option:
 
+-
+
     edit:    ~
     new:     ~
     export:
 
  1. Turn the export route on by setting the `with_export` option in `routing.yml`
     to true:
+
+-
 
     my_admin_route:
       class: sfHadoriAdminRouteCollection
