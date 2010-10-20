@@ -6,13 +6,13 @@ Before spinning up this theme, you must install the
 
  1. Generate Theme
 
-    $ php symfony generate:theme hadori
+        $ php symfony generate:theme hadori
 
  1. Complete the options asked by the generator
 
  1. Publish your assets
 
-    $ php symfony plugin:publish-assets
+        $ php symfony plugin:publish-assets
 
 The generator.yml allows for several options you will be familiar with,
 with the addition of several more.
@@ -28,22 +28,18 @@ list view.
  1. Activate the `export` mode in the `generator.yml`. Do this by removing
     the `~` after the export option:
 
--
-
-    edit:    ~
-    new:     ~
-    export:
+        edit:    ~
+        new:     ~
+        export:
 
  1. Turn the export route on by setting the `with_export` option in `routing.yml`
     to true:
 
--
-
-    my_admin_route:
-      class: sfHadoriAdminRouteCollection
-      options:
-        # ...
-        with_export:          true
+        my_admin_route:
+          class: sfHadoriAdminRouteCollection
+          options:
+            # ...
+            with_export:          true
 
 Security
 --------
