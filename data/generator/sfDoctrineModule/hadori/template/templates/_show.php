@@ -1,4 +1,4 @@
-<div id="information">
+<div class="info-block">
   <dl>
 <?php foreach ($this->get('show_display') as $name => $field): ?>
     <dt><?php echo $field->getConfig('label', '', true) ?></dt>

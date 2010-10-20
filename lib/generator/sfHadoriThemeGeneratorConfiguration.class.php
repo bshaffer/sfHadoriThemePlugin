@@ -48,9 +48,17 @@ abstract class sfHadoriThemeGeneratorConfiguration extends sfThemeGeneratorConfi
     {
       foreach ($fieldset as $name => $field) 
       {
-        if (!$field || $form[$name]->isHidden()) 
+        if (!$field) 
         {
           unset($fieldset[$name]);
+        }
+        
+        if (isset($form[$name])) 
+        {
+          if($form[$name]->isHidden())
+          {
+            unset($fieldset[$name]);
+          }
         }
       }
     }

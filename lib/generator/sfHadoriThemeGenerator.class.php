@@ -138,6 +138,59 @@ EOF;
     return $html;
   }
   
+  public function getFormFieldAttributes(sfForm $form, $name)
+  {
+    $attributes = array();
+    
+    if (isset($form[$name])) 
+    {
+      $widget = $form->getWidget($name);
+      
+      switch (true) 
+      {
+        case $widget instanceof sfWidgetFormInputCheckbox:
+          $attributes['class'] = 'checkbox';
+          break;
+
+        case $widget  instanceof sfWidgetFormChoice:
+          $attributes['class'] = 'selectfield';
+          break;
+        // 
+        // default:
+        //   $attributes['class'] = sfInflector::underscore(str_replace('sfWidgetForm', '', get_class($widget)));
+        //   break;
+      }
+    }
+    
+    return $attributes ? $this->asPhp($attributes) : '';
+  }
+  
+  public function getFormFieldContainerClass(sfForm $form, $name)
+  {
+    $class = array('form-element');
+   
+    $attributes = array();
+    
+    if (isset($form[$name])) 
+    {
+      $widget = $form->getWidget($name);
+      $validator = $form->getValidator($name);
+      
+      switch (true) 
+      {
+        case $validator->getOption('required') === true:
+          $class[] = 'required';
+          break;
+        
+        default:
+          $class[] = sfInflector::underscore(str_replace('sfWidgetForm', '', get_class($widget)));
+          break;
+      }
+    }
+    
+    return implode(' ', $class);
+  }
+  
   /**
    * Override this to rename base files
    */

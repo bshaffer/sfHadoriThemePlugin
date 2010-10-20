@@ -6,14 +6,13 @@
   [?php echo $form->renderGlobalErrors() ?]
   [?php echo $form->renderHiddenFields() ?]
   
-<?php $formClass = $this->getModelClass().'Form' ?>
-<?php foreach ($this->configuration->getFormFields(new $formClass(), 'Form') as $fieldsetName => $fields): ?>
+<?php $formClass = $this->getFormClass() ?>
+<?php $form = new $formClass() ?>
+<?php foreach ($this->configuration->getFormFields($form, 'Form') as $fieldsetName => $fields): ?>
   <fieldset class="<?php echo $fieldsetName == 'NONE' ? 'form-group' : 'form-group-'.$fieldsetName ?>">
 <?php foreach ($fields as $name => $config): ?>
-  <div class="form-element">
-    [?php echo $form['<?php echo $name ?>']->renderError() ?]
-    [?php echo $form['<?php echo $name ?>']->renderLabel() ?]
-    [?php echo $form['<?php echo $name ?>']->render() ?]
+  <div class="<?php echo $this->getFormFieldContainerClass($form, $name) ?>">
+      [?php echo $form['<?php echo $name ?>']->renderRow(<?php echo $this->getFormFieldAttributes($form, $name) ?>) ?]
   </div>
 
 <?php endforeach; ?>

@@ -7,10 +7,52 @@
 .true { background: url(../images/true.png) no-repeat 0 0;}
 .false { background: url(../images/false.png) no-repeat 0 0;}
 
+/************ styles for show *************/
+
+.info-block {padding:10px;border:1px solid #ccc;background:#eee;-moz-border-radius:7px;-webkit-border-radius:7px;font-size:12px;overflow:hidden;position:relative;margin-bottom:20px;}
+  .info-block dl {width:100%;margin-bottom:20px;overflow:hidden;}
+  .info-block dt {height:20px;line-height:20px;font-weight:bold;color:#333;float:left;clear:left;width:22%;border-bottom:1px solid #ccc;padding-bottom:10px;padding-top:10px;}
+  .info-block dd {height:20px;line-height:20px;float:left;clear:right;border-bottom:1px solid #ccc;width:78%;padding-bottom:10px;padding-top:10px;}
+    .info-block dd form, .info-block dd fieldset {margin:0;padding:0;}
+
 /************ styles for forms ************/
 
-dt { font-weight: bold; }
-dd { margin: 5px 0px 10px 20px}
+.form-element {
+  margin-bottom:15px;
+}
+
+.form-element input {
+  border:1px solid #BBBBBB;
+  font-size:1.4em;
+  margin:5px 0 0;
+  padding:5px;
+  width:90%;
+}
+
+.form-element input.checkbox {
+  width:auto;
+}
+
+.form-element select {
+  border:1px solid #BBBBBB;
+  font-size:1.4em;
+  margin:5px 5px 0 0;
+  padding:3px;
+}
+
+.form-element label {
+  font-size:13px;
+  display:block;
+}
+
+.required label { color:#900; font-weight:bold; }
+.required label:before { content:"* "; }
+
+.help {
+  color:#999999;
+  font-size:11px;
+  font-style:italic;
+}
 
 /************ styles for actions ************/
 

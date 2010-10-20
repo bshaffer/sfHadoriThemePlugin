@@ -19,8 +19,8 @@
 class sfWidgetFormSchemaFormatterParagraph extends sfWidgetFormSchemaFormatter
 {
   protected
-    $rowFormat       = "<p>\n  %label%\n  <br>\n  %error%%field%%help%%hidden_fields%</p>",
+    $rowFormat       = "<p>\n  %label%\n  %help%\n  %error%%field%%hidden_fields%</p>",
     $errorRowFormat  = "<div class=\"error\">\n  %errors%</div>\n",
-    $helpFormat      = '<br />%help%',
+    $helpFormat      = '<span class="help">%help%<span>',
     $decoratorFormat = "<div class=\"form-group\">\n  %content%</div>";
 }
