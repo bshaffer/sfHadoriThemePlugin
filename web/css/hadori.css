@@ -113,6 +113,7 @@ dd { margin: 5px 0px 10px 20px}
 }
 
 .filter-form legend { color:#484848; }
+.filter-form .collapsible .inner { min-height: 10px; }
 
 /************ generic styles ************/
 .clear { clear:both; }
