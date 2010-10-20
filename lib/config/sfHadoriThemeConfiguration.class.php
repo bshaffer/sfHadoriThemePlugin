@@ -5,6 +5,17 @@ class sfHadoriThemeConfiguration extends sfThemeConfiguration
   protected
     $theme = 'hadori';
 
+  public function setup()
+  {
+    $this->askForApplication();
+
+    $this->askForModel();
+
+    $this->task->bootstrapSymfony($this->options['application'], $this->options['env']);
+    
+    $this->askForOption('module', null, sfInflector::underscore($this->options['model']));
+  }
+  
   public function filesToCopy()
   {
     return array(

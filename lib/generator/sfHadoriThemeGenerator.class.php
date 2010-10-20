@@ -7,7 +7,7 @@ class sfHadoriThemeGenerator extends sfThemeGenerator
 { 
   public function getUrlForAction($action)
   {
-    return sprintf('%s%s', $this->getSingularName(), in_array($action, array('list', 'index')) ? '' : '_'.$action);
+    return sprintf('%s%s', $this->get('route_prefix'), in_array($action, array('list', 'index')) ? '' : '_'.$action);
   }
   
   public function linkToNew($params)
