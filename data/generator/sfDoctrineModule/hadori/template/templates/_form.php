@@ -1,3 +1,6 @@
+[?php include_javascripts_for_form($form) ?]
+[?php include_stylesheets_for_form($form) ?]
+
 <div class="admin-form">
 [?php echo form_tag_for($form, '@<?php echo $this->params['route_prefix'] ?>') ?]
   [?php echo $form->renderGlobalErrors() ?]
