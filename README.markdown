@@ -44,7 +44,7 @@ list view.
 Security
 --------
 
-Set the "use_security_yaml_credentials" to true (true by default) to
+Set the `use_security_yaml_credentials` to true (true by default) to
 synchronize your module's security.yml file with the generator's credentials.
 This will automatically hide actions to users without appropriate credentials.
 
