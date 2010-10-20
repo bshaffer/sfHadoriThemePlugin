@@ -14,7 +14,7 @@ Before spinning up this theme, you must install the
 
         $ php symfony plugin:publish-assets
 
- 1. Look at the layout.php.sample file for an example layout. It lives in `data/generator/sfDoctrineModule/hadori/templates/layout.php.sample`)
+ 1. Look at the layout.php.sample file for an example layout. It lives in `data/generator/sfDoctrineModule/hadori/templates/layout.php.sample`
  
 The generator.yml allows for several options you will be familiar with,
 with the addition of several more.
