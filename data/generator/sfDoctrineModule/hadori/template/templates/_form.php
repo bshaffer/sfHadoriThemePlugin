@@ -10,6 +10,9 @@
 <?php $form = new $formClass() ?>
 <?php foreach ($this->configuration->getFormFields($form, 'Form') as $fieldsetName => $fields): ?>
   <fieldset class="<?php echo $fieldsetName == 'NONE' ? 'form-group' : 'form-group-'.$fieldsetName ?>">
+    <?php if ($fieldsetName != 'NONE'): ?>
+      <h3><?php echo $fieldsetName ?></h3>
+    <?php endif; ?>
 <?php foreach ($fields as $name => $config): ?>
   <div class="<?php echo $this->getFormFieldContainerClass($form, $name) ?>">
       [?php echo $form['<?php echo $name ?>']->renderRow(<?php echo $this->getFormFieldAttributes($form, $name) ?>) ?]

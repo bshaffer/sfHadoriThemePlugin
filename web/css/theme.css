@@ -182,6 +182,13 @@ a:hover { text-decoration:none; }
 
 fieldset { padding: 0; margin:0 0 15px 0; border: 1px dotted #999; }
 fieldset h4 { margin:0; padding:0 0 10px 0; color:#900; }
+fieldset h3 {
+  margin:0;
+  padding: 0 0 0 15px;
+  color: #fff;
+  background-color: #333333;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666), to(#333));
+}
 
 .actions { padding:0 !important; }
 .actions em { color:#999; margin-left:5px; }
