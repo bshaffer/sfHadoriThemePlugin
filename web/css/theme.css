@@ -180,7 +180,7 @@ a:hover { text-decoration:none; }
 .form-container .required { font-weight:bold; color:#900; }
 .form-container .required:before { content:"* "; }
 
-fieldset { padding:0 0 10px 0; margin:0 0 15px 0; border-bottom:1px dotted #999; }
+fieldset { padding: 5px 5px 5px 10px; margin:0 0 15px 0; border: 1px dotted #999; }
 fieldset h4 { margin:0; padding:0 0 10px 0; color:#900; }
 
 .actions { padding:0 !important; }
