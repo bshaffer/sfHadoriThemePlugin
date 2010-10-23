@@ -13,9 +13,12 @@ class ProjectConfiguration extends sfProjectConfiguration
   public function setup()
   {
     $this->setPlugins(array(
+      'sfThemeGeneratorPlugin',
       'sfHadoriThemePlugin',
       'sfDoctrinePlugin',
     ));
+
+    $this->setPluginPath('sfThemeGeneratorPlugin', $_SERVER['SYMFONY_PLUGINS_DIR'].'/sfThemeGeneratorPlugin');
     $this->setPluginPath('sfHadoriThemePlugin', dirname(__FILE__).'/../../../..');
   }
 }

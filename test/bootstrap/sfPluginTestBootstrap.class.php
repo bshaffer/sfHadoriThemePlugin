@@ -70,6 +70,30 @@ class sfPluginTestBootstrap
     $this->pluginsDir               = $pluginsDir;
     $_SERVER['SYMFONY_PLUGINS_DIR'] = $pluginsDir;
   }
+
+  public function getSymfonyPluginsDir()
+  {
+    if (!$this->pluginsDir) 
+    {
+      // Get path to symfony
+      if (isset($_SERVER['SYMFONY_PLUGINS_DIR'])) 
+      {
+        $this->pluginsDir = $_SERVER['SYMFONY_PLUGINS_DIR'];
+      }
+      elseif(file_exists('/tmp/symfony_plugins_dir'))
+      {
+        // Hack to allow the passing in of symfony_dir at runtime
+        $this->pluginsDir = file_get_contents('/tmp/symfony_plugins_dir');
+        $_SERVER['SYMFONY_PLUGINS_DIR'] = $this->pluginsDir;
+      }
+      else
+      {
+        $this->pluginsDir = dirname(__FILE__).'/../../../';
+      }
+    }
+    
+    return $this->pluginsDir;
+  }
   
   public function getSymfonyDir()
   {
@@ -107,7 +131,7 @@ class sfPluginTestBootstrap
     // Create configuration and context
     require_once dirname(__FILE__).'/../fixtures/project/config/ProjectConfiguration.class.php';
     $this->configuration = ProjectConfiguration::getApplicationConfiguration($app, 'test', $debug);
-    
+
     require_once $this->configuration->getSymfonyLibDir().'/vendor/lime/lime.php';
     $this->context = sfContext::createInstance($this->configuration);
     

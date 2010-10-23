@@ -1,13 +1,6 @@
-# You can find more information about this file on the symfony website:
-# http://www.symfony-project.org/reference/1_4/en/10-Routing
+default_index:
+  url:   /:module
+  param: { action: index }
 
-# default rules
-company:
-  class: sfHadoriAdminRouteCollection
-  options:
-    model:                Company
-    module:               company
-    prefix_path:          /company
-    column:               id
-    with_wildcard_routes: true
-
+default:
+  url:   /:module/:action/*
