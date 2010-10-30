@@ -5,16 +5,16 @@ class sfTesterCsv extends sfTesterResponse
   protected
     $response = null,
     $headers  = null,
-    $spreadsheets = null,
+    $csv      = null,
     $currentRow   = null;
 
   public function initialize()
   {
     $this->response = $this->browser->getResponse();
+    $this->csv  = $this->loadCsv();
     $this->headers = null;
-    $this->spreadsheets = null;
-    
-    if (!$this->response->getHeader('Content-Type') != 'application/vnd.ms-excel') 
+
+    if (strpos($this->response->getHttpHeader('Content-Type'), 'text/csv') === false) 
     {
       throw new LogicException('no CSV has been generated.');
     }
@@ -75,28 +75,12 @@ class sfTesterCsv extends sfTesterResponse
   
   protected function getPossibleValues($column = null, $row = null, $spreadsheet = null)
   {
-    if (is_string($column)) 
-    {
-      $columnNumbers = $this->getColumnNumbersForHeader($column);
-      
-      if (!$columnNumbers) 
-      {
-        throw new LogicException(sprintf('Column %s does not exist.  (headers: %s)', $column, implode(',', array_unique($this->getHeaders()))));
-      }
-      
-      $column = $columnNumbers;
-    }
-    
-    $selector = $this->buildRowColumnSelector($row, $column);
-    
-    $values = $this->domCssSelector->matchAll($selector)->getValues();
-
     if ($row === null) 
     {
-      array_shift($values); // Pop off header
+      array_shift($this->csv); // Pop off header
     }
     
-    return $values;
+    return $this->csv;
   }
   
   public function containsColumn($column)
@@ -135,67 +119,9 @@ class sfTesterCsv extends sfTesterResponse
     return $message;
   }
   
-  protected function buildRowColumnSelector($row, $column)
-  {
-    $selector = '';
-    
-    if ($row !== null && $row !== '')
-    {
-      $selector .= sprintf('tr.row%s ', (int)$row);
-    }
-    
-    if ($column !== null && $column !== '') 
-    {
-      $columnSelectors = array();
-
-      foreach ((array) $column as $spreadsheet => $col) 
-      {
-        $columnSelectors[] = sprintf('table#sheet%s %std.column%s', $spreadsheet, $selector, (int)$col);
-      }
-      
-      $selector = implode(', ', $columnSelectors);
-    }
-    
-    return $selector;
-  }
-  
-  protected function getSpreadsheets()
-  {
-    if ($this->spreadsheets === null) 
-    {
-      $this->spreadsheets = $this->domCssSelector->matchAll('table');
-    }
-    
-    return $this->spreadsheets;
-  }
-
-  protected function getHeadersBySpreadsheet()
-  {
-    if ($this->headers === null) 
-    {
-      $this->headers = array();
-      
-      foreach ($this->getSpreadsheets() as $spreadsheet) 
-      {
-        $this->headers[] = $this->domCssSelector->matchAll(sprintf("table#%s .row0 td", $spreadsheet->getAttribute('id')))->getValues();
-      }
-    }
-    
-    return $this->headers;
-  }
-  
   protected function getHeaders()
   {
-    $allHeaders = array();
-    
-    $headersbySpreadsheet = $this->getHeadersBySpreadsheet();
-    
-    foreach ($headersbySpreadsheet as $headers) 
-    {
-      $allHeaders = array_merge($allHeaders, $headers);
-    }
-    
-    return $allHeaders;
+    return array_pop($this->csv);
   }
   
   protected function getRowForValues($values)
@@ -218,7 +144,7 @@ class sfTesterCsv extends sfTesterResponse
   {
     $colNumbers = array();
     
-    foreach ($this->getHeadersBySpreadsheet() as $i => $headers) 
+    foreach ($this->getHeaders() as $i => $headers) 
     {
       if (($key = array_search($header, $headers)) !== false) 
       {
@@ -233,7 +159,7 @@ class sfTesterCsv extends sfTesterResponse
   {
     if (is_array($column)) 
     {
-      $headers = $this->getHeadersBySpreadsheet();
+      $headers = $this->headers;
       
       foreach ($column as $i => $col) 
       {
@@ -247,5 +173,38 @@ class sfTesterCsv extends sfTesterResponse
     }
 
     return isset($headers[$column]) ? $headers[$column] : $column;
+  }
+  
+  protected function loadCsv()
+  {
+    $csvString = $this->response->getContent();
+    $csvRows = array();
+    if (function_exists('str_getcsv')) 
+    {
+      // PHP 5.3+
+      return str_getcsv($csvString);
+    }
+
+    $tmpFile = sys_get_temp_dir() . '/symfony.csv.'.$this->getFilename();
+
+    file_put_contents($tmpFile, $csvString);
+    
+    $handle = fopen($tmpFile, 'r');
+    
+    while($data = fgetcsv($handle))
+    {
+      $csvRows[] = $data;
+    }
+    
+    return $csvRows;
+  }
+  
+  public function getFilename()
+  {
+    $disposition = $this->response->getHttpHeader('Content-Disposition');
+    
+    $filename = substr($disposition, strpos($disposition, 'filename=') + strlen('filename='));
+    
+    return str_replace('"', '', $filename);
   }
 }

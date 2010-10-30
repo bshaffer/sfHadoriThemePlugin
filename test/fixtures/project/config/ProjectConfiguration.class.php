@@ -1,4 +1,6 @@
 <?php
+$_SERVER['SYMFONY'] = '/usr/local/lib/symfony/RELEASE_1_4_8/lib';
+$_SERVER['SYMFONY_PLUGINS_DIR'] = '/Users/bshafs/Sites/localhost/sandbox/plugins';
 
 if (!isset($_SERVER['SYMFONY']))
 {

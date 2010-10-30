@@ -11,7 +11,7 @@ class sfExportManager
     $response           = null,
     $_data              = array();
   
-  public function __construct(sfResponse $response)
+  public function __construct(sfResponse $response = null)
   {    
     $this->response = $response;
   }
@@ -32,7 +32,7 @@ class sfExportManager
    * @param array $fields 
    * @author Brent Shaffer
    */
-  public function doExport($collection, $fields, $title)
+  public function doExport($collection, $fields)
   {
     // Initialize coordinate counters
     $headers = array();
@@ -54,6 +54,8 @@ class sfExportManager
       }
       $this->addLine($cells);
     }
+    
+    return $this->_data;
   }
   
   public function output($filename, $format = null)

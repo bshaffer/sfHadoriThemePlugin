@@ -19,7 +19,7 @@ class sfPluginTestBootstrap
   
   public function teardown()
   {
-    sfToolkit::clearDirectory(dirname(__FILE__).'/../fixtures/project/cache');
+    // sfToolkit::clearDirectory(dirname(__FILE__).'/../fixtures/project/cache');
     sfToolkit::clearDirectory(dirname(__FILE__).'/../fixtures/project/log');
   }
   
