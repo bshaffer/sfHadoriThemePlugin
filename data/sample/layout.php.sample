@@ -5,15 +5,27 @@
     <?php include_metas() ?>
     <?php include_title() ?>
     <link rel="shortcut icon" href="/favicon.ico" />
+
+    <?php include_stylesheets() ?>
+    <?php include_javascripts() ?>
   </head>
   <body>
       <div id="header">
-				<?php include_partial('global/public_menu', array()) ?>
+        <div id="login">
+          <a href="#">Sign In</a>
+          <a href="#">Frontend</a>
+        </div>
         <h1 id="site-title">Admin</h1>
       </div>
       <div id="content">
         <div id="admin-nav">
-				  <?php include_partial('global/admin_menu', array()) ?>
+          <ul>
+            <li><a href="#"> Link 1</a></li>
+            <li><a href="#"> Link 2</a></li>
+            <li><a href="#"> Link 3</a></li>
+            <li><a href="#"> Link 4</a></li>
+            <li><a href="#"> Link 5</a></li>
+          </ul>
 				</div>
 				<div id="main">
 				  <div id="main-inner">
