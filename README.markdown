@@ -21,7 +21,7 @@ Before spinning up this theme, you must install the
           stylesheets:     [/sfHadoriThemePlugin/css/theme.css, /sfHadoriThemePlugin/css/hadori.css]
           javascripts:     [/sfHadoriThemePlugin/js/jquery-1.4.2.min.js, /sfHadoriThemePlugin/js/hadori.js]        
 
- 1. Look at the layout.php.sample file for an example layout. It lives in `data/generator/sfDoctrineModule/hadori/templates/layout.php.sample`
+ 1. Look at the layout.php.sample file for an example layout. It lives in `data/sample/layout.php.sample`
  
 The generator.yml allows for several options you will be familiar with,
 with the addition of several more.

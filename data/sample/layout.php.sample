@@ -11,7 +11,7 @@
   </head>
   <body>
       <div id="header">
-        <div id="login">
+        <div id="public-nav">
           <a href="#">Sign In</a>
           <a href="#">Frontend</a>
         </div>

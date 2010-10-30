@@ -13,8 +13,8 @@ a:hover { text-decoration:none; }
   margin:0 0 25px 0;
   padding:15px 25px;
 }
-#header #login { color:#fff; font-size:12px; margin:0; text-align:right; }
-#header #login a { color:#fff; }
+#header #public-nav { color:#fff; font-size:12px; margin:0; text-align:right; }
+#header #public-nav a { color:#fff; }
 #header h1 { color:#fff; font-size:30px; font-weight:normal; margin:0; }
 
 #login-box {
