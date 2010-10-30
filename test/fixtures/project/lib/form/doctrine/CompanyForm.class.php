@@ -12,5 +12,6 @@ class CompanyForm extends BaseCompanyForm
 {
   public function configure()
   {
+    $this->useFields(array('name', 'city', 'state', 'zip'));
   }
 }

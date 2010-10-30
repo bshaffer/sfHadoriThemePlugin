@@ -64,7 +64,7 @@ abstract class sfHadoriThemeGeneratorHelper extends sfModelGeneratorHelper
 
   public function setFilters($filters)
   {
-    $this->_filters = array_filter($filters);
+    $this->_filters = array_filter((array) $filters);
   }
   
   public function getFilters()
