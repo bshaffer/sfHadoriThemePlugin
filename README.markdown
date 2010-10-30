@@ -16,10 +16,10 @@ Before spinning up this theme, you must install the
 
  1. Configure your assets.  jQuery is included in each module by default, but you may want to change this
 
-    # /path/to/generated-module/config/view.yml
-    all:
-      stylesheets:     [/sfHadoriThemePlugin/css/theme.css, /sfHadoriThemePlugin/css/hadori.css]
-      javascripts:     [/sfHadoriThemePlugin/js/jquery-1.4.2.min.js, /sfHadoriThemePlugin/js/hadori.js]        
+        # /path/to/generated-module/config/view.yml
+        all:
+          stylesheets:     [/sfHadoriThemePlugin/css/theme.css, /sfHadoriThemePlugin/css/hadori.css]
+          javascripts:     [/sfHadoriThemePlugin/js/jquery-1.4.2.min.js, /sfHadoriThemePlugin/js/hadori.js]        
 
  1. Look at the layout.php.sample file for an example layout. It lives in `data/generator/sfDoctrineModule/hadori/templates/layout.php.sample`
  
