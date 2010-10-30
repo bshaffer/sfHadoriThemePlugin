@@ -1,8 +1,12 @@
 sfHadoriThemePlugin
 ===================
 
-Before spinning up this theme, you must install the
-[sfThemeGeneratorPlugin](http://github.com/bshaffer/sfThemeGeneratorPlugin).
+sfHadoriThemePlugin is an admin generator with a beautiful built in theme.  The idea is to provide basic functionality desired in every administrative interface, while keeping the generated code readable and beautiful.  For that reason, Hadori does a lot, but he doesn't try to do *everything*.  When you need to break from the norm, Hadori provides you with spectacular generated code to let you hit the ground running.
+
+Installation
+------------
+
+Before spinning up this theme, you must install the [sfThemeGeneratorPlugin](http://github.com/bshaffer/sfThemeGeneratorPlugin).
 
  1. Generate Theme
 
@@ -23,8 +27,87 @@ Before spinning up this theme, you must install the
 
  1. Look at the layout.php.sample file for an example layout. It lives in `data/sample/layout.php.sample`
  
-The generator.yml allows for several options you will be familiar with,
-with the addition of several more.
+Configuration
+-------------
+
+The generator.yml allows for several options you will be familiar with, with the addition of several more.  Configuration is as follows:
+
+  * route_prefix
+
+      This should be the same as specified in `routing.yml` for the module.  This will ensure everything is linked up correctly.
+
+  * display
+
+      The `list`, `show`, `export`, `filters` actions each allow for the `display` options, an array of fields on your model to be understood in a variety of ways:
+      
+      * `list`: Columns to show in list table
+      * `show`: Object properties to show in the definition list
+      * `export`: Fields available to export
+      * `filters`: Fields available to filter
+
+  * form_class
+  
+      The sfForm class to use when creating and editing your object.  Defaults to the generated doctrine form class (_MyModeForm_)
+
+  * filter_class
+
+      The sfFormFilter class to use when filtering the list view.  Defaults to the generated doctrine form filter class (_MyModeFormFilter_)
+
+  * filter_default
+
+      An array of filter name-value pairs to filter your list view by default.  ex: `default: [is_active: true, type: 'client']`
+      
+  * export_manager_class
+
+      The class to use when exporting your objects.  Defaults to the _sfExportManager_ class included in the admin generator.  Read more about this in the **Export** section below.
+
+  * export_filename
+
+      The name of the downloadable export file.  You do not need to include an extension.
+  
+  * list_title
+  
+      Text in the list view's h2 tag
+
+  * list_pager_max_per_page
+  
+      Number of results to show on the list page
+
+  * list_sort
+
+      A sort array to sort your list view by default.  ex: `sort: [last_name, asc]`
+
+  * list_batch_actions
+
+      Actions available to the batch actions dropdown of the list view.  ex: `batch_actions: [delete]`
+
+  * list_object_actions
+
+      Actions available to each row of the list view.  ex: `object_actions: [show, edit, delete]`
+
+  * new_title
+
+      Text in the new action's h2 tag
+
+  * new_actions
+
+      Actions available to the new form.  ex: `actions: [save, back]`
+
+  * edit_title
+
+      Text in the edit action's h2 tag
+
+  * edit_actions
+
+      Actions available to the edit form.  ex: `actions: [save, back]`
+
+  * show_title
+
+      Text in the show action's h2 tag
+
+  * show_actions
+
+      Actions available to the show form.  ex: `actions: [edit, back]`
 
 Exporting
 ---------
@@ -60,4 +143,4 @@ This will automatically hide actions to users without appropriate credentials.
 Generated Code
 --------------
 
-View the sfThemeGeneratorPlugin README for more options.
+View the sfThemeGeneratorPlugin `README` for more options on how to customize this theme.
