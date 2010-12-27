@@ -6,7 +6,7 @@
       <thead>
         <tr>
 <?php if ($this->get('list_batch_actions')): ?>
-          <th class="batch"><input type="checkbox" /></th>
+          <th class="batch"><input type="checkbox" class="checkbox" /></th>
 <?php endif; ?>
           [?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('helper' => $helper)) ?]
 <?php if ($this->get('list_object_actions')): ?>

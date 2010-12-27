@@ -29,7 +29,8 @@
   width:90%;
 }
 
-.form-element input.checkbox {
+.form-element input.checkbox,
+.form-container input.checkbox {
   width:auto;
 }
 
