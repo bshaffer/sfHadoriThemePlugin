@@ -25,8 +25,7 @@ Before spinning up this theme, you must install the [sfThemeGeneratorPlugin](htt
           stylesheets:     [/sfHadoriThemePlugin/css/theme.css, /sfHadoriThemePlugin/css/hadori.css]
           javascripts:     [/sfHadoriThemePlugin/js/jquery-1.4.2.min.js, /sfHadoriThemePlugin/js/hadori.js]        
 
- 1. Look at the layout.php.sample file for an example layout. It lives in `data/sample/layout.php.sample`
- 
+ 1. Look at the layout.php.sample file for an example layout. It lives in `data/sample/layout.php.sample`.  Using this layout for your generated modules will apply the Hadori theme.  This will also apply to your login form.
 Configuration
 -------------
 
@@ -144,3 +143,29 @@ Generated Code
 --------------
 
 View the sfThemeGeneratorPlugin `README` for more options on how to customize this theme.
+
+Styling Login Form
+------------------
+
+Follow these steps to style your login form with the Hadori theme:
+
+Set your application to use the _sfDoctrineGuardPlugin_ login form in your settings.yml:
+
+    # app/MYAPP/config/settings.yml
+    all:
+      .settings:
+        login_module: sfGuardAuth
+        login_action:   login
+
+Copy over the layout.php.sample file in _data/generator/sfDoctrineModule/hadori/template_ as your base application template.
+
+    # cd /path/to/project
+    cp plugins/sfHadoriThemePlugin/data/generator/sfDoctrineModule/hadori/template/layout.php.sample apps/MYAPP/templates/
+
+Set your stylesheets to the plugin's stylesheets:
+
+    # app/MYAPP/config/view.yml
+    default:
+      stylesheets:
+        - /sfHadoriThemePlugin/css/theme.css
+        - /sfHadoriThemePlugin/css/hadori.css
