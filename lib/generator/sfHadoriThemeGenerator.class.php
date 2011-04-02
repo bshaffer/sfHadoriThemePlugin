@@ -5,6 +5,37 @@
 */
 class sfHadoriThemeGenerator extends sfThemeGenerator
 {
+  public function renderTextAsBlock($text)
+  {
+    if (strpos($text, '<?php') !== 0) {
+      $text = sprintf('<?php echo \'%s\' ?>', $text);
+    }
+
+    return $text;
+  }
+
+  public function renderWildcardString($string)
+  {
+    preg_match_all('/%%([^%]+)%%/', $string, $matches, PREG_PATTERN_ORDER);
+
+    if (count($matches[1])) {
+      $string = $this->escapeString($string);
+
+      foreach ($matches[1] as $name)
+      {
+        $getter  = $this->getColumnGetter($name, true);
+        $string  = str_replace("%%$name%%", sprintf("'.%s.'", $getter), $string);
+      }
+
+      $string = $this->renderTextAsBlock($string);
+    }
+    else {
+      $string = $this->renderText($string);
+    }
+
+    return $string;
+  }
+
   public function getUrlForAction($action)
   {
     return sprintf('%s%s', $this->get('route_prefix'), in_array($action, array('list', 'index')) ? '' : '_'.$action);
@@ -45,12 +76,10 @@ class sfHadoriThemeGenerator extends sfThemeGenerator
   public function linkToSaveAndAdd($params)
   {
     $link = <<<EOF
-[?php if(!$%s->isNew()): ?]
   <input class="greyButton" type="submit" value="%s" name="_save_and_add" />
-[?php endif ?]
 EOF;
 
-    return sprintf($link, $this->getSingularName(), $params['label']);
+    return sprintf($link, $params['label']);
   }
 
   public function linkToDelete($params)
@@ -62,13 +91,7 @@ EOF;
         'title' => 'Delete ' . $this->getClassLabel()
         ), $params['attributes']);
 
-    $link = <<<EOF
-[?php if(!$%s->isNew()): ?]
-  %s
-[?php endif ?]
-EOF;
-
-    return sprintf($link, $this->getSingularName(), $this->renderLinkToBlock($params['label'], $this->getUrlForAction('delete'), $attributes, true));
+    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('delete'), $attributes, true);
   }
 
   public function linkToList($params)
@@ -180,7 +203,7 @@ EOF;
     {
       $html = sprintf("link_to(%s, '%s', \$%s)", $html, $this->getUrlForAction('edit'), $this->getSingularName());
     }
-    
+
     if ($inBlock) {
       $html = sprintf("<?php echo %s ?>", $html);
     }

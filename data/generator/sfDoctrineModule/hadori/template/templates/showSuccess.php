@@ -3,7 +3,7 @@
   [?php include_partial('global/flashes') ?]  
 <?php endif ?>
   
-  <h1><?php echo $this->get('show_title') ?></h1>
+  <h1><?php echo $this->renderWildcardString($this->get('show_title')) ?></h1>
 
   <div>
     [?php include_partial('<?php echo $this->getModuleName() ?>/show', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'helper' => $helper)) ?]

@@ -176,6 +176,9 @@ abstract class sfHadoriThemeGeneratorConfiguration extends sfThemeGeneratorConfi
       $field->setFlag($flag);
       $this->configuration['show']['display'][$name] = $field;
     }
+    
+    $this->parseVariables('show', 'title');
+    $this->parseVariables('export', 'title');
   }
   
   protected function fixActionParameters($action, $parameters)
