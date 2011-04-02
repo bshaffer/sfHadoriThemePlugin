@@ -4,11 +4,12 @@ generator:
 ##CONFIG##
 
     config:
-      actions: ~
-      fields:  ~
-      list:    ~
-      filter:  ~
-      form:    ~
-      edit:    ~
-      new:     ~
-      export:  ~
+      actions:  ~
+      fields:   ~
+      list:     ~
+      filter:   ~
+      form:     ~
+      edit:     ~
+      new:      ~
+      show:     ~
+      export:   ~

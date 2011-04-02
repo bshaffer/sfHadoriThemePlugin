@@ -31,7 +31,7 @@ class sfHadoriAdminRouteCollection extends sfDoctrineRouteCollection
  
     $options = array(
       'model' => $this->options['model'],
-      'type' => 'list',
+      'type'  => 'list',
     );
  
     return new $this->routeClass(

@@ -11,6 +11,7 @@ abstract class sfHadoriThemeGeneratorConfiguration extends sfThemeGeneratorConfi
         'filter'  => array(),
         'form'    => array(),
         'edit'    => array(),
+        'show'    => array(),
         'new'     => array(),
         'export'  => array(),
       );

@@ -11,8 +11,8 @@
 
 .info-block {padding:10px;border:1px solid #ccc;background:#eee;-moz-border-radius:7px;-webkit-border-radius:7px;font-size:12px;overflow:hidden;position:relative;margin-bottom:20px;}
   .info-block dl {width:100%;margin-bottom:20px;overflow:hidden;}
-  .info-block dt {height:20px;line-height:20px;font-weight:bold;color:#333;float:left;clear:left;width:22%;border-bottom:1px solid #ccc;padding-bottom:10px;padding-top:10px;}
-  .info-block dd {height:20px;line-height:20px;float:left;clear:right;border-bottom:1px solid #ccc;width:78%;padding-bottom:10px;padding-top:10px;}
+  .info-block dt {line-height:20px;font-weight:bold;color:#333;float:left;clear:left;width:22%;border-top:1px solid #ccc;padding-bottom:10px;padding-top:10px;}
+  .info-block dd {line-height:20px;float:left;clear:right;border-top:1px solid #ccc;width:78%;padding-bottom:10px;padding-top:10px; margin:0px}
     .info-block dd form, .info-block dd fieldset {margin:0;padding:0;}
 
 /************ styles for forms ************/
@@ -63,6 +63,7 @@
 .list { background: url(../images/list.png) no-repeat 0 0;}
 .edit { background: url(../images/edit.png) no-repeat 0 0;}
 .show { background: url(../images/show.png) no-repeat 0 0;}
+.export { background: url(../images/right.png) no-repeat 0 0;}
 
 .notice
 {

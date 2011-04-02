@@ -7,7 +7,7 @@
 <?php foreach ($this->get('list_display') as $name => $field): ?>
 <?php echo $this->startCredentialCondition($field->getConfig()) ?>
   <td class="<?php echo $name ?>">
-    [?php echo <?php echo $this->renderField($field) ?> ?]
+    <?php echo $this->renderField($field) ?>
   </td>
 <?php echo $this->endCredentialCondition($field->getConfig()) ?>
 

@@ -157,10 +157,10 @@ Set your application to use the _sfDoctrineGuardPlugin_ login form in your setti
         login_module: sfGuardAuth
         login_action:   login
 
-Copy over the layout.php.sample file in _data/generator/sfDoctrineModule/hadori/template_ as your base application template.
+Copy over the layout.php.sample file in _data/sample_ as your base application template.
 
     # cd /path/to/project
-    cp plugins/sfHadoriThemePlugin/data/generator/sfDoctrineModule/hadori/template/layout.php.sample apps/MYAPP/templates/
+    cp plugins/sfHadoriThemePlugin/data/sample/layout.php.sample apps/MYAPP/templates/
 
 Set your stylesheets to the plugin's stylesheets:
 

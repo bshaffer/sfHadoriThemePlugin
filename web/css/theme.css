@@ -158,7 +158,8 @@ a:hover { text-decoration:none; }
 #information td, #information th { text-align:left; vertical-align:middle; }
 #information td.edit_delete { padding:3px 0; width:35px; }
 #information td.delete { padding-top:8px; }
-#information a { font-size:12px; font-weight:normal; }
+#information a { font-weight:normal; }
+#information .actions a { font-size:12px; font-weight:normal; }
 #information tbody tr:hover { background-color:#FFF6BF; }
 
 /************ styles for forms ************/

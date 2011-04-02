@@ -1,47 +1,47 @@
 <?php
 
 /**
-* 
+*
 */
 class sfHadoriThemeGenerator extends sfThemeGenerator
-{ 
+{
   public function getUrlForAction($action)
   {
     return sprintf('%s%s', $this->get('route_prefix'), in_array($action, array('list', 'index')) ? '' : '_'.$action);
   }
-  
+
   public function linkToNew($params)
   {
     $attributes = array_merge(array('title' => 'Add A New ' . $this->getClassLabel()), $params['attributes']);
     return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('new'), $attributes);
   }
-  
+
   public function linkToShow($params)
   {
     $attributes = array_merge(array('title' => 'View ' . $this->getClassLabel()), $params['attributes']);
 
     return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('show'), $attributes, true);
   }
-  
+
   public function linkToEdit($params)
   {
     $attributes = array_merge(array('title' => 'Edit ' . $this->getClassLabel()), $params['attributes']);
-    
+
     return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('edit'), $attributes, true);
   }
-  
+
   public function linkToExport($params)
   {
     $attributes = array_merge(array('title' => 'Export ' . $this->getClassLabel() . ' Data'), $params['attributes']);
 
     return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('export'), $attributes);
   }
-  
+
   public function linkToSave($params)
   {
     return '<input class="greyButton" type="submit" value="'.$params['label'].'" />';
   }
-  
+
   public function linkToSaveAndAdd($params)
   {
     $link = <<<EOF
@@ -49,7 +49,7 @@ class sfHadoriThemeGenerator extends sfThemeGenerator
   <input class="greyButton" type="submit" value="%s" name="_save_and_add" />
 [?php endif ?]
 EOF;
-    
+
     return sprintf($link, $this->getSingularName(), $params['label']);
   }
 
@@ -57,20 +57,20 @@ EOF;
   {
     $attributes = array_merge(
       array(
-        'method' => 'delete', 
-        'confirm' => !empty($params['confirm']) ? $params['confirm'] : $params['confirm'], 
+        'method' => 'delete',
+        'confirm' => !empty($params['confirm']) ? $params['confirm'] : $params['confirm'],
         'title' => 'Delete ' . $this->getClassLabel()
         ), $params['attributes']);
-    
+
     $link = <<<EOF
 [?php if(!$%s->isNew()): ?]
   %s
 [?php endif ?]
 EOF;
-    
+
     return sprintf($link, $this->getSingularName(), $this->renderLinkToBlock($params['label'], $this->getUrlForAction('delete'), $attributes, true));
   }
-  
+
   public function linkToList($params)
   {
     $attributes = array_merge(array('title' => 'Back to ' . $this->getClassLabel() . ' List'), $params['attributes']);
@@ -84,28 +84,59 @@ EOF;
 
     return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('list'), $attributes);
   }
-  
+
+  public function linkToObjectList($class, $html, $params)
+  {
+    $varname  = '$'.sfInflector::tableize($class);
+    $linkHtml = $this->linkToObject($class, $varname, $params);
+
+    $html = <<<EOF
+    <ul>
+      <?php foreach($html as $varname): ?>
+        <li><?php echo $linkHtml ?></li>
+      <?php endforeach ?>
+    </ul>
+EOF;
+
+    return $html;
+  }
+
+  public function linkToObject($class, $html, $params)
+  {
+    $showRoute = sfInflector::tableize($class) . '_show';
+    $routes    = sfContext::getInstance()->getRouting()->getRoutes();
+
+    if (isset($routes[$showRoute]) && $routes[$showRoute] instanceof sfDoctrineRoute) {
+      $options = $routes[$showRoute]->getOptions();
+      if ($options['model'] == $class) {
+        $html = sprintf("link_to(%s, '%s', %s)", $html, $showRoute, $html);
+      }
+    }
+
+    return $html;
+  }
+
   public function getClassLabel()
   {
     return $this->get('class_label', $this->getModelClass());
   }
-    
+
   public function getField($name, $config)
   {
     return new sfModelGeneratorConfigurationField($name, $config);
   }
-  
-  public function renderField($name, $config = null)
+
+  public function renderField($name, $config = null, $inBlock = true)
   {
-    if ($name instanceof sfModelGeneratorConfigurationField) 
+    if ($name instanceof sfModelGeneratorConfigurationField)
     {
       $field = $name;
     }
-    else 
+    else
     {
       $field = $this->getField($name, $config);
     }
-    
+
     $html = $this->getColumnGetter($field->getName(), true);
 
     if ($renderer = $field->getRenderer())
@@ -114,11 +145,11 @@ EOF;
     }
     else if ($field->isComponent())
     {
-      return sprintf("get_component('%s', '%s', array('type' => 'list', '%s' => \$%s))", $this->getModuleName(), $field->getName(), $this->getSingularName(), $this->getSingularName());
+      $html = sprintf("get_component('%s', '%s', array('type' => 'list', '%s' => \$%s))", $this->getModuleName(), $field->getName(), $this->getSingularName(), $this->getSingularName());
     }
     else if ($field->isPartial())
     {
-      return sprintf("get_partial('%s/%s', array('type' => 'list', '%s' => \$%s))", $this->getModuleName(), $field->getName(), $this->getSingularName(), $this->getSingularName());
+      $html = sprintf("get_partial('%s/%s', array('type' => 'list', '%s' => \$%s))", $this->getModuleName(), $field->getName(), $this->getSingularName(), $this->getSingularName());
     }
     else if ('Date' == $field->getType())
     {
@@ -129,24 +160,43 @@ EOF;
       $ternary = $html." ? 'true' : 'false'";
       $html = sprintf("content_tag('div', %s, array('class' => (%s)))", $ternary, $ternary);
     }
+    else
+    {
+      $table = Doctrine_Core::getTable($this->get('model_class'));
+      if ($table->hasRelation($field->getName())) {
+        $relation = Doctrine_Core::getTable($this->get('model_class'))->getRelation($field->getName());
+        if ($relation->getType() == Doctrine_Relation::MANY) {
+          // This is a foreign alias.  Link To list
+          $html = $this->linkToObjectList($relation['class'], $html, $field->getConfig());
+          $inBlock  = false;
+        }
+        else {
+          $html = $this->linkToObject($relation['class'], $html, $field->getConfig());
+        }
+      }
+    }
 
     if ($field->isLink())
     {
       $html = sprintf("link_to(%s, '%s', \$%s)", $html, $this->getUrlForAction('edit'), $this->getSingularName());
     }
+    
+    if ($inBlock) {
+      $html = sprintf("<?php echo %s ?>", $html);
+    }
 
     return $html;
   }
-  
+
   public function getFormFieldAttributes(sfForm $form, $name)
   {
     $attributes = array();
-    
-    if (isset($form[$name])) 
+
+    if (isset($form[$name]))
     {
       $widget = $form->getWidget($name);
-      
-      switch (true) 
+
+      switch (true)
       {
         case $widget instanceof sfWidgetFormInputCheckbox:
           $attributes['class'] = 'checkbox';
@@ -155,42 +205,38 @@ EOF;
         case $widget  instanceof sfWidgetFormChoice:
           $attributes['class'] = 'selectfield';
           break;
-        // 
-        // default:
-        //   $attributes['class'] = sfInflector::underscore(str_replace('sfWidgetForm', '', get_class($widget)));
-        //   break;
       }
     }
-    
+
     return $attributes ? $this->asPhp($attributes) : '';
   }
-  
+
   public function getFormFieldContainerClass(sfForm $form, $name)
   {
     $class = array('form-element');
-   
+
     $attributes = array();
-    
-    if (isset($form[$name])) 
+
+    if (isset($form[$name]))
     {
       $widget = $form->getWidget($name);
       $validator = $form->getValidator($name);
-      
-      switch (true) 
+
+      switch (true)
       {
         case $validator->getOption('required') === true:
           $class[] = 'required';
           break;
-        
+
         default:
           $class[] = sfInflector::underscore(str_replace('sfWidgetForm', '', get_class($widget)));
           break;
       }
     }
-    
+
     return implode(' ', $class);
   }
-  
+
   /**
    * Override this to rename base files
    */
@@ -220,12 +266,12 @@ EOF;
 
     // generate files
     $finder = sfFinder::type('file')->relative();
-    
-    if (!$this->configuration->hasExporting()) 
+
+    if (!$this->configuration->hasExporting())
     {
       $finder->discard('*export*');
     }
-    
+
     $this->generatePhpFiles($this->generatedModuleName, $finder->in($themeDir));
 
     // move helper file
@@ -236,7 +282,7 @@ EOF;
 
     return "require_once(sfConfig::get('sf_module_cache_dir').'/".$this->generatedModuleName."/actions/actions.class.php');";
   }
-  
+
   /**
    * Loads the configuration for this generated module.
    */
@@ -283,24 +329,24 @@ EOF;
     $generatorConfiguration->validateConfig($this->config);
 
     $this->configToOptions($generatorConfiguration->getConfiguration());
-    
+
     return $generatorConfiguration;
   }
 
   protected function renderLinkToBlock($label, $url, $attributes = array(), $forObject = false)
   {
-    if ($forObject) 
+    if ($forObject)
     {
-      return sprintf('[?php echo link_to(%s, %s, $%s, %s) ?]', 
-        $this->asPhp($label), 
-        $this->asPhp($url), 
-        $this->getSingularName(), 
+      return sprintf('[?php echo link_to(%s, %s, $%s, %s) ?]',
+        $this->asPhp($label),
+        $this->asPhp($url),
+        $this->getSingularName(),
         $this->asPhp($attributes));
     }
 
-    return sprintf('[?php echo link_to(%s, %s, %s) ?]', 
-      $this->asPhp($label), 
-      $this->asPhp('@'.$url), 
-      $this->asPhp($attributes));    
-  } 
+    return sprintf('[?php echo link_to(%s, %s, %s) ?]',
+      $this->asPhp($label),
+      $this->asPhp('@'.$url),
+      $this->asPhp($attributes));
+  }
 }
