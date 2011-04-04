@@ -70,18 +70,6 @@ class <?php echo $this->getModuleName() ?>GeneratorConfiguration extends sfHador
 <?php unset($this->config['export']['filename']) ?>
   }
   
-  
-  /**
-   * Gets the filter form class name
-   *
-   * @return string The filter form class name associated with this generator
-   */
-  public function getLegendItems()
-  {
-    return <?php echo $this->asPhp(isset($this->config['list']['legend']) && !in_array($this->config['list']['legend'], array(null, true, false), true) ? $this->config['list']['legend'] : array()) ?>;
-<?php unset($this->config['list']['legend']) ?>
-  }
-  
   public function getCredentialPrefix()
   {
     return <?php echo $this->asPhp(isset($this->params['credential_prefix'] ) ? $this->params['credential_prefix'] : null) ?>;

@@ -49,6 +49,19 @@ class sfTestFunctionalHadori extends sfTestFunctionalTheme
     return $this;
   }
   
+  public function clearSecurityValues($module)
+  {
+    $this->info('clearing security.yml config values');
+      
+    $path = sfConfig::get('sf_app_module_dir') . '/' . $module . '/config/security.yml';
+        
+    file_put_contents($path, '');
+    
+    sfToolkit::clearDirectory(sfConfig::get('sf_cache_dir'));
+    
+    return $this;
+  }
+  
   public function setRoutingValue(array $values)
   {
     $this->info('setting routing.yml config values');

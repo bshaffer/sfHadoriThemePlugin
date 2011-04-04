@@ -1,0 +1,63 @@
+generator:
+  class: sfHadoriThemeGenerator
+  param:
+    model_class:           ~
+    theme:                 hadori
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          ~
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+    use_security_yaml_credentials: true
+
+    config:
+      list:
+        title:            %%model_class%% List
+        display:          ~
+        actions:
+          _new:           ~
+          # export action is added dynamically by default if exports are enabled
+        object_actions:
+          _show:          ~
+          _edit:          ~
+          _delete:        ~
+        batch_actions:
+          _delete:        ~
+
+      edit:
+        title:            'Edit [?php echo $%%singular_name%% ?]'
+        actions:
+          _cancel:        ~
+          _delete:        ~
+          _save:          ~
+          _save_and_add:  ~
+      new:
+        title:            New %%class_label%%
+        actions:
+          _cancel:        ~
+          _delete:        ~
+          _save:          ~
+          _save_and_add:  ~
+
+      show:
+        title:            '[?php echo $%%singular_name%% ?]'
+        display:          ~
+        actions:
+          _edit:          ~
+
+      export:
+        title:            Export %%class_label%%
+        actions:
+          _cancel:        ~
+
+      filter:
+        fields:           []
+
+      form:
+        fields:           []
+
+      actions:            ~
+
+      fields:             ~

@@ -7,19 +7,16 @@
   public function getListLayout()
   {
     return '<?php echo isset($this->config['list']['layout']) ? $this->config['list']['layout'] : 'tabular' ?>';
-<?php unset($this->config['list']['layout']) ?>
   }
 
   public function getListTitle()
   {
-    return '<?php echo $this->escapeString(isset($this->config['list']['title']) ? $this->config['list']['title'] : sfInflector::humanize($this->getModuleName()).' List') ?>';
-<?php unset($this->config['list']['title']) ?>
+    return <?php echo isset($this->config['list']['title']) ? $this->asPhp($this->config['list']['title']) : 'null' ?>;
   }
 
   public function getEditTitle()
   {
-    return '<?php echo $this->escapeString(isset($this->config['edit']['title']) ? $this->config['edit']['title'] : 'Edit '.sfInflector::humanize($this->getModuleName())) ?>';
-<?php unset($this->config['edit']['title']) ?>
+    return <?php echo isset($this->config['edit']['title']) ? $this->asPhp($this->config['edit']['title']) : 'null' ?>;
   }
 
   public function getNewTitle()

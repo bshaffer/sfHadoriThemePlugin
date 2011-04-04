@@ -34,7 +34,7 @@ class sfHadoriThemeConfiguration extends sfThemeConfiguration
     model_class:           %s
     theme:                 %s
     non_verbose_templates: true
-    with_show:             false
+    with_show:             true
     singular:              ~
     plural:                ~
     route_prefix:          %s
@@ -60,7 +60,7 @@ EOF
     prefix_path:          /%s
     column:               %s
     with_wildcard_routes: true
-    with_export:          false
+    with_export:          true
 EOF
       ,
       $this->options['model'], 

@@ -16,24 +16,33 @@ class sfHadoriThemeGenerator extends sfThemeGenerator
 
   public function renderWildcardString($string)
   {
+    $renderTextAsBlock = false;
     preg_match_all('/%%([^%]+)%%/', $string, $matches, PREG_PATTERN_ORDER);
 
     if (count($matches[1])) {
-      $string = $this->escapeString($string);
+      $tr = array();
+      $renderTextAsBlock = false;
 
-      foreach ($matches[1] as $name)
+      foreach ($matches[1] as $i => $name)
       {
-        $getter  = $this->getColumnGetter($name, true);
-        $string  = str_replace("%%$name%%", sprintf("'.%s.'", $getter), $string);
+        if ($value = $this->get($name)) {
+          $tr[$matches[0][$i]] = $value;
+        }
+        else {
+          if (!$renderTextAsBlock) {
+            $renderTextAsBlock = true;
+            $string = $this->escapeString($string);
+          }
+
+          $getter  = $this->getColumnGetter($name, true);
+          $tr[$matches[0][$i]]  = sprintf("'.%s.'", $getter);
+        }
       }
-
-      $string = $this->renderTextAsBlock($string);
+      
+      $string = strtr($string, $tr);
     }
-    else {
-      $string = $this->renderText($string);
-    }
-
-    return $string;
+    
+    return $renderTextAsBlock ? $this->renderTextAsBlock($string) : $this->renderText($string);
   }
 
   public function getUrlForAction($action)
@@ -110,16 +119,15 @@ EOF;
 
   public function linkToObjectList($class, $html, $params)
   {
-    $varname  = '$'.sfInflector::tableize($class);
-    $linkHtml = $this->linkToObject($class, $varname, $params);
+    $listRoute = sfInflector::tableize($class);
+    $routes    = sfContext::getInstance()->getRouting()->getRoutes();
 
-    $html = <<<EOF
-    <ul>
-      <?php foreach($html as $varname): ?>
-        <li><?php echo $linkHtml ?></li>
-      <?php endforeach ?>
-    </ul>
-EOF;
+    if (isset($routes[$listRoute]) && $routes[$listRoute] instanceof sfDoctrineRoute) {
+      $options = $routes[$listRoute]->getOptions();
+      if ($options['model'] == $class) {
+        $html = sprintf("link_to(%s, '%s', %s)", $html, $listRoute, $html);
+      }
+    }
 
     return $html;
   }
@@ -185,13 +193,13 @@ EOF;
     }
     else
     {
+      // Render Object Link (if possible)
       $table = Doctrine_Core::getTable($this->get('model_class'));
       if ($table->hasRelation($field->getName())) {
-        $relation = Doctrine_Core::getTable($this->get('model_class'))->getRelation($field->getName());
+        $relation = $table->getRelation($field->getName());
         if ($relation->getType() == Doctrine_Relation::MANY) {
           // This is a foreign alias.  Link To list
           $html = $this->linkToObjectList($relation['class'], $html, $field->getConfig());
-          $inBlock  = false;
         }
         else {
           $html = $this->linkToObject($relation['class'], $html, $field->getConfig());
@@ -304,56 +312,6 @@ EOF;
     }
 
     return "require_once(sfConfig::get('sf_module_cache_dir').'/".$this->generatedModuleName."/actions/actions.class.php');";
-  }
-
-  /**
-   * Loads the configuration for this generated module.
-   */
-  protected function loadConfiguration()
-  {
-    $this->configToOptions($this->config);
-    $this->configToOptions($this->params);
-
-    try
-    {
-      $this->generatorManager->getConfiguration()->getGeneratorTemplate($this->getGeneratorClass(), $this->getTheme(), '../parts/configuration.php');
-    }
-    catch (sfException $e)
-    {
-      return null;
-    }
-
-    $config = $this->getGeneratorManager()->getConfiguration();
-    if (!$config instanceof sfApplicationConfiguration)
-    {
-      throw new LogicException('The sfModelGenerator can only operates with an application configuration.');
-    }
-
-    $basePath = $this->getGeneratedModuleName().'/lib/'.$this->getModuleName().'GeneratorConfiguration.class.php';
-    $this->getGeneratorManager()->save($basePath, $this->evalTemplate('../parts/configuration.php'));
-
-    require_once $this->getGeneratorManager()->getBasePath().'/'.$basePath;
-
-    $class = 'Base'.ucfirst($this->getModuleName()).'GeneratorConfiguration';
-
-    foreach ($config->getLibDirs($this->getModuleName()) as $dir)
-    {
-      if (!is_file($configuration = $dir.'/'.$this->getModuleName().'GeneratorConfiguration.class.php'))
-      {
-        continue;
-      }
-
-      require_once $configuration;
-      $class = $this->getModuleName().'GeneratorConfiguration';
-      break;
-    }
-
-    $generatorConfiguration = new $class();
-    $generatorConfiguration->validateConfig($this->config);
-
-    $this->configToOptions($generatorConfiguration->getConfiguration());
-
-    return $generatorConfiguration;
   }
 
   protected function renderLinkToBlock($label, $url, $attributes = array(), $forObject = false)

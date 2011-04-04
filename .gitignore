@@ -1,3 +1,5 @@
 test/fixtures/project/cache/*
 test/fixtures/project/log/*
 test/fixtures/project/data/test.sqlite
+test/fixtures/project/apps/frontend/templates/_flashes.php
+test/fixtures/project/apps/frontend/modules/*

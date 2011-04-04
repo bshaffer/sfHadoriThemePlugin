@@ -6,38 +6,32 @@
 
   public function getFormActions()
   {
-    return <?php echo $this->asPhp(isset($this->config['form']['actions']) ? $this->config['form']['actions'] : array('_cancel' => null, '_delete' => null, '_save' => null, '_save_and_add' => null)) ?>;
-<?php unset($this->config['form']['actions']) ?>
+    return <?php echo $this->asPhp(isset($this->config['form']['actions']) ? $this->config['form']['actions'] : array()) ?>;
   }
 
   public function getNewActions()
   {
     return <?php echo $this->asPhp(isset($this->config['new']['actions']) ? $this->config['new']['actions'] : array()) ?>;
-<?php unset($this->config['new']['actions']) ?>
   }
 
   public function getEditActions()
   {
     return <?php echo $this->asPhp(isset($this->config['edit']['actions']) ? $this->config['edit']['actions'] : array()) ?>;
-<?php unset($this->config['edit']['actions']) ?>
   }
 
   public function getExportActions()
   {
-    return <?php echo $this->asPhp(isset($this->config['export']['actions']) ? $this->config['export']['actions'] : array('_cancel' => null)) ?>;
-<?php unset($this->config['export']['actions']) ?>
+    return <?php echo $this->asPhp(isset($this->config['export']['actions']) ? $this->config['export']['actions'] : array()) ?>;
   }
   
   public function getShowActions()
   {
-    return <?php echo $this->asPhp(isset($this->config['show']['actions']) ? $this->config['show']['actions'] : array('_edit' => null)) ?>;
-<?php unset($this->config['show']['actions']) ?>
+    return <?php echo $this->asPhp(isset($this->config['show']['actions']) ? $this->config['show']['actions'] : array()) ?>;
   }
 
   public function getListObjectActions()
   {
-    return <?php echo $this->asPhp(isset($this->config['list']['object_actions']) ? $this->config['list']['object_actions'] : array('_show' => null, '_edit' => null, '_delete' => null)) ?>;
-<?php unset($this->config['list']['object_actions']) ?>
+    return <?php echo $this->asPhp(isset($this->config['list']['object_actions']) ? $this->config['list']['object_actions'] : array()) ?>;
   }
 
   public function getListActions()
@@ -45,13 +39,11 @@
     return <?php echo $this->asPhp(isset($this->config['list']['actions']) ? $this->config['list']['actions'] : 
                                         (isset($this->config['export']) && $this->config['export'] ? 
                                         array('_new' => null, 'export' => array('action' => 'export')) : array('_new' => null))) ?>;
-<?php unset($this->config['list']['actions']) ?>
   }
 
   public function getListBatchActions()
   {
     return <?php echo $this->asPhp(isset($this->config['list']['batch_actions']) ? $this->config['list']['batch_actions'] : array('_delete' => null)) ?>;
-<?php unset($this->config['list']['batch_actions']) ?>
   }
 
   public function hasExporting()
