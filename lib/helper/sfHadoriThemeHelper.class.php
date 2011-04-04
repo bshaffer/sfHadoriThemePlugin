@@ -3,7 +3,7 @@
 /**
 * 
 */
-abstract class sfHadoriThemeGeneratorHelper extends sfModelGeneratorHelper
+class sfHadoriThemeHelper
 {
   protected 
     $_filters         = array(),
@@ -50,16 +50,24 @@ abstract class sfHadoriThemeGeneratorHelper extends sfModelGeneratorHelper
     return isset($this->_sort[0]) ? $this->_sort[0] : null;
   }
   
-  public function getSortDirection()
+  public function getSortDirection($name = null)
   {
+    if ($name && !$this->isActiveSort($name)) {
+      // The field is not being sorted - no sort direction
+      return null;
+    }
+    
     return isset($this->_sort[1]) ? $this->_sort[1] : null;
   }
   
-  public function toggleSortDirection($sortDirection = null)
+  public function toggleSortDirection($name = null)
   {
-    $sortDirection = $sortDirection ? $sortDirection : $this->getSortDirection();
+    if ($name && !$this->isActiveSort($name)) {
+      // The field is not being sorted - return default sort direction
+      return 'asc';
+    }
     
-    return $sortDirection == 'asc' ? 'desc' : 'asc';
+    return $this->getSortDirection() == 'asc' ? 'desc' : 'asc';
   }
 
   public function setFilters($filters)

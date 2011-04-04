@@ -1,7 +1,6 @@
 [?php
 
 require_once(dirname(__FILE__).'/../lib/<?php echo $this->moduleName ?>GeneratorConfiguration.class.php');
-require_once(dirname(__FILE__).'/../lib/<?php echo $this->moduleName ?>GeneratorHelper.class.php');
 
 /**
  * <?php echo $this->getModuleName() ?> actions.
@@ -16,7 +15,7 @@ abstract class <?php echo $this->getGeneratedModuleName() ?>Actions extends <?ph
   public function preExecute()
   {
     $this->configuration = new <?php echo $this->getModuleName() ?>GeneratorConfiguration();
-    $this->helper        = new <?php echo $this->getModuleName() ?>GeneratorHelper();
+    $this->helper        = new sfHadoriThemeHelper();
   }
 
 <?php include dirname(__FILE__).'/../../parts/indexAction.php' ?>
