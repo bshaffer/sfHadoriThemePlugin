@@ -6,6 +6,7 @@
 .true, .false { height: 20px; width:20px; background: transparent none no-repeat right center; text-indent:-9999px;}
 .true { background: url(../images/true.png) no-repeat 0 0;}
 .false { background: url(../images/false.png) no-repeat 0 0;}
+.export-preview td.checkboxes, .export-preview th.checkboxes { display: none } /* hides checkboxes for export preview */
 
 /************ styles for show *************/
 
