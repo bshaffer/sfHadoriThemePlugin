@@ -36,6 +36,10 @@ abstract class <?php echo $this->getGeneratedModuleName() ?>Actions extends <?ph
 
 <?php include dirname(__FILE__).'/../../parts/showAction.php' ?>
 
+<?php if ($this->configuration->hasSortable()): ?>
+<?php include dirname(__FILE__).'/../../parts/sortableAction.php' ?>
+<?php endif; ?>
+
 <?php if ($this->configuration->hasExporting()): ?>
 <?php include dirname(__FILE__).'/../../parts/exportAction.php' ?>
 <?php endif; ?>

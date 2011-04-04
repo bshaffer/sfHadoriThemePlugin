@@ -84,7 +84,13 @@ abstract class sfHadoriThemeGeneratorConfiguration extends sfThemeGeneratorConfi
     $configDefaults = $defaults['generator']['param']['config'];
     
     if ($this->hasExporting()) {
-      $configDefaults['list']['actions']['export'] = null;
+      $configDefaults['list']['actions']['_export'] = null;
+      $configDefaults['list']['sort'] = array('position', 'asc');
+    }
+    
+    if ($this->hasSortable()) {
+      $configDefaults['list']['object_actions']['_promote'] = null;
+      $configDefaults['list']['object_actions']['_demote'] = null;
     }
     
     $this->configuration = Doctrine_Lib::arrayDeepMerge($configDefaults, $this->array_filter_recursive(array(
@@ -287,19 +293,6 @@ abstract class sfHadoriThemeGeneratorConfiguration extends sfThemeGeneratorConfi
       $this->configuration['show']['actions'][$action] = $this->fixActionParameters($action, $parameters);
     }
 
-    // $this->configuration['show']['display'] = array();
-    // // foreach ($this->getShowDisplay() as $name)
-    // // {
-    // //   list($name, $flag) = sfModelGeneratorConfigurationField::splitFieldWithFlag($name);
-    // //   if (!isset($this->configuration['show']['fields'][$name]))
-    // //   {
-    // //     throw new InvalidArgumentException(sprintf('The field "%s" does not exist.', $name));
-    // //   }
-    // //   $field = $this->configuration['show']['fields'][$name];
-    // //   $field->setFlag($flag);
-    // //   $this->configuration['show']['display'][$name] = $field;
-    // // }
-    
     $this->parseVariables('show', 'title');
     $this->parseVariables('export', 'title');
   }
@@ -308,24 +301,30 @@ abstract class sfHadoriThemeGeneratorConfiguration extends sfThemeGeneratorConfi
   {
     $parameters = parent::fixActionParameters($action, $parameters);
 
-    if ('_export' == $action && !isset($parameters['action']))
-    {
-      $parameters['action'] = 'export';
-    }
+    if (!isset($parameters['action'])) {
+      if ('_export' == $action) {
+        $parameters['action'] = 'export';
+      }
 
-    if ('_show' == $action && !isset($parameters['action']))
-    {
-      $parameters['action'] = 'show';
-    }
+      if ('_show' == $action) {
+        $parameters['action'] = 'show';
+      }
     
-    if ('_cancel' == $action && !isset($parameters['route']))
-    {
-      $parameters['route'] = '@homepage';
-    }
+      if ('_cancel' == $action) {
+        $parameters['route'] = '@homepage';
+      }
     
-    if ('_edit' == $action && !isset($parameters['action']))
-    {
-      $parameters['action'] = 'edit';
+      if ('_edit' == $action) {
+        $parameters['action'] = 'edit';
+      }
+    
+      if ('_promote' == $action) {
+        $parameters['action'] = 'promote';
+      }
+    
+      if ('_demote' == $action) {
+        $parameters['action'] = 'demote';
+      }
     }
     
     // ===========================

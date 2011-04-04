@@ -8,21 +8,15 @@
     {
       $this->getUser()->setFlash('error', 'You must select an action to execute on the selected items.');
     }
-    else 
-    {
-      $method = 'execute'.ucfirst($action);
-      $this->$method($request);  
-    }
 
-    $this->redirect(<?php echo $this->urlFor('list') ?>);
+    $method = sprintf('execute%s', ucfirst($action));
+    $this->$method($request);  
   }
 
   protected function executeBatchDelete(sfWebRequest $request)
   {
-    $ids = $request->getParameter('ids');
-
+    $ids     = $request->getParameter('ids');
     $records = Doctrine_Core::getTable('<?php echo $this->getModelClass() ?>')->createQuery()->whereIn('id', $ids)->execute();
-
     $records->delete();
 
     $this->getUser()->setFlash('notice', 'The selected items have been deleted.');
