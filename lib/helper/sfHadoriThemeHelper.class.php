@@ -119,16 +119,4 @@ class sfHadoriThemeHelper
       }
     }
   }
-  
-  public function renderHiddenFields(sfForm $form)
-  {
-    $includes = array();
-    foreach ($form->getFormFieldSchema()->getHiddenFields() as $key => $field) 
-    {
-      $includes[] = sprintf('<input type="hidden" name="include[%s]" value="1"/>', $field->getName());
-    }
-    
-    echo $form->renderHiddenFields();
-    echo implode("\n", $includes);
-  }
 }
