@@ -4,15 +4,7 @@
   [?php else: ?]
     <table cellspacing="0">
       <thead>
-        <tr>
-<?php if ($this->get('list_batch_actions')): ?>
-          <th class="batch"><input type="checkbox" class="checkbox" /></th>
-<?php endif; ?>
-          [?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('helper' => $helper)) ?]
-<?php if ($this->get('list_object_actions')): ?>
-          <th class="actions"><?php echo $this->renderText('Actions') ?></th>
-<?php endif; ?>
-        </tr>
+        [?php include_partial('<?php echo $this->getModuleName() ?>/list_header', array('helper' => $helper)) ?]
       </thead>
       <tbody>
         [?php foreach ($pager->getResults() as $i => $<?php echo $this->getSingularName() ?>): $odd = fmod(++$i, 2) ? 'odd' : 'even' ?]
