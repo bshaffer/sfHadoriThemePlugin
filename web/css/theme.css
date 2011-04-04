@@ -70,15 +70,17 @@ a:hover { text-decoration:none; }
 
 #content { min-width:800px; overflow:hidden; padding:5px 0 25px 0; }
 
-#admin-nav {
+#admin-nav ul {
   float:left;
-  width:20%;
+  width:150px;
+  padding:0;
+  margin-left:10px;
+  list-style:none;
 }
-#admin-nav ul { list-style:none; }
 #admin-nav ul li {
   font-size:18px;
   margin:0;
-  padding:0 0 0 25px;
+  padding:0 0 0 10px;
 }
 #admin-nav ul li a { color:#333; display:block; padding:3px 0; text-decoration:none; }
 #admin-nav ul li a:hover { text-decoration:underline; }
@@ -90,7 +92,7 @@ a:hover { text-decoration:none; }
 #main {
   background-color:#fff;
   float:left;
-  width:78%;
+  width:83%;
   -webkit-border-top-left-radius: 10px;
   -moz-border-radius-topleft: 10px;
   border-top-left-radius: 10px;

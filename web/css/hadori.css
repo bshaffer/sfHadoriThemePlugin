@@ -58,13 +58,15 @@
 
 /************ styles for actions ************/
 
-.actions a { padding-left: 20px;}
-.new { background: url(../images/new.png) no-repeat 0 0; }
-.delete { background: url(../images/delete.png) no-repeat 0 0; }
-.list { background: url(../images/list.png) no-repeat 0 0;}
-.edit { background: url(../images/edit.png) no-repeat 0 0;}
-.show { background: url(../images/show.png) no-repeat 0 0;}
-.export { background: url(../images/right.png) no-repeat 0 0;}
+.actions a { padding-left: 20px; background: transparent none no-repeat 0 0;}
+a.new { background-image: url(../images/new.png); }
+a.delete { background-image: url(../images/delete.png); }
+a.list { background-image: url(../images/list.png);}
+a.edit { background-image: url(../images/edit.png);}
+a.show { background-image: url(../images/show.png);}
+a.export { background-image: url(../images/right.png);}
+a.promote { background-image: url(../images/promote.png);}
+a.demote { background-image: url(../images/demote.png);}
 
 .notice
 {

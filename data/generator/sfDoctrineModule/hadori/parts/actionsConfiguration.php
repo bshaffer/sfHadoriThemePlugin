@@ -49,5 +49,9 @@
   public function hasExporting()
   {
     return <?php echo $this->asPhp(array_key_exists('export', $this->config) && $this->config['export'] !== false) ?>;
-<?php if(isset($this->config['export']) && !is_array($this->config['export'])) unset($this->config['export']) ?>
+  }
+
+  public function hasSortable()
+  {
+    return <?php echo $this->asPhp($this->get('sortable')) ?>;
   }
