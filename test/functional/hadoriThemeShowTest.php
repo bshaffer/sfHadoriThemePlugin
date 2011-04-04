@@ -12,13 +12,13 @@ $browser = new sfTestFunctionalTheme(new sfBrowser());
 
 $browser->info('1. - Test generated module show action')
   ->runTask('sfThemeGenerateTask', array('theme' => 'hadori'), array('application' => 'frontend', 'model' => 'Company', 'module' => 'company'))
-  
+
   ->get('/company')
     ->isModuleAction('company', 'index')
-    
+
   ->click(sprintf('#company_%s .actions .show', $company['id']))
     ->isModuleAction('company', 'show')
-    
+
   ->with('response')->begin()
     ->matches(sprintf('/%s/', $company['name']))
     ->matches(sprintf('/%s/', $company['created_at']))
