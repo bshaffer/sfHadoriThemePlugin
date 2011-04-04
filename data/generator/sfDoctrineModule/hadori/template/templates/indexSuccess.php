@@ -4,7 +4,7 @@
   [?php include_partial('global/flashes') ?]  
 <?php endif ?>
     
-  <h2><?php echo $this->renderText($this->get('list_title')) ?></h2>
+  <h2><?php echo $this->renderWildcardString($this->get('list_title')) ?></h2>
 
 <?php if ($this->configuration->hasFilterForm()): ?>
   <div class="filters form-container[?php echo $helper->isActiveFilter() ? ' active':'' ?]">
@@ -33,6 +33,7 @@
       <?php echo $this->linkTo($name, $params) ?>
         
 <?php endforeach; ?>
+
     </div>
 <?php if ($this->get('list_batch_actions')): ?>
     </form>

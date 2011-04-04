@@ -4,7 +4,7 @@
   [?php include_partial('global/flashes') ?]  
 <?php endif ?>
   
-  <h1><?php echo $this->renderText($this->get('export_title')) ?></h1>
+  <h1><?php echo $this->renderWildcardString($this->get('export_title')) ?></h1>
 
   <div>
     [?php include_partial('<?php echo $this->getModuleName() ?>/export_form', array('helper' => $helper)) ?]
@@ -12,8 +12,8 @@
   
   <div class='help'>The table below represents the data that will be exported.  Use the filters to refine your export</div>
 
-  <div>
-    [?php include_partial('<?php echo $this->getModuleName() ?>/list', array('pager' => $pager, 'helper' => $helper, 'checkboxes' => false)) ?]
+  <div class="export-preview">
+    [?php include_partial('<?php echo $this->getModuleName() ?>/list', array('pager' => $pager, 'helper' => $helper)) ?]
     <ul class="actions">
 <?php foreach ($this->configuration->getValue('export.actions') as $name => $params): ?>
       <?php echo $this->linkTo($name, $params) ?>
