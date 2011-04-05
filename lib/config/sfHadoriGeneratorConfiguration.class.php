@@ -67,11 +67,6 @@ abstract class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfigurat
     return $fields;
   }
 
-  public function getFormClass()
-  {
-    throw new sfException('Deprecated');
-  }
-
   protected function compile()
   {
     // inheritance rules:

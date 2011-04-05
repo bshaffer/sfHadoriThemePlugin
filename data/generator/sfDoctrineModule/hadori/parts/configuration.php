@@ -27,7 +27,6 @@ class <?php echo $this->getModuleName() ?>GeneratorConfiguration extends sfHador
   public function getFilterFormClass()
   {
     return '<?php echo isset($this->config['filter']['class']) && !in_array($this->config['filter']['class'], array(null, true, false), true) ? $this->config['filter']['class'] : $this->getModelClass().'FormFilter' ?>';
-<?php unset($this->config['filter']['class']) ?>
   }
 
   public function hasExportFilterForm()
@@ -44,7 +43,6 @@ class <?php echo $this->getModuleName() ?>GeneratorConfiguration extends sfHador
   public function getExportFilterFormClass()
   {
     return '<?php echo isset($this->config['export']['filter']['class']) && !in_array($this->config['export']['filter']['class'], array(null, true, false), true) ? $this->config['export']['filter']['class'] : $this->getModelClass().'FormFilter' ?>';
-<?php unset($this->config['export']['filter']['class']) ?>
   }
 
   public function getTableMethod()

@@ -282,50 +282,33 @@ EOF;
     return implode(' ', $class);
   }
 
-  /**
-   * Override this to rename base files
-   */
-  public function generate($params = array())
+  protected function renderLinkToBlock($label, $url, $attributes = array(), $forObject = false)
   {
-    $this->validateParameters($params);
-
-    $this->modelClass = $this->params['model_class'];
-
-    // generated module name
-    $this->setModuleName($this->params['moduleName']);
-    $this->setGeneratedModuleName('auto'.ucfirst($this->params['moduleName']));
-
-    // theme exists?
-    $theme = isset($this->params['theme']) ? $this->params['theme'] : 'default';
-    $this->setTheme($theme);
-    $themeDir = $this->generatorManager->getConfiguration()->getGeneratorTemplate($this->getGeneratorClass(), $theme, '');
-    if (!is_dir($themeDir))
+    if ($forObject)
     {
-      throw new sfConfigurationException(sprintf('The theme "%s" does not exist.', $theme));
+      return sprintf('[?php echo link_to(%s, %s, $%s, %s) ?]',
+        $this->asPhp($label),
+        $this->asPhp($url),
+        $this->getSingularName(),
+        $this->asPhp($attributes));
     }
 
-    // configure the model
-    $this->configure();
+    return sprintf('[?php echo link_to(%s, %s, %s) ?]',
+      $this->asPhp($label),
+      $this->asPhp('@'.$url),
+      $this->asPhp($attributes));
+  }
 
-    $this->configuration = $this->loadConfiguration();
-
-    // generate files
+  protected function getPhpFilesToGenerate($themeDir)
+  {
     $finder = sfFinder::type('file')->relative();
-
+    
     if (!$this->configuration->hasExporting())
     {
       $finder->discard('*export*');
     }
-
-    $this->generatePhpFiles($this->generatedModuleName, $finder->in($themeDir));
-
-    // move helper file
-    if (file_exists($file = $this->generatorManager->getBasePath().'/'.$this->getGeneratedModuleName().'/lib/helper.php'))
-    {
-      @rename($file, $this->generatorManager->getBasePath().'/'.$this->getGeneratedModuleName().'/lib/'.$this->moduleName.'GeneratorHelper.class.php');
-    }
-
-    return "require_once(sfConfig::get('sf_module_cache_dir').'/".$this->generatedModuleName."/actions/actions.class.php');";
+    
+    return $finder->in($themeDir);
   }
   
   public function getDefaultFieldsConfiguration()
@@ -383,22 +366,5 @@ EOF;
     unset($this->config['fields']);
 
     return $fields;
-  }
-
-  protected function renderLinkToBlock($label, $url, $attributes = array(), $forObject = false)
-  {
-    if ($forObject)
-    {
-      return sprintf('[?php echo link_to(%s, %s, $%s, %s) ?]',
-        $this->asPhp($label),
-        $this->asPhp($url),
-        $this->getSingularName(),
-        $this->asPhp($attributes));
-    }
-
-    return sprintf('[?php echo link_to(%s, %s, %s) ?]',
-      $this->asPhp($label),
-      $this->asPhp('@'.$url),
-      $this->asPhp($attributes));
   }
 }
