@@ -19,7 +19,7 @@ generator:
         display:          true
         actions:
           _new:           ~
-          # export action is added dynamically by default if exports are enabled
+          _export:        ~
         object_actions:
           _show:          ~
           _edit:          ~
@@ -49,6 +49,7 @@ generator:
 
       export:
         title:            Export %%class_label%%
+        display:          true
         actions:
           _cancel:        ~
 

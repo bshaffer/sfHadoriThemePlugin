@@ -8,7 +8,7 @@
 
 <?php if ($this->configuration->hasFilterForm()): ?>
   <div class="filters form-container[?php echo $helper->isActiveFilter() ? ' active':'' ?]">
-    [?php include_partial('<?php echo $this->getModuleName() ?>/filters', array('form' => $filters, 'helper' => $helper, 'configuration' => $configuration)) ?]
+    [?php include_partial('<?php echo $this->getModuleName() ?>/filters', array('form' => $filters, 'helper' => $helper)) ?]
   </div>
 <?php endif; ?>
 

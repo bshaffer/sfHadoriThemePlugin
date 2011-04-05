@@ -165,11 +165,6 @@ EOF;
     return $html;
   }
 
-  public function getClassLabel()
-  {
-    return $this->get('class_label', $this->getModelClass());
-  }
-
   public function getField($name, $config)
   {
     return new sfHadoriField($name, $config['Type'], $config);
@@ -311,60 +306,8 @@ EOF;
     return $finder->in($themeDir);
   }
   
-  public function getDefaultFieldsConfiguration()
+  protected function getConfigurationClass()
   {
-    $fields = array();
-
-    $names = array();
-    foreach ($this->getColumns() as $name => $column)
-    {
-      $names[] = $name;
-      $fields[$name] = array_merge(array(
-        'is_link'      => (Boolean) $column->isPrimaryKey(),
-        'is_real'      => true,
-        'is_partial'   => false,
-        'is_component' => false,
-        'type'         => $this->getType($column),
-        'label'        => sfInflector::humanize(sfInflector::underscore($name)),
-      ), isset($this->config['fields'][$name]) ? $this->config['fields'][$name] : array());
-    }
-
-    foreach ($this->getManyToManyTables() as $tables)
-    {
-      $name = sfInflector::underscore($tables['alias']).'_list';
-      $names[] = $name;
-      $fields[$name] = array_merge(array(
-        'is_link'      => false,
-        'is_real'      => false,
-        'is_partial'   => false,
-        'is_component' => false,
-        'type'         => 'Text',
-        'label'        => sfInflector::humanize(sfInflector::underscore($name)),
-      ), isset($this->config['fields'][$name]) ? $this->config['fields'][$name] : array());
-    }
-
-    if (isset($this->config['fields']))
-    {
-      foreach ($this->config['fields'] as $name => $params)
-      {
-        if (in_array($name, $names))
-        {
-          continue;
-        }
-
-        $fields[$name] = array_merge(array(
-          'is_link'      => false,
-          'is_real'      => false,
-          'is_partial'   => false,
-          'is_component' => false,
-          'type'         => 'Text',
-          'label'        => sfInflector::humanize(sfInflector::underscore($name)),
-        ), is_array($params) ? $params : array());
-      }
-    }
-
-    unset($this->config['fields']);
-
-    return $fields;
+    return 'sfHadoriGeneratorConfiguration';
   }
 }

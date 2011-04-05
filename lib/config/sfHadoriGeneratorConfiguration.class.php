@@ -1,9 +1,9 @@
 <?php
 
-
-abstract class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
+class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 {
   protected
+    $doctrineDefaults = array(),
     $availableConfigs = array(
         'actions' => array(),
         'fields'  => array(),
@@ -16,72 +16,84 @@ abstract class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfigurat
         'export'  => array(),
       );
 
-  /**
-   * Gets the fields that represents the filters.
-   *
-   * If no filter.display parameter is passed in the configuration,
-   * all the fields from the form are returned (dynamically).
-   *
-   * @param sfForm $form The form with the fields
-   */
-  public function getFormFilterFields(sfForm $form)
+  protected function compile($configs)
   {
-    $formFields = array();
-    $fields     = $this->getFilterFields();
+    $this->table   = Doctrine_Core::getTable($this->getOptionValue('model_class'));
+    $configuration = Doctrine_Lib::arrayDeepMerge($this->getDefaultConfiguration(), $this->array_filter_recursive($configs));
 
-    foreach ($form->getWidgetSchema()->getPositions() as $name)
-    {
-      if (isset($fields[$name]))
-      {
-        $formFields[$name] = $fields[$name];
+    if ($configuration['list']['display'] === true) {
+      $configuration['list']['display'] = array_slice($this->getAllFieldNames(false), 0, 5);
+    }
+
+    if ($configuration['show']['display'] === true) {
+      $configuration['show']['display'] = $this->getAllFieldNames(false);
+    }
+
+    if ($configuration['export']['display'] === true) {
+      $configuration['export']['display'] = $this->getAllFieldNames(false);
+    }
+
+    // create "sfHadoriField" object from supplied options for all "display" fields
+    foreach ($configuration as $context => $config) {
+      if (isset($config['display'])) {
+        $display = array();
+        foreach ($configuration[$context]['display'] as $key => $options) {
+          $name = is_string($key) ? $key : (string) $options;
+          $display[$name] = $this->createFieldFromOptions($name, $options);
+        }
+        $configuration[$context]['display'] = $display;
       }
     }
 
-    return $formFields;
-  }
-
-  public function getFormFields(sfForm $form, $context)
-  {
-    $fields = parent::getFormFields($form, 'Form');
-
-    // Unset hidden fields
-    foreach ($fields as $fieldsetName => &$fieldset)
-    {
-      foreach ($fieldset as $name => $field)
-      {
-        if (!$field)
-        {
-          unset($fieldset[$name]);
-        }
-
-        if (isset($form[$name]))
-        {
-          if($form[$name]->isHidden())
-          {
-            unset($fieldset[$name]);
+    // Add default options for special actions (syntax: "_name")
+    foreach ($configuration as $context => $config) {
+      if (is_array($config)) {
+        foreach ($config as $actionType => $value) {
+          if (strpos($actionType, 'actions') !== false) {
+            $actions = array();
+            foreach ($configuration[$context][$actionType] as $key => $options) {
+              $name = is_string($key) ? $key : (string) $options;
+              $actions[$name] = $this->fixActionOptions($name, $options);
+            }
+            $configuration[$context][$actionType] = $actions;
           }
         }
       }
     }
 
-    return $fields;
+    $this->configuration = $configuration;
+
+    // unset export if export is disabled
+    if (!$this->hasExporting()) {
+      unset($this->configuration['list']['actions']['export']);
+    }
   }
 
-  protected function compile()
+  public function hasExporting()
   {
-    // inheritance rules:
-    // new|edit < form < default
-    // list < default
-    // filter < default
+    return isset($this->configuration['export']) && false !== $this->configuration['export'];
+  }
 
+  public function hasFilterForm()
+  {
+    return !isset($this->configuration['filter']['class']) || false !== $this->configuration['filter']['class'];
+  }
+
+  public function hasExportFilterForm()
+  {
+    return !isset($this->configuration['export']['filter']['class']) || false !== $this->configuration['export']['filter']['class'];
+  }
+
+  public function hasSortable()
+  {
+    return isset($this->options['sortable']) && $this->options['sortable'];
+  }
+
+  protected function getDefaultConfiguration()
+  {
     $defaults = sfYaml::load(dirname(__FILE__).'/config/generator.yml');
 
     $configDefaults = $defaults['generator']['param']['config'];
-
-    // Defaults when exporting is enabled
-    if ($this->hasExporting()) {
-      $configDefaults['list']['actions']['_export'] = null;
-    }
 
     // Defaults when sorting is enabled
     if ($this->hasSortable()) {
@@ -90,77 +102,7 @@ abstract class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfigurat
       $configDefaults['list']['sort'] = array('position', 'asc');
     }
 
-    $this->configuration = Doctrine_Lib::arrayDeepMerge($configDefaults, $this->array_filter_recursive(array(
-      'list'   => array(
-        'fields'         => array(),
-        'layout'         => $this->getListLayout(),
-        'title'          => $this->getListTitle(),
-        'actions'        => $this->getListActions(),
-        'object_actions' => $this->getListObjectActions(),
-        'params'         => $this->getListParams(),
-        'display'        => $this->getListDisplay(),
-      ),
-      'filter' => array(),
-      'form'   => array(),
-      'new'    => array(
-        'fields'  => array(),
-        'title'   => $this->getNewTitle(),
-        'actions' => $this->getNewActions() ? $this->getNewActions() : $this->getFormActions(),
-      ),
-      'edit'   => array(
-        'fields'  => array(),
-        'title'   => $this->getEditTitle(),
-        'actions' => $this->getEditActions() ? $this->getEditActions() : $this->getFormActions(),
-      ),
-      'show'   => array(
-        'fields'  => array(),
-        'title'   => $this->getShowTitle(),
-        'actions' => $this->getShowActions(),
-        'display' => $this->getShowDisplay(),
-      ),
-      'export'   => array(
-        'fields'  => array(),
-        'title'   => $this->getExportTitle(),
-        'actions' => $this->getExportActions(),
-        'display' => $this->getExportDisplay(),
-      ),
-    )));
-
-    if ($this->configuration['list']['display'] === true) {
-      $this->configuration['list']['display'] = array_slice($this->getAllFieldNames(false), 0, 5);
-    }
-
-    if ($this->configuration['show']['display'] === true) {
-      $this->configuration['show']['display'] = $this->getAllFieldNames(false);
-    }
-
-    // create "sfHadoriField" object from supplied options for all "display" fields
-    foreach ($this->configuration as $context => $config) {
-      if (isset($config['display'])) {
-        $display = array();
-        foreach ($this->configuration[$context]['display'] as $key => $options) {
-          $name = is_string($key) ? $key : (string) $options;
-          $display[$name] = $this->createFieldFromOptions($name, $options);
-        }
-        $this->configuration[$context]['display'] = $display;
-      }
-    }
-
-    // Add default options for special actions (syntax: "_name")
-    foreach ($this->configuration as $context => $config) {
-      if (is_array($config)) {
-        foreach ($config as $actionType => $value) {
-          if (strpos($actionType, 'actions') !== false) {
-            $actions = array();
-            foreach ($this->configuration[$context][$actionType] as $key => $options) {
-              $name = is_string($key) ? $key : (string) $options;
-              $actions[$name] = $this->fixActionOptions($name, $options);
-            }
-            $this->configuration[$context][$actionType] = $actions;
-          }
-        }
-      }
-    }
+    return $configDefaults;
   }
 
   protected function fixActionOptions($action, $options)
@@ -273,7 +215,7 @@ abstract class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfigurat
         $cleanName = substr($name, 1);
         break;
     }
-    
+
     $options = array_merge($this->getDefaultFieldConfiguration($cleanName), (array) $options);
 
     return new sfHadoriField($name, $options);
@@ -281,21 +223,115 @@ abstract class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfigurat
 
   public function getDefaultFieldConfiguration($name)
   {
-    $configuration = $this->getDefaultFieldsConfiguration();
+    if (!$this->doctrineDefaults) {
+      $this->doctrineDefaults = $this->getDoctrineFieldDefaultConfigurations();
+    }
 
-    return isset($configuration[$name]) ? $configuration[$name] : array(
+    return isset($this->doctrineDefaults[$name]) ? $this->doctrineDefaults[$name] : array(
       'label' => sfInflector::humanize(sfInflector::underscore($name)),
       'type'  => 'Text');
   }
 
-  public function getConfigValue($config, $default = null)
+  public function getDoctrineFieldDefaultConfigurations()
   {
-    if (isset($this->configuration[$config]))
+    $fields = array();
+
+    foreach ($this->getColumns() as $name => $column)
     {
-      return $this->configuration[$config];
+      if ($column->isForeignKey())
+      {
+        $type = 'ForeignKey';
+      }
+      else {
+        switch ($column->getDoctrineType())
+        {
+          case 'enum':
+            $type = 'Enum';
+          case 'boolean':
+            $type = 'Boolean';
+          case 'date':
+          case 'timestamp':
+            $type = 'Date';
+          case 'time':
+            $type = 'Time';
+          default:
+            $type = 'Text';
+        }
+      }
+
+      $fields[$name] = array_merge(array(
+        'is_link'      => (Boolean) $column->isPrimaryKey(),
+        'is_real'      => true,
+        'is_partial'   => false,
+        'is_component' => false,
+        'type'         => $type,
+        'label'        => sfInflector::humanize(sfInflector::underscore($name)),
+      ));
     }
 
-    return $default;
+    foreach ($this->getManyToManyTables() as $tables)
+    {
+      $name = sfInflector::underscore($tables['alias']).'_list';
+
+      $fields[$name] = array_merge(array(
+        'is_link'      => false,
+        'is_real'      => false,
+        'is_partial'   => false,
+        'is_component' => false,
+        'type'         => 'Text',
+        'label'        => sfInflector::humanize(sfInflector::underscore($name)),
+      ));
+    }
+
+    return $fields;
+  }
+  
+  public function getColumns()
+  {
+    $columns = array();
+
+    foreach (array_keys($this->table->getColumns()) as $name)
+    {
+      $name = $this->table->getFieldName($name);
+      $columns[$name] = new sfDoctrineColumn($name, $this->table);
+    }
+    
+    return $columns;
+  }
+  
+  public function getManyToManyTables()
+  {
+    $manyToManyTables = array();
+    
+    // get many to many tables
+    foreach ($this->table->getRelations() as $relation)
+    {
+      if ($relation->getType() === Doctrine_Relation::MANY && isset($relation['refTable']))
+      {
+        $manyToManyTables[] = $relation;
+      }
+    }
+    
+    return $manyToManyTables;
+  }
+  
+  public function getAllFieldNames($withM2M = true)
+  {
+    $names = array();
+    foreach ($this->getColumns() as $name => $column)
+    {
+      $names[] = $name;
+    }
+
+    if ($withM2M)
+    {
+      foreach ($this->getManyToManyTables() as $tables)
+      {
+        $names[] = sfInflector::underscore($tables['alias']).'_list';
+      }
+    }
+
+    return $names;
   }
 
   protected function array_filter_recursive($input)
@@ -309,17 +345,5 @@ abstract class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfigurat
     }
 
     return array_filter($input);
-  }
-
-  protected function getConfig()
-  {
-    return array(
-      'default' => $this->getDefaultFieldsConfiguration(),
-      'list'    => $this->getFieldsList(),
-      'filter'  => $this->getFieldsFilter(),
-      'form'    => $this->getFieldsForm(),
-      'new'     => $this->getFieldsNew(),
-      'edit'    => $this->getFieldsEdit(),
-    );
   }
 }
