@@ -8,7 +8,7 @@
  * @author     ##AUTHOR_NAME##
  * @version    SVN: $Id: configuration.php 24171 2010-10-18 16:37:50Z Brent Shaffer $
  */
-class <?php echo $this->getModuleName() ?>GeneratorConfiguration extends sfHadoriThemeGeneratorConfiguration
+class <?php echo $this->getModuleName() ?>GeneratorConfiguration extends sfHadoriGeneratorConfiguration
 {
 <?php include dirname(__FILE__).'/actionsConfiguration.php' ?>
 

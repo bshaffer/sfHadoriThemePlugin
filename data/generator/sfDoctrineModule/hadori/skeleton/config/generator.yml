@@ -1,5 +1,5 @@
 generator:
-  class: sfHadoriThemeGenerator
+  class: sfHadoriGenerator
   param:
 ##CONFIG##
 

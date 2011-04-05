@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class sfHadoriThemeGeneratorConfiguration extends sfThemeGeneratorConfiguration
+abstract class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 {
   protected
     $availableConfigs = array(

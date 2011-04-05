@@ -3,7 +3,7 @@
 /**
 *
 */
-class sfHadoriThemeGenerator extends sfThemeGenerator
+class sfHadoriGenerator extends sfThemeGenerator
 {
   public function renderTextAsBlock($text)
   {
