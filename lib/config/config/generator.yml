@@ -33,12 +33,11 @@ generator:
           _cancel:        ~
           _delete:        ~
           _save:          ~
-          _save_and_add:  ~
+
       new:
         title:            New %%class_label%%
         actions:
           _cancel:        ~
-          _delete:        ~
           _save:          ~
           _save_and_add:  ~
 
