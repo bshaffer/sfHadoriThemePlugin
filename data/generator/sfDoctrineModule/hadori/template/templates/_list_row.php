@@ -6,11 +6,11 @@
 
 <?php endif ?>
 <?php foreach ($this->get('list_display') as $name => $field): ?>
-<?php echo $this->startCredentialCondition($field->getConfig()) ?>
+<?php echo $this->startCredentialCondition($field->getOptions()) ?>
   <td class="<?php echo $name ?>">
     <?php echo $this->renderField($field) ."\n"?>
   </td>
-<?php echo $this->endCredentialCondition($field->getConfig()) ?>
+<?php echo $this->endCredentialCondition($field->getOptions()) ?>
 
 <?php endforeach; ?>
 <?php if ($this->get('list_object_actions')): ?>

@@ -11,24 +11,25 @@
   protected function buildQuery()
   {
 <?php if ($this->configuration->hasFilterForm()): ?>
-    $this->filters = new <?php echo $this->get('filter_class', $this->getModelClass().'FormFilter') ?>($this->getFilters());
+    if(!$this->filters) {
+      $this->filters = new <?php echo $this->get('filter_class', $this->getModelClass().'FormFilter') ?>($this->getFilters());
+    }
 
     $this->filters->setQuery($this->getBaseQuery());
-    
+
     $query = $this->filters->buildQuery($this->getFilters());
 <?php else: ?>
     $query = $this->getBaseQuery();
-
 <?php endif; ?>
 
     if ($sort = $this->getSort())
     {
       $query->addOrderBy($sort[0] . ' ' . $sort[1]);
     }
-    
+
     return $query;
   }
-  
+
   protected function getBaseQuery()
   {
     return Doctrine_Core::getTable('<?php echo $this->getModelClass() ?>')->createQuery();

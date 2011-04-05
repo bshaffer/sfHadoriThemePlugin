@@ -4,15 +4,15 @@
 
 <?php endif; ?>
 <?php foreach ($this->get('list_display') as $name => $field): ?>
-<?php echo $this->startCredentialCondition($field->getConfig()) ?>
+<?php echo $this->startCredentialCondition($field->getOptions()) ?>
   <th>
 <?php if ($field->isReal()): ?>
-    [?php echo link_to('<?php echo $field->getConfig('label', '', true) ?>', <?php echo $this->urlFor('list') ?>, array('query_string' => 'sort=<?php echo $name ?>&sort_direction='.$helper->toggleSortDirection('<?php echo $name ?>'), 'class' => $helper->getSortDirection('<?php echo $name ?>'))) ?]
+    [?php echo link_to('<?php echo $field->getOption('label', '', true) ?>', <?php echo $this->urlFor('list') ?>, array('query_string' => 'sort=<?php echo $field->getName() ?>&sort_direction='.$helper->toggleSortDirection('<?php echo $field->getName() ?>'), 'class' => $helper->getSortDirection('<?php echo $field->getName() ?>'))) ?]
 <?php else: ?>
-    <?php echo $field->getConfig('label', '', true) ?>
+    <?php echo $field->getOption('label', '', true) ?>
 <?php endif; ?>
   </th>
-<?php echo $this->endCredentialCondition($field->getConfig()) ?>
+<?php echo $this->endCredentialCondition($field->getOptions()) ?>
 
 <?php endforeach; ?>
 <?php if ($this->get('list_object_actions')): ?>

@@ -174,3 +174,10 @@ a.demote { background-image: url(../images/demote.png);}
 
 .cancel_top { float:right; font-size:12px; padding:2px 50px 0 0; }
 a.cancel { color:#900; }
+
+/************ styles for notice/error divs ************/
+.error_list { margin:0 auto 10px auto; overflow:hidden; padding:0 5px; background-color:#EEE; }
+.error_list li { color: #FF0000; }
+.error_list p { margin:0 0 0 20px; padding:0; font-size:13px; color:#FF0000; }
+.error_list a { text-decoration:none; padding:0 3px; border: 1px solid #8A1F11; color:#8A1F11; }
+.error_list a:hover { color:#000; border:1px solid #000; }

@@ -27,15 +27,14 @@
       <table>
         [?php foreach ($form as $name => $field): ?]
           [?php if ($field->isHidden()) continue ?]
-          <tr class="[?php echo $name ?] [?php echo $helper->isActiveFilter($name) ? 'active' : 'inactive' ?]">
+          <tr class="[?php echo $name ?] [?php echo $helper->isActiveFilter($name) || $field->hasError() ? 'active' : 'inactive' ?]">
             <td>
-              <input type="checkbox" name="include[[?php echo $name ?]]" class="filter-include" [?php echo $helper->isActiveFilter($name) ? 'checked' : ''?]/>
+              <input type="checkbox" name="include[[?php echo $name ?]]" class="filter-include" [?php echo $helper->isActiveFilter($name) || $field->hasError()  ? 'checked' : ''?]/>
               [?php echo $field->renderLabel() ?]
             </td>
 
             <td>
               <div class="filter-input">
-                [?php echo $field->renderError() ?]
                 [?php echo $field->render() ?]
 
                 [?php if ($help = $field->renderHelp()): ?]
@@ -43,6 +42,8 @@
                 [?php endif; ?]
               </div>
             </td>
+            
+            <td>[?php echo $field->renderError() ?]</td>
           </tr>
         [?php endforeach; ?]
       </table>

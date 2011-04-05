@@ -116,6 +116,24 @@ EOF;
 
     return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('list'), $attributes);
   }
+  
+  /**
+   * Returns HTML code for an action link.
+   *
+   * @param string  $actionName The action name
+   * @param array   $params     The parameters
+   * @param boolean $pk_link    Whether to add a primary key link or not
+   *
+   * @return string HTML code
+   */
+  public function getLinkToAction($actionName, $params, $pk_link = false)
+  {
+    $action = isset($params['action']) ? $params['action'] : 'List'.sfInflector::camelize($actionName);
+
+    $url_params = $pk_link ? '?'.$this->getPrimaryKeyUrlParams() : '\'';
+
+    return '[?php echo link_to(\''.$params['label'].'\', \''.$this->getModuleName().'/'.$action.$url_params.', '.$this->asPhp($params['attributes']).') ?]';
+  }
 
   public function linkToObjectList($class, $html, $params)
   {
@@ -154,12 +172,12 @@ EOF;
 
   public function getField($name, $config)
   {
-    return new sfModelGeneratorConfigurationField($name, $config);
+    return new sfHadoriField($name, $config['Type'], $config);
   }
 
   public function renderField($name, $config = null, $inBlock = true)
   {
-    if ($name instanceof sfModelGeneratorConfigurationField)
+    if ($name instanceof sfHadoriField)
     {
       $field = $name;
     }
@@ -170,11 +188,7 @@ EOF;
 
     $html = $this->getColumnGetter($field->getName(), true);
 
-    if ($renderer = $field->getRenderer())
-    {
-      $html = sprintf("$html ? call_user_func_array(%s, array_merge(array(%s), %s)) : '&nbsp;'", $this->asPhp($renderer), $html, $this->asPhp($field->getRendererArguments()));
-    }
-    else if ($field->isComponent())
+    if ($field->isComponent())
     {
       $html = sprintf("get_component('%s', '%s', array('type' => 'list', '%s' => \$%s))", $this->getModuleName(), $field->getName(), $this->getSingularName(), $this->getSingularName());
     }
@@ -184,7 +198,7 @@ EOF;
     }
     else if ('Date' == $field->getType())
     {
-      $html = sprintf("false !== strtotime($html) ? date(%s, strtotime(%s)) : '&nbsp;'", $this->asPhp($field->getConfig('date_format', 'Y-m-d')), $html);
+      $html = sprintf("false !== strtotime($html) ? date(%s, strtotime(%s)) : '&nbsp;'", $this->asPhp($field->getOption('date_format', 'Y-m-d')), $html);
     }
     else if ('Boolean' == $field->getType())
     {
@@ -199,10 +213,10 @@ EOF;
         $relation = $table->getRelation($field->getName());
         if ($relation->getType() == Doctrine_Relation::MANY) {
           // This is a foreign alias.  Link To list
-          $html = $this->linkToObjectList($relation['class'], $html, $field->getConfig());
+          $html = $this->linkToObjectList($relation['class'], $html, $field->getOption());
         }
         else {
-          $html = $this->linkToObject($relation['class'], $html, $field->getConfig());
+          $html = $this->linkToObject($relation['class'], $html, $field->getOption());
         }
       }
     }
@@ -312,6 +326,63 @@ EOF;
     }
 
     return "require_once(sfConfig::get('sf_module_cache_dir').'/".$this->generatedModuleName."/actions/actions.class.php');";
+  }
+  
+  public function getDefaultFieldsConfiguration()
+  {
+    $fields = array();
+
+    $names = array();
+    foreach ($this->getColumns() as $name => $column)
+    {
+      $names[] = $name;
+      $fields[$name] = array_merge(array(
+        'is_link'      => (Boolean) $column->isPrimaryKey(),
+        'is_real'      => true,
+        'is_partial'   => false,
+        'is_component' => false,
+        'type'         => $this->getType($column),
+        'label'        => sfInflector::humanize(sfInflector::underscore($name)),
+      ), isset($this->config['fields'][$name]) ? $this->config['fields'][$name] : array());
+    }
+
+    foreach ($this->getManyToManyTables() as $tables)
+    {
+      $name = sfInflector::underscore($tables['alias']).'_list';
+      $names[] = $name;
+      $fields[$name] = array_merge(array(
+        'is_link'      => false,
+        'is_real'      => false,
+        'is_partial'   => false,
+        'is_component' => false,
+        'type'         => 'Text',
+        'label'        => sfInflector::humanize(sfInflector::underscore($name)),
+      ), isset($this->config['fields'][$name]) ? $this->config['fields'][$name] : array());
+    }
+
+    if (isset($this->config['fields']))
+    {
+      foreach ($this->config['fields'] as $name => $params)
+      {
+        if (in_array($name, $names))
+        {
+          continue;
+        }
+
+        $fields[$name] = array_merge(array(
+          'is_link'      => false,
+          'is_real'      => false,
+          'is_partial'   => false,
+          'is_component' => false,
+          'type'         => 'Text',
+          'label'        => sfInflector::humanize(sfInflector::underscore($name)),
+        ), is_array($params) ? $params : array());
+      }
+    }
+
+    unset($this->config['fields']);
+
+    return $fields;
   }
 
   protected function renderLinkToBlock($label, $url, $attributes = array(), $forObject = false)

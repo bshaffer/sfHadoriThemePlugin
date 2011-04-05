@@ -16,7 +16,7 @@ generator:
     config:
       list:
         title:            %%model_class%% List
-        display:          ~
+        display:          true
         actions:
           _new:           ~
           # export action is added dynamically by default if exports are enabled
@@ -44,7 +44,7 @@ generator:
 
       show:
         title:            '[?php echo $%%singular_name%% ?]'
-        display:          ~
+        display:          true
         actions:
           _edit:          ~
 

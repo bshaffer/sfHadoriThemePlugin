@@ -99,7 +99,7 @@ class sfHadoriThemeHelper
         return $this->arrayHasValue($this->_filters[$name]);
       }
 
-      return false;
+      return true;
     }
     
     return (bool) $this->_filters;

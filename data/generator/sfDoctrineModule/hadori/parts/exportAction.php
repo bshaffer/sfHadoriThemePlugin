@@ -6,7 +6,7 @@
       $this->setSort(array($request->getParameter('sort'), $request->getParameter('sort_direction')));
     }
 
-    $this->pager  = $this->getPager();
+    $this->pager = $this->getPager();
      
     if ($request->isMethod('post')) 
     { 
