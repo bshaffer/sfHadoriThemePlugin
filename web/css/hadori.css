@@ -15,7 +15,7 @@
   .info-block dt {line-height:20px;font-weight:bold;color:#333;float:left;clear:left;width:22%;border-top:1px solid #ccc;padding-bottom:10px;padding-top:10px;}
   .info-block dd {line-height:20px;float:left;clear:right;border-top:1px solid #ccc;width:78%;padding-bottom:10px;padding-top:10px; margin:0px}
     .info-block dd form, .info-block dd fieldset {margin:0;padding:0;}
-
+  .info-block dt.first, .info-block dd.first { border-top: none }
 /************ styles for forms ************/
 
 .form-element {

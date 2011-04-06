@@ -14,15 +14,15 @@
       [?php endforeach ?]
 
       <select class="filter-select">
-        <option value="">-- Add Filter --</option>
+        <option value=""><?php echo $this->renderHtmlText('-- Add Filter --') ?></option>
         [?php foreach ($form as $name => $field): ?]
           <option value="[?php echo $name ?]">[?php echo $field->renderLabel() ?]</option>
         [?php endforeach ?]
       </select>
 
-      [?php echo link_to(<?php echo $this->renderTextInBlock('Reset') ?>, <?php echo $this->urlFor('collection', false) ?>, array('action' => 'filter'), array('query_string' => '_reset', 'method' => 'post', 'class' => 'reset')) ?]
+      [?php echo link_to(<?php echo $this->renderPhpText('Reset') ?>, <?php echo $this->urlFor('collection', false) ?>, array('action' => 'filter'), array('query_string' => '_reset', 'method' => 'post', 'class' => 'reset')) ?]
 
-      <input type="submit" value="<?php echo $this->renderText('Filter') ?>" class="button" />
+      <input type="submit" value="<?php echo $this->renderHtmlText('Filter') ?>" class="button" />
 
       <table>
         [?php foreach ($form as $name => $field): ?]

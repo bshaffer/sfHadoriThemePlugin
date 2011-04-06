@@ -18,43 +18,60 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 
   protected function compile($configs)
   {
+    $depth = array(1 => array('list', 'filter', 'form', 'edit', 'show', 'new', 'export'), 2 => array('actions', 'fields'));
     $this->table   = Doctrine_Core::getTable($this->getOptionValue('model_class'));
-    $configuration = Doctrine_Lib::arrayDeepMerge($this->getDefaultConfiguration(), $this->array_filter_recursive($configs));
+    $configuration = $this->arrayDeepMerge($this->getDefaultConfiguration(), $this->filterNullValues($configs, 2), $depth);
 
+    // Default values for list display
     if ($configuration['list']['display'] === true) {
       $configuration['list']['display'] = array_slice($this->getAllFieldNames(false), 0, 5);
     }
 
+    // Default values for show display
     if ($configuration['show']['display'] === true) {
       $configuration['show']['display'] = $this->getAllFieldNames(false);
     }
 
+    // Default values for export display
     if ($configuration['export']['display'] === true) {
       $configuration['export']['display'] = $this->getAllFieldNames(false);
     }
 
-    // create "sfHadoriField" object from supplied options for all "display" fields
+    // create "sfHadoriField" object from supplied options for all configurations of type "field"
     foreach ($configuration as $context => $config) {
       if (isset($config['display'])) {
         $display = array();
         foreach ($configuration[$context]['display'] as $key => $options) {
           $name = is_string($key) ? $key : (string) $options;
+
+          // Merge in options if the field is defined in "fields"
+          $options = isset($configuration['fields'][$name]) ? array_merge($configuration['fields'][$name], (array)$options) : $options;
           $display[$name] = $this->createFieldFromOptions($name, $options);
         }
         $configuration[$context]['display'] = $display;
       }
     }
 
-    // Add default options for special actions (syntax: "_name")
+    // merge in default "actions" configuration
     foreach ($configuration as $context => $config) {
       if (is_array($config)) {
         foreach ($config as $actionType => $value) {
           if (strpos($actionType, 'actions') !== false) {
-            $actions = array();
-            foreach ($configuration[$context][$actionType] as $key => $options) {
-              $name = is_string($key) ? $key : (string) $options;
-              $actions[$name] = $this->fixActionOptions($name, $options);
+            // Merge in actions for configurations defined in "actions"
+            $actions = Doctrine_Lib::arrayDeepMerge(array_intersect_key($configuration['actions'], $value), $this->filterNullValues($value));
+
+            // set "label" and "action" if not set in configuration
+            foreach ($actions as $actionName => $actionConfig) {
+              $actions[$actionName] = $this->getActionsConfig($actionName, $actionConfig);
             }
+
+            // set "credentials" if security.yml is defined and "use_security_yaml_credentials" is true
+            if ($this->loadSecurityCredentials()) {
+              foreach ($actions as $actionName => $actionConfig) {
+                $actions[$actionName] = $this->addSecurityCredentials($actionName, $actionConfig);
+              }
+            }
+
             $configuration[$context][$actionType] = $actions;
           }
         }
@@ -105,92 +122,40 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
     return $configDefaults;
   }
 
-  protected function fixActionOptions($action, $options)
+  public function addSecurityCredentials($name, $options = array())
   {
-    $options = Doctrine_Lib::arrayDeepMerge(array(
-      'class' => (strpos($action, '_') === 0 ? substr($action, 1) : $action),
-    ), $options);
-
-    if (null === $options)
+    $actionAction = isset($options['action']) ? $options['action'] : (strpos($action, '_') === 0 ? substr($action, 1) : $action);
+    if(isset($this->security[$actionAction]['credentials']))
     {
-      $options = array();
+      $options['credentials'] = $this->security[$actionAction]['credentials'];
     }
-
-    if ('_delete' == $action && !isset($options['confirm']))
+    elseif(isset($this->security[$actionAction]['is_secure']) && $this->security[$actionAction]['is_secure'])
     {
-      $options['confirm'] = 'Are you sure?';
+      $options['credentials'] = true;
     }
-
-    if (isset($options['label']))
+    elseif(isset($this->security['all']['credentials']) && $this->security['all']['credentials'])
     {
-      $label = $options['label'];
-    }
-    else if ('_' != $action[0])
-    {
-      $label = $action;
-    }
-    else
-    {
-      $label = substr($action, 1);
-    }
-
-    $options['label'] = sfInflector::humanize($label);
-
-    if (!isset($options['action'])) {
-      switch ($action) {
-        case '_export':
-          $options['action'] = 'export';
-          break;
-
-        case '_show':
-          $options['action'] = 'show';
-          break;
-
-        case '_cancel':
-          $options['route'] = 'list';
-          break;
-
-        case '_edit':
-          $options['action'] = 'edit';
-          break;
-
-        case '_promote':
-          $options['action'] = 'promote';
-          break;
-
-        case '_demote':
-          $options['action'] = 'demote';
-          break;
-      }
-    }
-
-    // ===========================
-    // = Automate Credential Fix =
-    // ===========================
-
-    // Synch with security.yml
-    if ($this->loadSecurityCredentials())
-    {
-      $actionAction = isset($options['action']) ? $options['action'] : (strpos($action, '_') === 0 ? substr($action, 1) : $action);
-      if(isset($this->security[$actionAction]['credentials']))
-      {
-        $options['credentials'] = $this->security[$actionAction]['credentials'];
-      }
-      elseif(isset($this->security[$actionAction]['is_secure']) && $this->security[$actionAction]['is_secure'])
-      {
-        $options['credentials'] = true;
-      }
-      elseif(isset($this->security['all']['credentials']) && $this->security['all']['credentials'])
-      {
-        // If "All" credentials are set and the route is secure, set the credential accordingly
-        $options['credentials'] = $this->security['all']['credentials'];
-      }
+      // If "All" credentials are set and the route is secure, set the credential accordingly
+      $options['credentials'] = $this->security['all']['credentials'];
     }
 
     return $options;
   }
 
-  public function loadSecurityCredentials()
+  protected function getActionsConfig($action, $options)
+  {
+    if (!isset($options['class'])) {
+      $options['class'] = $action;
+    }
+
+    if (!isset($options['label'])) {
+      $options['label'] = sfInflector::humanize($action);
+    }
+
+    return $options;
+  }
+
+  protected function loadSecurityCredentials()
   {
     if ($this->getConfigValue('use_security_yaml_credentials', true))
     {
@@ -247,15 +212,20 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
         {
           case 'enum':
             $type = 'Enum';
+            break;
           case 'boolean':
             $type = 'Boolean';
+            break;
           case 'date':
           case 'timestamp':
             $type = 'Date';
+            break;
           case 'time':
             $type = 'Time';
+            break;
           default:
             $type = 'Text';
+            break;
         }
       }
 
@@ -285,8 +255,8 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 
     return $fields;
   }
-  
-  public function getColumns()
+
+  protected function getColumns()
   {
     $columns = array();
 
@@ -295,14 +265,14 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
       $name = $this->table->getFieldName($name);
       $columns[$name] = new sfDoctrineColumn($name, $this->table);
     }
-    
+
     return $columns;
   }
-  
-  public function getManyToManyTables()
+
+  protected function getManyToManyTables()
   {
     $manyToManyTables = array();
-    
+
     // get many to many tables
     foreach ($this->table->getRelations() as $relation)
     {
@@ -311,11 +281,11 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
         $manyToManyTables[] = $relation;
       }
     }
-    
+
     return $manyToManyTables;
   }
-  
-  public function getAllFieldNames($withM2M = true)
+
+  protected function getAllFieldNames($withM2M = true)
   {
     $names = array();
     foreach ($this->getColumns() as $name => $column)
@@ -334,16 +304,76 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
     return $names;
   }
 
-  protected function array_filter_recursive($input)
+  protected function filterNullValues($input, $depth = null)
   {
-    foreach ($input as &$value)
+    if ($depth === 0) {
+      return $input;
+    }
+
+    foreach ($input as $key => &$value)
     {
       if (is_array($value))
       {
-        $value = $this->array_filter_recursive($value);
+        $nextDepth = null === $depth ? $depth : $depth - 1;
+        $value = $this->filterNullValues($value, $nextDepth);
+      }
+      elseif($value === null) {
+        unset($input[$key]);
       }
     }
 
-    return array_filter($input);
+    return $input;
+  }
+
+  protected function arrayDeepMerge($array1, $array2, $depth = null)
+  {
+    if ($depth === 0) {
+      return $array2;
+    }
+
+    $merged = array();
+
+    if (is_array($array1) && is_array($array2))
+    {
+        if ($array2 === array()) {
+          return $array2;
+        }
+
+        foreach (array_unique(array_merge(array_keys($array1),array_keys($array2))) as $key)
+        {
+            $isKey0 = array_key_exists($key, $array1);
+            $isKey1 = array_key_exists($key, $array2);
+
+            if ($isKey0 && $isKey1 && is_array($array1[$key]) && is_array($array2[$key]))
+            {
+                $nextDepth = null;
+
+                if (null !== $depth) {
+                  if (is_array($depth)) {
+                    foreach ($depth as $keyDepth => $keys) {
+                      if (in_array($key, $keys)) {
+                        $nextDepth = $keyDepth;
+                      }
+                    }
+                  }
+                  else {
+                    $nextDepth = $depth - 1;
+                  }
+                }
+
+                $merged[$key] = $this->arrayDeepMerge($array1[$key], $array2[$key], $nextDepth);
+            } else if ($isKey0 && $isKey1) {
+                $merged[$key] = $array2[$key];
+            } else if ( ! $isKey1) {
+                $merged[$key] = $array1[$key];
+            } else if ( ! $isKey0) {
+                $merged[$key] = $array2[$key];
+            }
+        }
+
+        return $merged;
+    } else {
+        return $array2;
+    }
   }
 }

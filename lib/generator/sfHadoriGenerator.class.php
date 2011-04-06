@@ -5,81 +5,14 @@
 */
 class sfHadoriGenerator extends sfThemeGenerator
 {
-  public function renderTextAsBlock($text)
-  {
-    if (strpos($text, '<?php') !== 0) {
-      $text = sprintf('<?php echo \'%s\' ?>', $text);
-    }
-
-    return $text;
-  }
-
-  public function renderWildcardString($string)
-  {
-    $renderTextAsBlock = false;
-    preg_match_all('/%%([^%]+)%%/', $string, $matches, PREG_PATTERN_ORDER);
-
-    if (count($matches[1])) {
-      $tr = array();
-      $renderTextAsBlock = false;
-
-      foreach ($matches[1] as $i => $name)
-      {
-        if ($value = $this->get($name)) {
-          $tr[$matches[0][$i]] = $value;
-        }
-        else {
-          if (!$renderTextAsBlock) {
-            $renderTextAsBlock = true;
-            $string = $this->escapeString($string);
-          }
-
-          $getter  = $this->getColumnGetter($name, true);
-          $tr[$matches[0][$i]]  = sprintf("'.%s.'", $getter);
-        }
-      }
-      
-      $string = strtr($string, $tr);
-    }
-    
-    return $renderTextAsBlock ? $this->renderTextAsBlock($string) : $this->renderText($string);
-  }
-
   public function getUrlForAction($action)
   {
     return sprintf('%s%s', $this->get('route_prefix'), in_array($action, array('list', 'index')) ? '' : '_'.$action);
   }
 
-  public function linkToNew($params)
-  {
-    $attributes = array_merge(array('title' => 'Add A New ' . $this->getClassLabel()), $params['attributes']);
-    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('new'), $attributes);
-  }
-
-  public function linkToShow($params)
-  {
-    $attributes = array_merge(array('title' => 'View ' . $this->getClassLabel()), $params['attributes']);
-
-    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('show'), $attributes, true);
-  }
-
-  public function linkToEdit($params)
-  {
-    $attributes = array_merge(array('title' => 'Edit ' . $this->getClassLabel()), $params['attributes']);
-
-    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('edit'), $attributes, true);
-  }
-
-  public function linkToExport($params)
-  {
-    $attributes = array_merge(array('title' => 'Export ' . $this->getClassLabel() . ' Data'), $params['attributes']);
-
-    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('export'), $attributes);
-  }
-
   public function linkToSave($params)
   {
-    return '<input class="greyButton" type="submit" value="'.$params['label'].'" />';
+    return '<input class="greyButton" type="submit" value="'.$this->renderHtmlText($params['label']).'" />';
   }
 
   public function linkToSaveAndAdd($params)
@@ -88,51 +21,7 @@ class sfHadoriGenerator extends sfThemeGenerator
   <input class="greyButton" type="submit" value="%s" name="_save_and_add" />
 EOF;
 
-    return sprintf($link, $params['label']);
-  }
-
-  public function linkToDelete($params)
-  {
-    $attributes = array_merge(
-      array(
-        'method' => 'delete',
-        'confirm' => !empty($params['confirm']) ? $params['confirm'] : $params['confirm'],
-        'title' => 'Delete ' . $this->getClassLabel()
-        ), $params['attributes']);
-
-    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('delete'), $attributes, true);
-  }
-
-  public function linkToList($params)
-  {
-    $attributes = array_merge(array('title' => 'Back to ' . $this->getClassLabel() . ' List'), $params['attributes']);
-
-    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('list'), $attributes);
-  }
-
-  public function linkToCancel($params)
-  {
-    $attributes = array_merge(array('title' => 'Back to ' . $this->getClassLabel() . ' List'), $params['attributes']);
-
-    return $this->renderLinkToBlock($params['label'], $this->getUrlForAction('list'), $attributes);
-  }
-  
-  /**
-   * Returns HTML code for an action link.
-   *
-   * @param string  $actionName The action name
-   * @param array   $params     The parameters
-   * @param boolean $pk_link    Whether to add a primary key link or not
-   *
-   * @return string HTML code
-   */
-  public function getLinkToAction($actionName, $params, $pk_link = false)
-  {
-    $action = isset($params['action']) ? $params['action'] : 'List'.sfInflector::camelize($actionName);
-
-    $url_params = $pk_link ? '?'.$this->getPrimaryKeyUrlParams() : '\'';
-
-    return '[?php echo link_to(\''.$params['label'].'\', \''.$this->getModuleName().'/'.$action.$url_params.', '.$this->asPhp($params['attributes']).') ?]';
+    return sprintf($link, $this->renderHtmlText($params['label']));
   }
 
   public function linkToObjectList($class, $html, $params)
@@ -197,8 +86,11 @@ EOF;
     }
     else if ('Boolean' == $field->getType())
     {
-      $ternary = $html." ? 'true' : 'false'";
-      $html = sprintf("content_tag('div', %s, array('class' => (%s)))", $ternary, $ternary);
+      $ternary = sprintf('var_export(%s)', $html);
+      $html = $inBlock ? 
+        sprintf('<div class="<?php echo %s ?>"><?php echo %s ?></div>', $ternary, $ternary) : 
+        sprintf("content_tag('div', %s, array('class' => (%s)))", $ternary, $ternary);
+      $inBlock = false;
     }
     else
     {
@@ -208,10 +100,10 @@ EOF;
         $relation = $table->getRelation($field->getName());
         if ($relation->getType() == Doctrine_Relation::MANY) {
           // This is a foreign alias.  Link To list
-          $html = $this->linkToObjectList($relation['class'], $html, $field->getOption());
+          $html = $this->linkToObjectList($relation['class'], $html, $field->getOptions());
         }
         else {
-          $html = $this->linkToObject($relation['class'], $html, $field->getOption());
+          $html = $this->linkToObject($relation['class'], $html, $field->getOptions());
         }
       }
     }

@@ -12,7 +12,7 @@ abstract class <?php echo $this->getGeneratedModuleName() ?>Actions extends <?ph
 {
   public function preExecute()
   {
-    $this->helper        = new sfHadoriThemeHelper();
+    $this->helper = new sfHadoriThemeHelper();
   }
 
 <?php include dirname(__FILE__).'/../../parts/indexAction.php' ?>
@@ -21,24 +21,14 @@ abstract class <?php echo $this->getGeneratedModuleName() ?>Actions extends <?ph
 <?php include dirname(__FILE__).'/../../parts/filterAction.php' ?>
 <?php endif; ?>
 
-<?php include dirname(__FILE__).'/../../parts/newAction.php' ?>
-
-<?php include dirname(__FILE__).'/../../parts/createAction.php' ?>
-
-<?php include dirname(__FILE__).'/../../parts/editAction.php' ?>
-
-<?php include dirname(__FILE__).'/../../parts/updateAction.php' ?>
-
-<?php include dirname(__FILE__).'/../../parts/deleteAction.php' ?>
-
-<?php include dirname(__FILE__).'/../../parts/showAction.php' ?>
-
-<?php if ($this->configuration->hasSortable()): ?>
-<?php include dirname(__FILE__).'/../../parts/sortableAction.php' ?>
-<?php endif; ?>
+<?php include dirname(__FILE__).'/../../parts/crudActions.php' ?>
 
 <?php if ($this->configuration->hasExporting()): ?>
 <?php include dirname(__FILE__).'/../../parts/exportAction.php' ?>
+<?php endif; ?>
+
+<?php if ($this->configuration->hasSortable()): ?>
+<?php include dirname(__FILE__).'/../../parts/sortableAction.php' ?>
 <?php endif; ?>
 
 <?php if ($this->get('list_batch_actions')): ?>

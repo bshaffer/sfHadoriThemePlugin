@@ -1,9 +1,9 @@
 [?php if ($pager->haveToPaginate()): ?]
   <div class="pagination">
     [?php if($pager->getPreviousPage() != $pager->getFirstPage()): ?]
-      [?php echo link_to('First', <?php echo $this->urlFor('list', false) ?>, array('page' => 1), array('class' => 'first_page')) ?]
+      [?php echo link_to(<?php echo $this->renderPhpText('First') ?>, <?php echo $this->urlFor('list', false) ?>, array('page' => 1), array('class' => 'first_page')) ?]
     [?php else: ?]
-      <span class="disabled first_page">First</span>
+      <span class="disabled first_page"><?php echo $this->renderHtmlText('First') ?></span>
     [?php endif ?]
     
     [?php foreach ($pager->getLinks() as $page): ?]
@@ -15,9 +15,9 @@
     [?php endforeach; ?]
 
     [?php if($pager->getLastPage() != $pager->getPage()): ?]
-      [?php echo link_to('Last', <?php echo $this->urlFor('list', false) ?>, array('page' => $pager->getLastPage()), array('class' => 'last_page')) ?]
+      [?php echo link_to(<?php echo $this->renderPhpText('Last') ?>, <?php echo $this->urlFor('list', false) ?>, array('page' => $pager->getLastPage()), array('class' => 'last_page')) ?]
     [?php else: ?]
-      <span class="disabled last_page">Last</span>
+      <span class="disabled last_page"><?php echo $this->renderHtmlText('Last') ?></span>
     [?php endif ?]
 
   </div>

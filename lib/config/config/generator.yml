@@ -28,7 +28,7 @@ generator:
           _delete:        ~
 
       edit:
-        title:            'Edit [?php echo $%%singular_name%% ?]'
+        title:            %%to_string%%
         actions:
           _cancel:        ~
           _delete:        ~
@@ -42,23 +42,88 @@ generator:
           _save_and_add:  ~
 
       show:
-        title:            '[?php echo $%%singular_name%% ?]'
+        title:            %%to_string%%
         display:          true
         actions:
           _edit:          ~
 
       export:
         title:            Export %%class_label%%
+        help:             The table below represents the data that will be exported.  Use the filters to refine your export
         display:          true
         actions:
           _cancel:        ~
 
       filter:
-        fields:           []
+        class:            ~
 
       form:
-        fields:           []
+        class:            ~
 
-      actions:            ~
+      actions:
+        _new:
+          label:          New
+          action:         new
+          class:          new
+          title:          Add A New %%class_label%%
+          
+        _edit:
+          label:          Edit
+          action:         edit
+          class:          edit
+          title:          Edit %%class_label%%
+          object_link:    true
+
+        _save:
+          label:          Save
+          action:         save
+          class:          save
+
+        _save_and_add:
+          label:          Save and Add
+          action:         save_and_add
+          class:          save_and_add
+
+        _cancel:
+          label:          Cancel
+          action:         index
+          class:          cancel
+          title:          Back to List
+
+        _delete:
+          label:          Delete
+          action:         delete
+          class:          delete
+          object_link:    true
+          method:         delete
+          confirm:        Are You Sure?
+
+        _show:
+          label:          Show
+          action:         show
+          class:          show
+          title:          View %%class_label%%
+          object_link:    true
+
+        _export:
+          label:          Export
+          action:         export
+          class:          export
+          title:          Export %%class_label%%
+
+        _promote:
+          label:          Promote
+          action:         promote
+          class:          promote
+          title:          Promote %%class_label%%
+          object_link:    true
+
+        _demote:
+          label:          Demote
+          action:         demote
+          class:          demote
+          title:          Demote %%class_label%%
+          object_link:    true
 
       fields:             ~
+          

@@ -1,10 +1,10 @@
-[?php use_helper('Date') ?]
+[?php use_helper('Date'<?php echo $this->get('i18n') ? ', \'I18n\'' : ''?>) ?]
 <div>
 <?php if (sfConfig::get('app_admin_include_flashes')): ?>
   [?php include_partial('global/flashes') ?]  
 <?php endif ?>
     
-  <h2><?php echo $this->renderWildcardString($this->get('list_title')) ?></h2>
+  <h2><?php echo $this->renderHtmlText($this->get('list_title')) ?></h2>
 
 <?php if ($this->configuration->hasFilterForm()): ?>
   <div class="filters form-container[?php echo $helper->isActiveFilter() ? ' active':'' ?]">
@@ -20,13 +20,13 @@
     <div class="actions">
 <?php if ($listActions = $this->get('list_batch_actions')): ?>
       <select name="batch_action">
-        <option value=""><?php echo $this->renderText('Choose an action') ?></option>
+        <option value=""><?php echo $this->renderHtmlText('Choose an action') ?></option>
 <?php foreach ((array) $listActions as $action => $params): ?>
-        <?php echo $this->addCredentialCondition('<option value="'.$action.'">'.$params['label'].'</option>', $params) ?>
+        <?php echo $this->addCredentialCondition('<option value="'.$action.'">'.$this->renderHtmlText($params['label']).'</option>', $params) ?>
 
 <?php endforeach; ?>
       </select>
-      <input type="submit" value="<?php echo $this->renderText('go') ?>" />
+      <input type="submit" value="<?php echo $this->renderHtmlText('go') ?>" />
 <?php endif; ?>
 
 <?php foreach ($this->get('list_actions') as $name => $params): ?>
