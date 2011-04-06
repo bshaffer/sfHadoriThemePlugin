@@ -19,30 +19,30 @@ $browser->info('1. - Test generated module edit action')
 
   ->get('/company')
     ->isModuleAction('company', 'index')
-  
-  ->info('Test LIST delete')    
+
+  ->info('Test LIST delete')
     ->with('response')->begin()
       ->checkElement(sprintf('#company_%s .actions .delete', $company1['id']))
     ->end()
-    
+
     ->call(sprintf('/company/%s', $company1['id']), 'delete')
       ->isModuleAction('company', 'delete', 302)
 
     ->followRedirect()
       ->isModuleAction('company', 'index')
-    
+
     ->with('doctrine')->begin()
       ->check('Company', array('id' => $company1['id']), false)
     ->end()
-    
-  ->info('Test EDIT delete')    
+
+  ->info('Test EDIT delete')
     ->click($company2['id'])
       ->isModuleAction('company', 'edit')
-      
+
     ->with('response')->begin()
       ->checkElement(sprintf('a.delete', $company2['id']))
     ->end()
-  
+
     ->call(sprintf('/company/%s', $company2['id']), 'delete')
       ->isModuleAction('company', 'delete', 302)
 

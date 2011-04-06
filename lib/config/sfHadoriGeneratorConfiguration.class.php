@@ -20,7 +20,7 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
   {
     $depth = array(1 => array('list', 'filter', 'form', 'edit', 'show', 'new', 'export'), 2 => array('actions', 'fields'));
     $this->table   = Doctrine_Core::getTable($this->getOptionValue('model_class'));
-    $configuration = $this->arrayDeepMerge($this->getDefaultConfiguration(), $this->filterNullValues($configs, 2), $depth);
+    $configuration = $this->arrayDeepMerge($this->getDefaultConfiguration(), $configs, $depth);
 
     // Default values for list display
     if ($configuration['list']['display'] === true) {
@@ -362,7 +362,9 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
                 }
 
                 $merged[$key] = $this->arrayDeepMerge($array1[$key], $array2[$key], $nextDepth);
-            } else if ($isKey0 && $isKey1) {
+            } else if ($isKey0 && $isKey1 && $array2[$key] === null) {
+                $merged[$key] = $array1[$key];
+            }else if ($isKey0 && $isKey1) {
                 $merged[$key] = $array2[$key];
             } else if ( ! $isKey1) {
                 $merged[$key] = $array1[$key];

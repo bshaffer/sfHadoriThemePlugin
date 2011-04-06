@@ -62,6 +62,17 @@ class sfTestFunctionalHadori extends sfTestFunctionalTheme
     return $this;
   }
   
+  public function clearModuleDirectory($module)
+  {
+    $this->info(sprintf('clearing module directory "%s" in application "%s"', $module, sfConfig::get('sf_application')));
+    
+    $path = sfConfig::get('app_module_dir') . '/' . $module;
+    
+    sfToolkit::clearDirectory($path);
+    
+    return $this;
+  }
+  
   public function setRoutingValue(array $values)
   {
     $this->info('setting routing.yml config values');
