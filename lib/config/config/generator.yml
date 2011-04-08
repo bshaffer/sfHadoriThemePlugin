@@ -63,36 +63,34 @@ generator:
       actions:
         _new:
           label:          New
-          action:         new
+          route:          %%route_prefix%%_new
           class:          new
           title:          Add A New %%class_label%%
           
         _edit:
           label:          Edit
-          action:         edit
+          route:          %%route_prefix%%_edit
           class:          edit
           title:          Edit %%class_label%%
           object_link:    true
 
         _save:
           label:          Save
-          action:         save
           class:          save
 
         _save_and_add:
           label:          Save and Add
-          action:         save_and_add
           class:          save_and_add
 
         _cancel:
           label:          Cancel
-          action:         index
+          route:          %%route_prefix%%
           class:          cancel
           title:          Back to List
 
         _delete:
           label:          Delete
-          action:         delete
+          route:          %%route_prefix%%_delete
           class:          delete
           object_link:    true
           method:         delete
@@ -100,14 +98,14 @@ generator:
 
         _show:
           label:          Show
-          action:         show
+          route:          %%route_prefix%%_show
           class:          show
           title:          View %%class_label%%
           object_link:    true
 
         _export:
           label:          Export
-          action:         export
+          route:          %%route_prefix%%_export
           class:          export
           title:          Export %%class_label%%
 

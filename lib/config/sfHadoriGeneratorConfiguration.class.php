@@ -124,7 +124,7 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 
   public function addSecurityCredentials($name, $options = array())
   {
-    $actionAction = isset($options['action']) ? $options['action'] : (strpos($action, '_') === 0 ? substr($action, 1) : $action);
+    $actionAction = isset($options['action']) ? $options['action'] : (strpos($name, '_') === 0 ? substr($name, 1) : $name);
     if(isset($this->security[$actionAction]['credentials']))
     {
       $options['credentials'] = $this->security[$actionAction]['credentials'];
