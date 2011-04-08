@@ -19,10 +19,10 @@ class sfHadoriThemeConfiguration extends sfThemeConfiguration
   public function filesToCopy()
   {
     return array(
-      'skeleton/actions'                => 'MODULE_DIR/actions',
-      'skeleton/config'                 => 'MODULE_DIR/config',
-      'skeleton/templates'              => 'MODULE_DIR/templates',
-      'templates/_flashes.php'          => 'APP_DIR/templates/_flashes.php',
+      'MODULE_DIR/actions'             => 'THEME_DIR/skeleton/actions',
+      'MODULE_DIR/config'              => 'THEME_DIR/skeleton/config',
+      'MODULE_DIR/templates'           => 'THEME_DIR/skeleton/templates',
+      'APP_DIR/templates/_flashes.php' => 'THEME_DIR/templates/_flashes.php',
     );
   } 
   
