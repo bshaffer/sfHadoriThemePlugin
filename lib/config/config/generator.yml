@@ -26,20 +26,21 @@ generator:
           _delete:        ~
         batch_actions:
           _delete:        ~
-
-      edit:
-        title:            %%to_string%%
-        actions:
-          _cancel:        ~
-          _delete:        ~
-          _save:          ~
+        pager_max_per_page: 10
 
       new:
         title:            New %%class_label%%
         actions:
-          _cancel:        ~
           _save:          ~
           _save_and_add:  ~
+          _cancel:        ~
+
+      edit:
+        title:            %%to_string%%
+        actions:
+          _save:          ~
+          _delete:        ~
+          _cancel:        ~
 
       show:
         title:            %%to_string%%
