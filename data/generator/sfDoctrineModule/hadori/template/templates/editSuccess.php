@@ -1,5 +1,5 @@
 <?php echo $this->get('i18n') ? "[?php use_helper('I18n') ?]\n" : ''?><div>
-<?php if (sfConfig::get('app_admin_include_flashes')): ?>
+<?php if (sfConfig::get('app_hadori_include_flashes')): ?>
   [?php include_partial('global/flashes') ?]  
 <?php endif ?>
   

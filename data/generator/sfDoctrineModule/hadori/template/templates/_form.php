@@ -8,7 +8,7 @@
   
 <?php $formClass = $this->getFormClass() ?>
 <?php $form = new $formClass() ?>
-<?php foreach ($form as $name => $config): ?>
+<?php foreach ($form as $name => $config): if($config->isHidden()) continue ?>
   <div class="<?php echo $this->getFormFieldContainerClass($form, $name) ?>">
     [?php echo $form['<?php echo $name ?>']->renderRow(<?php echo $this->getFormFieldAttributes($form, $name) ?>) ?]
   </div>

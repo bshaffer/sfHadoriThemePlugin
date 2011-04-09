@@ -1,7 +1,9 @@
 all:
-  admin:
+  hadori:
     # set to false to prevent generation of global flashes and addition of flashes in modules
+    # this is useful if your flashes are being included in your layout.php file
     include_flashes: true
     
     # set to false to prevent addition of view.yml in generated module's config
-    stylesheets:    [/sfHadoriThemePlugin/css/hadori.css]
+    # this is useful if the assets are included in your application's view.yml
+    include_assets:  true

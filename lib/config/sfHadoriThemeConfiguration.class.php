@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class sfHadoriThemeConfiguration extends sfThemeConfiguration
 {
@@ -12,20 +12,26 @@ class sfHadoriThemeConfiguration extends sfThemeConfiguration
     $this->askForModel();
 
     $this->task->bootstrapSymfony($this->options['application'], $this->options['env']);
-    
+
     $this->askForOption('module', null, sfInflector::underscore($this->options['model']));
   }
-  
+
   public function filesToCopy()
   {
-    return array(
-      'MODULE_DIR/actions'             => 'THEME_DIR/skeleton/actions',
-      'MODULE_DIR/config'              => 'THEME_DIR/skeleton/config',
-      'MODULE_DIR/templates'           => 'THEME_DIR/skeleton/templates',
-      'APP_DIR/templates/_flashes.php' => 'THEME_DIR/templates/_flashes.php',
+    $files = array(
+      'MODULE_DIR/actions'              => 'THEME_DIR/skeleton/actions',
+      'MODULE_DIR/config/generator.yml' => 'THEME_DIR/skeleton/config/generator.yml',
+      'MODULE_DIR/templates'            => 'THEME_DIR/skeleton/templates',
+      'APP_DIR/templates/_flashes.php'  => 'THEME_DIR/templates/_flashes.php',
     );
-  } 
-  
+
+    if (sfConfig::get('app_hadori_include_assets', true)) {
+      $files['MODULE_DIR/config/view.yml'] = 'THEME_DIR/skeleton/config/view.yml';
+    }
+
+    return $files;
+  }
+
   public function initConstants()
   {
     parent::initConstants();
@@ -48,7 +54,7 @@ EOF
       $this->options['module']
     );
   }
-  
+
   public function routesToPrepend()
   {
     $primaryKey = Doctrine_Core::getTable($this->options['model'])->getIdentifier();
@@ -63,18 +69,18 @@ EOF
     with_export:          true
 EOF
       ,
-      $this->options['model'], 
-      $this->options['module'], 
+      $this->options['model'],
+      $this->options['module'],
       $this->options['module'],
       $primaryKey
     ));
 
     return $routes;
   }
-  
+
   public function filterGeneratedFile($file)
-  { 
-    switch (true) 
+  {
+    switch (true)
     {
       // Rename class in actions.class.php
       case strpos($file, 'actions.class.php') !== false:

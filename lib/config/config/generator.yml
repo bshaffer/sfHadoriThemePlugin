@@ -46,6 +46,7 @@ generator:
         display:          true
         actions:
           _edit:          ~
+          _cancel:        ~
 
       export:
         title:            Export %%class_label%%
