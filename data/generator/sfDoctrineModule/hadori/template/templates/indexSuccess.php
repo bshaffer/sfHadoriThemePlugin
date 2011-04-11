@@ -1,4 +1,4 @@
-[?php use_helper('Date'<?php echo $this->get('i18n') ? ', \'I18n\'' : ''?>) ?]
+[?php use_helper('Date'<?php echo $this->get('i18n') ? ', \'I18N\'' : ''?>) ?]
 <div>
 <?php if (sfConfig::get('app_hadori_include_flashes')): ?>
   [?php include_partial('global/flashes') ?]  
