@@ -255,10 +255,10 @@ form.  This is the same for filters:
 
 Only the fields used in your filter form will be available as filters.  Remarkable!
 
-Tokens
-------
+Tokens and Smart Linking
+------------------------
 
-Hadori Tokens work much the same way as they do in the built in admin generator.  All tokens are wrapped in double-percents (_%%_).  Any
+**Tokens**: Hadori Tokens work much the same way as they do in the built in admin generator.  All tokens are wrapped in double-percents (_%%_).  Any
 value that does not match a configuration parameter is thought to be a getter on an object.
 
   * Configuration Parameters:  Anything in generator.yml
@@ -272,6 +272,14 @@ value that does not match a configuration parameter is thought to be a getter on
   * getters:  anything not matching the previous two tokens is assumed to be an object getter
 
       `delete: { confirm: Are you sure you want to delete '%%full_name%%'? }`  - will call $object->getFullName()
+
+**Smart Linking**: Using relationship aliases in Hadori will automatically link to the `show` page for those objects as long as a route exists following the 
+convention _table\_name\_show_.  This means any related objects with a Hadori module will be linked automatically.  Here is an example configuration:
+
+    list:
+      display:  [title, Author, created_at]
+
+The above example will automatically the *Author* field to the `show` action for that object (`@author_show`).
 
 Exporting
 ---------
