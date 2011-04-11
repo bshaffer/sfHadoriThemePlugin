@@ -31,6 +31,8 @@ $(document).ready(function() {
  
  $('#information tbody tr:first a.promote').hide();
  $('#information tbody tr:last a.demote').hide();
+ 
+  $('.info-block dt:first, .info-block dd:first').addClass('first');
 });
 
 

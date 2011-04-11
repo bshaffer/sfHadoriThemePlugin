@@ -1,6 +1,6 @@
 html { background-color:#ddd; }
 
-body{font:14px/1.5 'Lucida Grande', helvetica, arial, sans-serif; }
+body{font:14px/1.5 'Lucida Grande', helvetica, arial, sans-serif; margin:0 }
 
 h1, h2, h3, h4, h5, p, li, th, td, dt, dd { color:#333; }
 

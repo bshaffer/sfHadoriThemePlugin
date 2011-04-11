@@ -1,22 +1,22 @@
 sfHadoriThemePlugin
 ===================
 
-sfHadoriThemePlugin is an admin generator with a beautiful built in theme.  The idea is to provide basic functionality desired in every administrative interface, while keeping the generated code readable and beautiful.  For that reason, Hadori does a lot, but he doesn't try to do *everything*.  When you need to break from the norm, Hadori provides you with spectacular generated code to let you hit the ground running.
+sfHadoriThemePlugin is an admin generator with a beautiful-built in theme.  Hadori provides basic functionality for an administrative interface, while keeping the generated code readable and beautiful.  For that reason, Hadori does a lot, but she doesn't try to do *everything*.  When you need to break from the norm, Hadori provides you with spectacular generated code to let you hit the ground running.
 
 Installation
 ------------
 
 Before spinning up this theme, you must install the [sfThemeGeneratorPlugin](http://github.com/bshaffer/sfThemeGeneratorPlugin).
 
+ 1. As always, publish your assets
+
+        $ php symfony plugin:publish-assets
+
  1. Generate Theme
 
         $ php symfony generate:theme hadori
 
  1. Complete the options asked by the generator
-
- 1. Publish your assets
-
-        $ php symfony plugin:publish-assets
 
  1. Configure your assets.  jQuery is included in each module by default, but you may want to change this
 
@@ -37,21 +37,29 @@ The generator.yml allows for several options you will be familiar with, with the
 
     These are options directly underneath `param` in the generator.yml configuration file
 
-    * *sortable* [false]
+    * *i18n*
 
-        If your model has the csDoctrineActAsSortable behavior, set this to true to enable "promote" and "demote" actions in the list view
+      Whether or not to wrap interface strings in the i18n `__()` function.  Defaults to `false`.
 
-    * *use\_security\_yaml\_credentials* [true]
+    * *sortable*
+
+        If your model has the csDoctrineActAsSortable behavior, set this to true to enable "promote" and "demote" actions in the list view.  Defaults to `false`.
+
+    * *use\_security\_yaml\_credentials*
 
         Any actions declared in `security.yml` will only be available to the logged-in user if they possess that credential
+
+    * *class_label*
+
+        The human-readable label for your class.  Defaults to the `model_class` parameter.
 
     * *route_prefix*
 
         This should be the same as specified in `routing.yml` for the module.  This will ensure everything is linked up correctly.
 
-    * *actions\_base\_class* [sfActions]
+    * *actions\_base\_class*
 
-        This class will be extended by the action class generated in cache
+        This class will be extended by the action class generated in cache.  Defaults to `sfActions`.
 
   * **Form Options**
 
@@ -81,30 +89,29 @@ The generator.yml allows for several options you will be familiar with, with the
 
         Text in the list view's h2 tag
 
-    * *display* [true]
+    * *display*
 
         Columns to show in the list view table.  Defaults to the first five columns in the object's table.  See _Fields Options_ below.
 
-    * *actions* [new, export]
+    * *actions*
 
-        Actions to display at the bottom of the list view table.  See _Action Options_ below.  ex: `actions: [save, back]`
+        Actions to display at the bottom of the list view table.  Defaults to `[new, export]`.  See _Action Options_ below.  ex: `actions: [save, back]`
 
-    * *batch_actions* [delete]
+    * *batch_actions*
 
-        Actions to display in the batch actions dropdown of the list view.  These actions apply to all checked items in the list table.  ex: `batch_actions: [delete]`
+        Actions to display in the batch actions dropdown of the list view.  Defaults to `[delete]`.  These actions apply to all checked items in the list table.  ex: `batch_actions: [delete]`
 
-    * *object_actions* [show, edit, delete]
+    * *object_actions*
 
-        Actions available to each row of the list view table.  See _Action Options_ below.  ex: `object_actions: [show, edit, delete]`
+        Actions available to each row of the list view table.  Defaults to `[show, edit, delete]`.  See _Action Options_ below.  ex: `object_actions: [show, edit, delete]`
 
-    * *pager\_max\_per\_page* [10]
+    * *pager\_max\_per\_page*
 
-        Number of results to show in each list view table page
+        Number of results to show in each list view table page.  Defaults to `10`.
 
     * *sort*
 
         A sort array to sort your list view by default.  ex: `sort: [last_name, asc]`
-
 
   * **New Options**
 
@@ -114,9 +121,9 @@ The generator.yml allows for several options you will be familiar with, with the
 
         Text in the new action's h2 tag
 
-    * *actions* [save, save_and_add, cancel]
+    * *actions*
 
-        Actions available to the new form.  See _Action Options_ below.  ex: `actions: [save, back]`
+        Actions available to the new form.  Defaults to `[save, save_and_add, cancel]`.  See _Action Options_ below.  ex: `actions: [save, back]`
 
   * **Edit Options**
 
@@ -126,9 +133,9 @@ The generator.yml allows for several options you will be familiar with, with the
 
         Text in the edit action's h2 tag
 
-    * *actions* [save, delete, cancel]
+    * *actions*
 
-        Actions available to the edit form.  See _Action Options_ below.  ex: `actions: [save, back]`
+        Actions available to the edit form.  Defaults to `[save, delete, cancel]`.  See _Action Options_ below.  ex: `actions: [save, back]`
 
   * **Show Options**
 
@@ -138,13 +145,13 @@ The generator.yml allows for several options you will be familiar with, with the
 
         Text in the show action's h2 tag
 
-    * *display* [true]
+    * *display*
 
         Object properties to show in the definition list.  Defaults to all columns.  See _Fields Options_ below.
 
-    * *actions* [edit, cancel]
+    * *actions*
 
-        Actions available to the show form.  See _Action Options_ below.  ex: `actions: [edit, back]`
+        Actions available to the show form.  Defaults to `[edit, cancel]`.  See _Action Options_ below.  ex: `actions: [edit, back]`
 
   * **Export Options**
 
@@ -218,29 +225,76 @@ The generator.yml allows for several options you will be familiar with, with the
 
         The credentials required to view this field.  This follows the same syntax as security.yml.  ex:  `num_registrations: { credentials: [Planner, Administrator] }`
 
+Forms and Filters
+-----------------
+
+If you are familiar with the built-in symfony admin generator, you may be asking yourself *"How do I configure my form and filter fields?"*.  The answer is simple:
+Use the form framework provided with symfony.  There is no longer a disconnect between your form fields and the fields in your admin generator!  Rejoice!  Configuring
+your forms like so:
+
+    // lib/form/doctrine/MyModelForm.class.php
+    class MyModelForm extends BaseFormDoctrine
+    {
+      public function configure()
+      {
+        $this->useFields(array('title', 'body', 'description'));
+      }
+    }
+
+Hadori knows to only use these fields.  But don't forget to run `$ php symfony cache:clear`, otherwise you'll receive a 500 error when you view your
+form.  This is the same for filters:
+
+    // lib/form/doctrine/MyModelForm.class.php
+    class MyModelFormFilter extends BaseFormFilterDoctrine
+    {
+      public function configure()
+      {
+        $this->useFields(array('title', 'body', 'description', 'created_at', 'updated_at'));
+      }
+    }
+
+Only the fields used in your filter form will be available as filters.  Remarkable!
+
+Tokens
+------
+
+Hadori Tokens work much the same way as they do in the built in admin generator.  All tokens are wrapped in double-percents (_%%_).  Any
+value that does not match a configuration parameter is thought to be a getter on an object.
+
+  * Configuration Parameters:  Anything in generator.yml
+
+      `edit: { title: Edit %%class_label%% }`
+
+  * to_string: a special token for getting at the object's `__toString()` method
+
+      `show: { title: Showing %%to_string%% }`
+
+  * getters:  anything not matching the previous two tokens is assumed to be an object getter
+
+      `delete: { confirm: Are you sure you want to delete '%%full_name%%'? }`  - will call $object->getFullName()
+
 Exporting
 ---------
 
-This plugins gives you the ability to export subsets of your data to a csv
-file. To use this feature, simply activate is (as described below) and
-then configure your fields in the same way you configure fields in the
-list view.
+Hadori gives you the ability to export subsets of your data to a csv
+file. This feature is activated by default.  You can configure your fields
+in the same way you configure fields in the list view: using the `display` configuration.
+To disable exporting, follow the steps below.
 
- 1. Activate the `export` mode in the `generator.yml`. Do this by removing
-    the `~` after the export option:
+ 1. Disable the `export` mode in the `generator.yml`. Do this by setting export to `false`
 
         edit:    ~
         new:     ~
-        export:
+        export:  false
 
- 1. Turn the export route on by setting the `with_export` option in `routing.yml`
-    to true:
+ 1. Turn off the export route by setting the `with_export` option in `routing.yml`
+    to `false`:
 
-        my\_admin\_route:
+        my_admin_route:
           class: sfHadoriAdminRouteCollection
           options:
             # ...
-            with_export:          true
+            with_export:          false
 
 Security
 --------
@@ -278,4 +332,4 @@ Set your stylesheets to the plugin's stylesheets:
 Generated Code
 --------------
 
-View the sfThemeGeneratorPlugin `README` for more options on how to customize this theme.
+View the [sfThemeGeneratorPlugin](http://github.com/bshaffer/sfHadoriThemePlugin) `README` for more options on how to customize this theme.

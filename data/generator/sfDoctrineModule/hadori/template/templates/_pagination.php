@@ -1,6 +1,6 @@
 [?php if ($pager->haveToPaginate()): ?]
   <div class="pagination">
-    [?php if($pager->getPreviousPage() != $pager->getFirstPage()): ?]
+    [?php if($pager->getFirstPage() != $pager->getPage()): ?]
       [?php echo link_to(<?php echo $this->renderPhpText('First') ?>, <?php echo $this->urlFor('list', false) ?>, array('page' => 1), array('class' => 'first_page')) ?]
     [?php else: ?]
       <span class="disabled first_page"><?php echo $this->renderHtmlText('First') ?></span>
