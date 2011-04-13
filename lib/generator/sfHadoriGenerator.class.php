@@ -1,8 +1,12 @@
 <?php
 
 /**
-*
-*/
+ * class to handle generation of theme cache files.
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage generator
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfHadoriGenerator extends sfThemeGenerator
 {
   public function getUrlForAction($action)

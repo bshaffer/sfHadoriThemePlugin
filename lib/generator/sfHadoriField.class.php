@@ -3,10 +3,9 @@
 /**
  * Model generator field.
  *
- * @package    symfony
+ * @package    sfHadoriThemePlugin
  * @subpackage generator
- * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfModelGeneratorConfigurationField.class.php 21908 2009-09-11 12:06:21Z fabien $
+ * @author     Brent Shaffer <bshafs@gmail.com>
  */
 class sfHadoriField
 {

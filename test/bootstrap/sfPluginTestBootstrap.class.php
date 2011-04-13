@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * bootstrap class for running plugin tests
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage test
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfPluginTestBootstrap
 {
   protected

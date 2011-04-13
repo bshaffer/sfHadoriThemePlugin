@@ -1,8 +1,8 @@
 <?php
 
 /*
- * This file is part of the symfony package.
- * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
+ * This file is part of the sfHadoriThemePlugin package.
+ * (c) Brent Shaffer <bshafs@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,8 +13,7 @@
  * 
  * @package    sfHadoriThemePlugin
  * @subpackage config
- * @author     Brent Shaffer
- * @version    SVN: $Id: sfHadoriThemePluginConfiguration.class.php
+ * @author     Brent Shaffer <bshafs@gmail.com>
  */
 class sfHadoriThemePluginConfiguration extends sfPluginConfiguration
 {

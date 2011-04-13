@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * route collection for hadori routes
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage routing
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfHadoriRouteCollection extends sfDoctrineRouteCollection
 {
   public function __construct(array $options)

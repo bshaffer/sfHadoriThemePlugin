@@ -1,19 +1,18 @@
 <?php
 
 /**
-*
-*/
+ * class to handle sorting, filtering, pagination, and formatting
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage helper
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfHadoriThemeHelper
 {
   protected
     $_filters         = array(),
     $_sort            = array(),
     $choiceFormatter  = null;
-
-  public function getRouteForAction($action)
-  {
-    return '@'.$this->getUrlForAction($action);
-  }
 
   public function getChoiceFormatter()
   {

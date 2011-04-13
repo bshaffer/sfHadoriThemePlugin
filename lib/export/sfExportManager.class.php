@@ -1,25 +1,29 @@
 <?php
 
 /**
-* 
-*/
+ * Manager for exporting doctrine models.
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage export
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfExportManager
 {
-  protected 
+  protected
     $options            = array(),
     $error              = null,
     $response           = null,
     $_data              = array();
-  
+
   public function __construct(sfResponse $response = null)
-  {    
+  {
     $this->response = $response;
   }
-  
+
   public function export($collection, $fields, $title)
   {
     $this->doExport($collection, $fields, $title);
-    
+
     $this->output($title);
   }
 
@@ -28,24 +32,24 @@ class sfExportManager
    *
    * default sheet export for collection
    *
-   * @param array|object $collection 
-   * @param array $fields 
+   * @param array|object $collection
+   * @param array $fields
    * @author Brent Shaffer
    */
   public function doExport($collection, $fields)
   {
     // Initialize coordinate counters
     $headers = array();
-    
+
     $fields = $this->cleanFields($fields);
-    
+
     foreach ($fields as $field => $label)
     {
       $headers[] = $this->exportHeader($field, $label);
     }
     $this->addLine($headers);
-    
-    foreach ($collection as $record) 
+
+    foreach ($collection as $record)
     {
       $cells = array();
       foreach ($fields as $field => $label)
@@ -54,10 +58,10 @@ class sfExportManager
       }
       $this->addLine($cells);
     }
-    
+
     return $this->_data;
   }
-  
+
   public function output($filename, $format = null)
   {
     if(is_null($format))
@@ -95,51 +99,51 @@ class sfExportManager
       $this->response->setHttpHeader('Content-Disposition', sprintf('attachment;filename="%s.%s"', $filename, $ext));
       $this->response->setHttpHeader('Cache-Control', 'max-age=0');
     }
-    
+
     $this->response->setContent(implode("\r\n", $this->_data));
 
     return true;
   }
-  
+
   public function exportHeader($field, $label)
   {
     return $label ? $label : sfInflector::humanize($field);
   }
-  
+
   public function exportField($object, $field)
   {
     return $object[$field];
   }
-  
+
   public function getDefaultFormat()
   {
     return 'csv';
   }
-  
+
   public function getDownloadRoute()
   {
     return null;
   }
-  
+
   public function getErrorMessage()
   {
     return $this->error;
   }
-  
+
   public function setErrorMessage($error)
   {
     $this->error = $error;
   }
-  
+
   protected function addLine($values)
   {
-    foreach ($values as &$value) 
+    foreach ($values as &$value)
     {
       $value = utf8_decode($this->escapeString($value));
     }
     $this->_data[] = implode(',', $values);
   }
-  
+
   protected function escapeString($string)
   {
     $string = str_replace('"', '""', $string);
@@ -149,13 +153,13 @@ class sfExportManager
 
     return $string;
   }
-  
+
   // Makes sure fields are in "Field" => "Label" format
   protected function cleanFields($fields)
   {
-    foreach ($fields as $key => $value) 
+    foreach ($fields as $key => $value)
     {
-      if (is_int($key)) 
+      if (is_int($key))
       {
         $clean[$value] = null;
       }
@@ -164,15 +168,15 @@ class sfExportManager
         $clean[$key] = $value;
       }
     }
-    
-    foreach ($clean as $field => $label) 
+
+    foreach ($clean as $field => $label)
     {
-      if (!$label) 
+      if (!$label)
       {
         $clean[$field] = sfInflector::humanize($field);
       }
     }
-    
+
     return $clean;
   }
 }

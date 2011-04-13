@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Class to handle the theme configuration.
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage generator
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 {
   protected

@@ -1,8 +1,12 @@
 <?php
 
 /**
-* 
-*/
+ * tester class for sorting, filtering, pagination, etc for hadori modules
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage test
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfTesterAdmin extends sfTester
 {
   protected 

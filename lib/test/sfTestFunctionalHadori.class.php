@@ -1,8 +1,12 @@
 <?php
 
 /**
-* 
-*/
+ * provides convenience methods for writing tests within the hadori testing environment
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage test
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfTestFunctionalHadori extends sfTestFunctionalTheme
 {
   public function setGeneratorConfigValue($module, array $values)

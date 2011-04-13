@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Handles theme configuration when spinning up a new module using this theme.  See sfThemeGeneratorPlugin
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage config
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfHadoriThemeConfiguration extends sfThemeConfiguration
 {
   protected

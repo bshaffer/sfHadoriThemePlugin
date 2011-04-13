@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * tester class for navigating through csvs and asserting columns and values
+ *
+ * @package    sfHadoriThemePlugin
+ * @subpackage test
+ * @author     Brent Shaffer <bshafs@gmail.com>
+ */
 class sfTesterCsv extends sfTesterResponse
 {
   protected
