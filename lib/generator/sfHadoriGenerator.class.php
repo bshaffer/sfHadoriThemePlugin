@@ -82,7 +82,7 @@ EOF;
     }
     else if ('Date' == $field->getType())
     {
-      $html = sprintf("false !== strtotime($html) ? date(%s, strtotime(%s)) : '&nbsp;'", $this->asPhp($field->getOption('date_format', 'Y-m-d')), $html);
+      $html = sprintf("false !== strtotime($html) ? date(%s, strtotime(%s)) : %s", $this->asPhp($field->getOption('date_format', 'Y-m-d')), $html, $html);
     }
     else if ('Boolean' == $field->getType())
     {

@@ -114,8 +114,8 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 
     // Defaults when sorting is enabled
     if ($this->hasSortable()) {
-      $configDefaults['list']['object_actions']['_promote'] = null;
-      $configDefaults['list']['object_actions']['_demote']  = null;
+      $configDefaults['list']['object_actions']['promote'] = null;
+      $configDefaults['list']['object_actions']['demote']  = null;
       $configDefaults['list']['sort'] = array('position', 'asc');
     }
 
@@ -124,7 +124,7 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 
   public function addSecurityCredentials($name, $options = array())
   {
-    $actionAction = isset($options['action']) ? $options['action'] : (strpos($name, '_') === 0 ? substr($name, 1) : $name);
+    $actionAction = isset($options['action']) ? $options['action'] : $name;
     if(isset($this->security[$actionAction]['credentials']))
     {
       $options['credentials'] = $this->security[$actionAction]['credentials'];

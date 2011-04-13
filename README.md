@@ -225,6 +225,19 @@ The generator.yml allows for several options you will be familiar with, with the
 
         The credentials required to view this field.  This follows the same syntax as security.yml.  ex:  `num_registrations: { credentials: [Planner, Administrator] }`
 
+    * *date_format*
+
+        If the field value is a valid date string, format it according to [PHP Date Format Characters](http://php.net/manual/en/function.date.php)
+
+    * *type*
+
+        Can be `Text`, `Date` or `Boolean`. Typically set by the database column type, but can be set manually to display fields in a custom way.  
+
+          * Type `Boolean` displays the value as a green check or a red X.
+          * Type `Date` formats the value based on the `date_format` parameter, **Y-m-d** by default
+          * Type `Text` displays the string value with no modification
+          * *to do* - Type `Object` links to the `show` action for the object if a theme exists for it
+
 Forms and Filters
 -----------------
 
