@@ -126,7 +126,7 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 
   protected function getDefaultConfiguration()
   {
-    $defaults = sfYaml::load(dirname(__FILE__).'/config/generator.yml');
+    $defaults = sfYaml::load(dirname(__FILE__).'/../config/config/generator.yml');
 
     $configDefaults = $defaults['generator']['param']['config'];
 
