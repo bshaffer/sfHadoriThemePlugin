@@ -312,7 +312,7 @@ To disable exporting, follow the steps below.
     to `false`:
 
         my_admin_route:
-          class: sfHadoriAdminRouteCollection
+          class: sfHadoriRouteCollection
           options:
             # ...
             with_export:          false

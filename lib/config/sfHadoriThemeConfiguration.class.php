@@ -59,7 +59,7 @@ EOF
   {
     $primaryKey = Doctrine_Core::getTable($this->options['model'])->getIdentifier();
     $routes = array($this->options['module'] => sprintf(<<<EOF
-  class: sfHadoriAdminRouteCollection
+  class: sfHadoriRouteCollection
   options:
     model:                %s
     module:               %s
