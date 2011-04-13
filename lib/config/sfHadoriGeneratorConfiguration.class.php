@@ -57,8 +57,19 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
       if (is_array($config)) {
         foreach ($config as $actionType => $value) {
           if (strpos($actionType, 'actions') !== false) {
+
+            // if action names are set as values (i.e. [edit, new, save]) change them to values
+            $configuredActions = array();
+            foreach ($value as $action => $options) {
+              if (is_int($action) && is_string($options)) {
+                $configuredActions[(string)$options] = null;
+              } else {
+                $configuredActions[$action] = $options;
+              }
+            }
+
             // Merge in actions for configurations defined in "actions"
-            $actions = Doctrine_Lib::arrayDeepMerge(array_intersect_key($configuration['actions'], $value), $this->filterNullValues($value));
+            $actions = Doctrine_Lib::arrayDeepMerge(array_intersect_key($configuration['actions'], $configuredActions), $this->filterNullValues($configuredActions));
 
             // set "label" and "action" if not set in configuration
             foreach ($actions as $actionName => $actionConfig) {
