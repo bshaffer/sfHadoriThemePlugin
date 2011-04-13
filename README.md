@@ -39,7 +39,7 @@ The generator.yml allows for several options you will be familiar with, with the
 
     * *i18n*
 
-      Whether or not to wrap interface strings in the i18n `__()` function.  Defaults to `false`.
+        Whether or not to wrap interface strings in the i18n `__()` function.  Defaults to `false`.
 
     * *sortable*
 
