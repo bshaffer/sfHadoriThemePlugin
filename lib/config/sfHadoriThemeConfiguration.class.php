@@ -45,6 +45,8 @@ class sfHadoriThemeConfiguration extends sfThemeConfiguration
     plural:                ~
     route_prefix:          %s
     with_doctrine_route:   true
+    i18n:                  false
+    sortable:              false
     actions_base_class:    sfActions
     use_security_yaml_credentials: false
 EOF

@@ -17,6 +17,8 @@ a:hover { text-decoration:none; }
 #header #public-nav a { color:#fff; }
 #header h1 { color:#fff; font-size:30px; font-weight:normal; margin:0; }
 
+#footer { margin-left: 170px; color: #333; font-size: 12px}
+
 #login-box {
   background-color:#fff;
   margin:25px auto;

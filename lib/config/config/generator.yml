@@ -8,6 +8,7 @@ generator:
     singular:              ~
     plural:                ~
     route_prefix:          ~
+    i18n:                  false
     sortable:              false
     with_doctrine_route:   true
     actions_base_class:    sfActions

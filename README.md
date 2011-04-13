@@ -6,26 +6,59 @@ sfHadoriThemePlugin is an admin generator with a beautiful-built in theme.  Hado
 Installation
 ------------
 
-Before spinning up this theme, you must install the [sfThemeGeneratorPlugin](http://github.com/bshaffer/sfThemeGeneratorPlugin).
+### With git
 
- 1. As always, publish your assets
+    git submodule add git://github.com/weaverryan/ioEditableContentPlugin.git plugins/ioEditableContentPlugin
+    git submodule init
+    git submodule update
+
+### With subversion
+
+    svn propedit svn:externals plugins
+
+In the editor that's displayed, add the following entry and then save
+
+    ioEditableContentPlugin https://svn.github.com/weaverryan/ioEditableContentPlugin.git
+
+Finally, update:
+
+    svn update
+
+### Setup
+
+ 1. Before doing anything, you must install the [sfThemeGeneratorPlugin](http://github.com/bshaffer/sfThemeGeneratorPlugin).  To do this, follow the Installation steps in the [README](https://github.com/bshaffer/sfThemeGeneratorPlugin/blob/master/README.md).
+
+ 1. In your `config/ProjectConfiguration.class.php` file, make sure you have the plugin enabled.
+
+    $this->enablePlugins('ioEditableContentPlugin');
+
+ 1. run the "publish assets" task to to symlink your web directory to the web assets of your plugins.
 
         $ php symfony plugin:publish-assets
 
- 1. Generate Theme
+### Generate the Theme
 
-        $ php symfony generate:theme hadori
+ 1. Run the "theme generate" task for the hadori theme
+
+        $ php symfony theme:generate hadori
 
  1. Complete the options asked by the generator
+ 
+        Application to generate theme:
+        $ frontend
+        Model for this theme:
+        $ sfGuardUser
+        Module for this theme [sf\_guard\_user]: 
+        $ (enter)
 
- 1. Configure your assets.  jQuery is included in each module by default, but you may want to change this
+ 1. (optional) Configure your assets.  jQuery is included in each module by default, but you may want to change this
 
         # /path/to/generated-module/config/view.yml
         all:
           stylesheets:     [/sfHadoriThemePlugin/css/theme.css, /sfHadoriThemePlugin/css/hadori.css]
           javascripts:     [/sfHadoriThemePlugin/js/jquery-1.4.2.min.js, /sfHadoriThemePlugin/js/hadori.js]
 
- 1. Look at the layout.php.sample file for an example layout. It lives in `data/sample/layout.php.sample`.  Using this layout for your generated modules will apply the Hadori theme.  This will also apply to your login form.
+ 1. (optional) Look at the layout.php.sample file for an example layout. It lives in `data/sample/layout.php.sample`.  Using this layout for your generated modules will apply the Hadori theme.  This will also apply to your login form.
 
 Configuration
 -------------
@@ -327,28 +360,42 @@ This will automatically hide actions to users without appropriate credentials.
 Styling Login Form
 ------------------
 
-Follow these steps to style your login form with the Hadori theme:
+This part will only work if you are using `sfDoctrineGuardPlugin`.  Follow these steps to style your login form with the Hadori theme:
 
 Set your application to use the _sfDoctrineGuardPlugin_ login form in your settings.yml:
 
-    # app/MYAPP/config/settings.yml
+    # app/YOUR-APP/config/settings.yml
     all:
       .settings:
         login_module: sfGuardAuth
-        login_action:   login
+        login_action: login
 
 Copy over the layout.php.sample file in _data/sample_ as your base application template.
 
     # cd /path/to/project
-    cp plugins/sfHadoriThemePlugin/data/sample/layout.php.sample apps/MYAPP/templates/
+    cp plugins/sfHadoriThemePlugin/data/sample/layout.php.sample apps/YOUR-APP/templates/layout.php
 
-Set your stylesheets to the plugin's stylesheets:
+Set your application's stylesheets to the plugin's stylesheets:
 
-    # app/MYAPP/config/view.yml
+    # app/YOUR-APP/config/view.yml
     default:
       stylesheets:
         - /sfHadoriThemePlugin/css/theme.css
         - /sfHadoriThemePlugin/css/hadori.css
+
+Set your application's stylesheets to the plugin's stylesheets:
+
+    # app/YOUR-APP/config/view.yml
+    default:
+      stylesheets:
+        - /sfHadoriThemePlugin/css/theme.css
+        - /sfHadoriThemePlugin/css/hadori.css
+
+This will already get you a decent looking login form, but if you want to go the extra mile, copy over the \_signin\_form.php.sample file into your application.
+
+    # cd /path/to/project
+    mkdir -p apps/YOUR-APP/modules/sfGuardAuth/templates
+    cp plugins/sfHadoriThemePlugin/data/sample/_signin_form.php.sample apps/YOUR-APP/modules/sfGuardAuth/templates/_signin_form.php
 
 Generated Code
 --------------
