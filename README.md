@@ -441,3 +441,8 @@ Generated Code
 --------------
 
 View the [sfThemeGeneratorPlugin](http://github.com/bshaffer/sfHadoriThemePlugin) `README` for more options on how to customize this theme.
+
+Credits
+-------
+
+Thanks to [Travis Roberts](http://github.com/travis) for the hadori stylesheets.
