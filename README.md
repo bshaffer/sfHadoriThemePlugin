@@ -8,7 +8,7 @@ Installation
 
 ### With git
 
-    git submodule add git://github.com/weaverryan/ioEditableContentPlugin.git plugins/ioEditableContentPlugin
+    git submodule add git://github.com/bshaffer/sfHadoriThemePlugin.git plugins/sfHadoriThemePlugin
     git submodule init
     git submodule update
 
@@ -18,7 +18,7 @@ Installation
 
 In the editor that's displayed, add the following entry and then save
 
-    ioEditableContentPlugin https://svn.github.com/weaverryan/ioEditableContentPlugin.git
+    sfHadoriThemePlugin https://svn.github.com/bshaffer/sfHadoriThemePlugin.git
 
 Finally, update:
 
@@ -30,7 +30,7 @@ Finally, update:
 
  1. In your `config/ProjectConfiguration.class.php` file, make sure you have the plugin enabled.
 
-    $this->enablePlugins('ioEditableContentPlugin');
+    $this->enablePlugins('sfHadoriThemePlugin');
 
  1. run the "publish assets" task to to symlink your web directory to the web assets of your plugins.
 
