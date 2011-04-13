@@ -194,6 +194,7 @@ fieldset h3 {
 }
 
 .actions { padding:0 !important; }
+.actions a { margin-left: 10px }
 .actions em { color:#999; margin-left:5px; }
 .actions .cancel { float:right; font-size:12px; color:#900; }
 .actions input {

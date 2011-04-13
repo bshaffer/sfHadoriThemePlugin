@@ -70,7 +70,7 @@ a.demote { background-image: url(../images/demote.png);}
 
 .notice
 {
-  margin: 4px 0;
+  margin: 20px 0;
   padding: 4px 4px 4px 30px;
   background: url(../images/tick.png) no-repeat 10px 4px;
   border-top: 1px solid #ddd;
@@ -78,9 +78,16 @@ a.demote { background-image: url(../images/demote.png);}
   background-color: #ffc;
 }
 
+.info {
+  margin: 20px 0;
+  padding:12px 12px 12px 30px;
+  border:1px solid #ccc;
+  background:#fff url(../images/info.png) 10px 11px no-repeat;
+}
+
 .error
 {
-  margin: 4px 0;
+  margin: 20px 0;
   padding: 4px 4px 4px 30px;
   background: url(../images/error.png) no-repeat 10px 4px;
   border-top: 1px solid #ddd;
