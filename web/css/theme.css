@@ -20,7 +20,7 @@ a:hover { text-decoration:none; }
 #login-box {
   background-color:#fff;
   margin:25px auto;
-  width:500px;
+  width:650px;
 }
 #login-box h3 {
   background-color:#000;
@@ -59,7 +59,9 @@ a:hover { text-decoration:none; }
   font-size:16px;
   line-height:20px;
   width:150px;
+  margin-top:20px;
 }
+#login-form input.remember-me { margin-top: 10px}
 #login-form .submit input:hover {
   -webkit-box-shadow:0px 0px 3px #333333;
   -moz-box-shadow:0px 0px 3px #333333;
@@ -67,7 +69,8 @@ a:hover { text-decoration:none; }
 }
 #login-form .forgot-password { margin:0; padding:15px 0 0 0; border-top:1px solid #CCC; }
 #login-form .forgot-password a { font-weight:normal; }
-
+#login-form th { text-align:left; padding-right:20px; vertical-align: middle;}
+#login-form tr.checkbox-row th { vertical-align:baseline; }
 #content { min-width:800px; overflow:hidden; padding:5px 0 25px 0; }
 
 #admin-nav ul {
@@ -93,12 +96,9 @@ a:hover { text-decoration:none; }
   background-color:#fff;
   float:left;
   width:83%;
-  -webkit-border-top-left-radius: 10px;
-  -moz-border-radius-topleft: 10px;
-  border-top-left-radius: 10px;
-  -webkit-border-top-right-radius: 10px;
-  -moz-border-radius-topright: 10px;
-  border-top-right-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
   -webkit-box-shadow:0px 0px 3px #333333;
   -moz-box-shadow:0px 0px 3px #333333;
   box-shadow:0px 0px 3px #333333;
