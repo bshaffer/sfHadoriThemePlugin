@@ -333,6 +333,46 @@ Exporting
 Hadori gives you the ability to export subsets of your data to a csv
 file. This feature is activated by default.  You can configure your fields
 in the same way you configure fields in the list view: using the `display` configuration.
+
+**Custom Exporting**:  Adding custom columns in the data export can be done two ways.  The first
+is the simplest:  Add a getter for that column on your model, and include this in the `display` configuration.
+
+      // MyModel.class.php
+      class MyModel extends BaseMyModel
+      {
+        //...
+        function getTagNames()
+        {
+          return implode(',', $this->getTags()->toKeyValueArray('id', 'name'));
+        }
+      }
+
+      // generator.yml
+      export:
+        display: [title, created_at, tag_names]
+
+The second method is to extend the `sfExportManager` class and add magic methods to it.  This is great if you have a lot of logic required for your
+export and you'd like to keep that logic out of your model class.
+
+      // MyModelExportManager.class.php
+      class MyModelExportManager extends sfExportManager
+      {
+        public function exportField($object, $field)
+        {
+          if($field == 'tag_names')
+          {
+            return implode(',', $this->getTags()->toKeyValueArray('id', 'name'));
+          }
+          
+          return parent::exportField($object, $field);
+        }
+      }
+      
+      // generator.yml
+      export:
+        display:        [title, created_at, tag_names]
+        manager_class:  MyModelExportManager
+
 To disable exporting, follow the steps below.
 
  1. Disable the `export` mode in the `generator.yml`. Do this by setting export to `false`
