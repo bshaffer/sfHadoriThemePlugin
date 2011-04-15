@@ -6,7 +6,7 @@
         <?php echo $form['password']->renderRow(array('class' => 'formfield')) ?>
         <tr class="checkbox-row">
           <th><?php echo $form['remember']->renderLabel() ?></th>
-          <td><?php echo $form['remember']->render(array('class' => 'formfield remember-me')) ?></td>
+          <td><?php echo $form['remember']->render(array('class' => 'remember-me')) ?></td>
         </tr>
 
       </tbody>
