@@ -1,5 +1,7 @@
 <div id="login-box">
   <form action="<?php echo url_for('@sf_guard_signin') ?>" method="post" id="login-form">
+    <?php echo $form->renderHiddenFields() ?>
+    <?php echo $form->renderGlobalErrors() ?>
     <table>
       <tbody>
         <?php echo $form['username']->renderRow(array('class' => 'formfield')) ?>
