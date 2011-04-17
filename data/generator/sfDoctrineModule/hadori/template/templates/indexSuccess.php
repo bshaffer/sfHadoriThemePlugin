@@ -18,11 +18,11 @@
 <?php endif; ?>
     [?php include_partial('<?php echo $this->getModuleName() ?>/list', array('pager' => $pager, 'helper' => $helper)) ?]
     <div class="actions">
-<?php if ($listActions = $this->get('list_batch_actions')): ?>
+<?php if ($batchActions = $this->get('list_batch_actions')): ?>
       <select name="batch_action">
         <option value=""><?php echo $this->renderHtmlText('Choose an action') ?></option>
-<?php foreach ((array) $listActions as $action => $params): ?>
-        <?php echo $this->addCredentialCondition('<option value="'.$action.'">'.$this->renderHtmlText($params['label']).'</option>', $params) ?>
+<?php foreach ((array) $batchActions as $name => $params): ?>
+        <?php echo $this->addCredentialCondition('<option value="'.$params['action'].'">'.$this->renderHtmlText($params['label']).'</option>', $params) ?>
 
 <?php endforeach; ?>
       </select>

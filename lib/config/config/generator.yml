@@ -26,7 +26,8 @@ generator:
           edit:             ~
           delete:           ~
         batch_actions:
-          delete:           ~
+          delete:
+            action:         batchDelete
         pager_max_per_page: 10
 
       new:
