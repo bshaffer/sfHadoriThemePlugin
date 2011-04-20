@@ -31,7 +31,7 @@ class sfHadoriField
         break;
 
       case '~':
-        $this->setPartial(true);
+        $this->setComponent(true);
         $name = substr($name, 1);
         break;
 
