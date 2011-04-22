@@ -20,10 +20,14 @@ $(document).ready(function() {
     $('td input').attr('checked', this.checked);
     return true;
   });
-  
- $('.filters legend').click(function() {
-   $(this).parents('fieldset').toggleClass('collapsed').find('div.inner').slideToggle();
- });
+
+ function clickHandler() {
+     $(this).parents('fieldset').toggleClass('collapsed').find('div.inner').slideToggle('fast', function() {
+        $('.filters legend').one('click', clickHandler);
+     });
+ }
+
+ $('.filters legend').one('click', clickHandler);
  
  $('#information tbody tr:first a.promote').hide();
  $('#information tbody tr:last a.demote').hide();
