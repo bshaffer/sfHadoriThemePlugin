@@ -25,10 +25,6 @@ $(document).ready(function() {
    $(this).parents('fieldset').toggleClass('collapsed').find('div.inner').slideToggle();
  });
  
- $('.filters legend').click(function() {
-   $(this).parents('fieldset').toggleClass('collapsed').find('div.inner').slideToggle();
- });
- 
  $('#information tbody tr:first a.promote').hide();
  $('#information tbody tr:last a.demote').hide();
  
