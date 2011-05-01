@@ -1,6 +1,6 @@
 <form action="[?php echo url_for(<?php echo $this->urlFor('collection', false) ?>, array('action' => 'filter')) ?]" method="post" class="filter-form">
   <fieldset id="filters" class="collapsible">
-    <legend>Filters</legend>
+    <legend><?php echo $this->renderHtmlText('Filters') ?></legend>
 
     <div class="inner">
       [?php if ($form->hasGlobalErrors()): ?]
