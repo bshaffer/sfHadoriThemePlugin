@@ -458,12 +458,12 @@ Upgrading an existing module to Hadori is easy.  Follow this guide to transform 
 
 2. Change the `theme` parameter in `generator.yml` from **admin** to **hadori**
 
-1. Remove the `lib` directory in your admin module
+3. Remove the `lib` directory in your admin module
 
     The `my\_moduleGeneratorConfiguration` and `my\_modelGeneratorHelper` classes are not needed in Hadori.  If you've customized these
     classes, this logic will need to be migrated to (most likely) the action.
         
-2. Add Hadori Assets
+4. Add Hadori Assets
   
 If you don't have a `_flashes.php` partial in your global templates directory (`apps/myapp/templates/_flashes.php`), copy it over
 
@@ -473,7 +473,7 @@ If you haven't added the stylesheets and javascripts to your global `view.yml`, 
 
     cp plugins/sfHadoriThemePlugin/data/generator/sfDoctrineModule/hadori/skeleton/config/view.yml apps/myapp/modules/my_module/config/
 
-3. A whole slew of partials are deprecated in Hadori.  If you have custom logic in any of the partials below, it will need to be moved.
+5. A whole slew of partials are deprecated in Hadori.  If you have custom logic in any of the partials below, it will need to be moved.
 
     - *\_assets.php*
     - *\_filters\_field.php*
@@ -495,7 +495,7 @@ If you haven't added the stylesheets and javascripts to your global `view.yml`, 
     - *\_list\_th\_stacked.php*
     - *\_list\_th\_tabular.php* -> this is now \_list\_header.php
 
-4. Some configuration has been deprecated in Hadori.  If you have any of the configuration below, it will need to be moved:
+6. Some configuration has been deprecated in Hadori.  If you have any of the configuration below, it will need to be moved:
 
     - *form*: display (*use the form class*)
     - *filter*: display (*use the filter form class*)
