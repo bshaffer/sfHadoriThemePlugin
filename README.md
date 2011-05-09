@@ -465,13 +465,13 @@ Upgrading an existing module to Hadori is easy.  Follow this guide to transform 
         
 4. Add Hadori Assets
   
-If you don't have a `_flashes.php` partial in your global templates directory (`apps/myapp/templates/_flashes.php`), copy it over
+    If you don't have a `_flashes.php` partial in your global templates directory (`apps/myapp/templates/_flashes.php`), copy it over
 
-    cp plugins/sfHadoriThemePlugin/data/generator/sfDoctrineModule/hadori/templates/_flashes.php apps/myapp/modules/my_module/templates/
+        cp plugins/sfHadoriThemePlugin/data/generator/sfDoctrineModule/hadori/templates/_flashes.php apps/myapp/modules/my_module/templates/
 
-If you haven't added the stylesheets and javascripts to your global `view.yml`, create a new one or copy the existing one
+    If you haven't added the stylesheets and javascripts to your global `view.yml`, create a new one or copy the existing one
 
-    cp plugins/sfHadoriThemePlugin/data/generator/sfDoctrineModule/hadori/skeleton/config/view.yml apps/myapp/modules/my_module/config/
+        cp plugins/sfHadoriThemePlugin/data/generator/sfDoctrineModule/hadori/skeleton/config/view.yml apps/myapp/modules/my_module/config/
 
 5. A whole slew of partials are deprecated in Hadori.  If you have custom logic in any of the partials below, it will need to be moved.
 
