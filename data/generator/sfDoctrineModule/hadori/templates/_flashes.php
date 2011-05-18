@@ -1,11 +1,11 @@
 <?php if ($sf_user->hasFlash('error')): ?>
-  <div id="error"><?php echo $sf_user->getFlash('error') ?></div>
+  <div class="error"><?php echo $sf_user->getFlash('error') ?></div>
 <?php endif; ?>
 
 <?php if ($sf_user->hasFlash('info')): ?>
-  <div id="info"><?php echo $sf_user->getFlash('info') ?></div>
+  <div class="info"><?php echo $sf_user->getFlash('info') ?></div>
 <?php endif; ?>
 
 <?php if ($sf_user->hasFlash('notice')): ?>
-  <div id="notice"><?php echo $sf_user->getFlash('notice') ?></div>
+  <div class="notice"><?php echo $sf_user->getFlash('notice') ?></div>
 <?php endif; ?>
