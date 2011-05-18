@@ -25,5 +25,9 @@
 
 [?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?]
 [?php if ($pager->haveToPaginate()): ?]
-  [?php echo strtr('(page %%page%%/%%nb_pages%%)', array('%%page%%' => $pager->getPage(), '%%nb_pages%%' => $pager->getLastPage())) ?]
+  <?php if($this->get('i18n')): ?>
+    [?php echo __('(page %%page%%/%%nb_pages%%)', array('%%page%%' => $pager->getPage(), '%%nb_pages%%' => $pager->getLastPage()), '<?php echo $this->getI18NCatalogue() ?>') ?]
+  <?php else: ?>
+    [?php echo strtr('(page %%page%%/%%nb_pages%%)', array('%%page%%' => $pager->getPage(), '%%nb_pages%%' => $pager->getLastPage())) ?]
+  <?php endif; ?>
 [?php endif; ?]
