@@ -15,7 +15,7 @@
 
       <select class="filter-select">
         <option value=""><?php echo $this->renderHtmlText('-- Add Filter --') ?></option>
-        [?php foreach ($form as $name => $field): ?]
+        [?php foreach ($form as $name => $field): if($field->isHidden()) continue; ?]
           <option value="[?php echo $name ?]">[?php echo $field->renderLabel() ?]</option>
         [?php endforeach ?]
       </select>
