@@ -68,7 +68,7 @@ a.export { background-image: url(../images/right.png);}
 a.promote { background-image: url(../images/promote.png);}
 a.demote { background-image: url(../images/demote.png);}
 
-.notice
+#notice
 {
   margin: 20px 0;
   padding: 4px 4px 4px 30px;
@@ -78,14 +78,14 @@ a.demote { background-image: url(../images/demote.png);}
   background-color: #ffc;
 }
 
-.info {
+#info {
   margin: 20px 0;
   padding:12px 12px 12px 30px;
   border:1px solid #ccc;
   background:#fff url(../images/info.png) 10px 11px no-repeat;
 }
 
-.error
+#error
 {
   margin: 20px 0;
   padding: 4px 4px 4px 30px;
