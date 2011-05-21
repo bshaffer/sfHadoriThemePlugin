@@ -23,7 +23,11 @@
   </div>
 [?php endif; ?]
 
-[?php echo format_number_choice('[0] no result|[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?]
+<?php if($this->get('i18n')): ?>
+[?php echo format_number_choice('[0] |[1] 1 result|(1,+Inf] %1% results', array('%1%' => $pager->getNbResults()), $pager->getNbResults()) ?]
+<?php else: ?>
+[?php echo $helper->getChoiceFormatter()->format(sprintf('[0] |[1] 1 result|(1,+Inf] %s results', $pager->getNbResults()), $pager->getNbResults()) ?]
+<?php endif; ?>
 [?php if ($pager->haveToPaginate()): ?]
   <?php if($this->get('i18n')): ?>
     [?php echo __('(page %%page%%/%%nb_pages%%)', array('%%page%%' => $pager->getPage(), '%%nb_pages%%' => $pager->getLastPage()), '<?php echo $this->getI18NCatalogue() ?>') ?]
