@@ -7,7 +7,7 @@
 
   protected function setFilters(array $filters)
   {
-    $filters = $this->getUser()->setAttribute('<?php echo $this->getModuleName() ?>.filters', $filters);
+    $this->getUser()->setAttribute('<?php echo $this->getModuleName() ?>.filters', $filters);
     $this->helper->setFilters($filters);
     return $filters;
   }
