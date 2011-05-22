@@ -3,10 +3,12 @@
     if (!$ids = $request->getParameter('ids'))
     {
       $this->getUser()->setFlash('error', 'You must at least select one item.');
+      $this->redirect(<?php echo $this->urlFor('list') ?>);
     }
     elseif (!$action = $request->getParameter('batch_action'))
     {
       $this->getUser()->setFlash('error', 'You must select an action to execute on the selected items.');
+      $this->redirect(<?php echo $this->urlFor('list') ?>);
     }
 
     $method = sprintf('execute%s', ucfirst($action));
