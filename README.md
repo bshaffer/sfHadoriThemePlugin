@@ -30,7 +30,7 @@ Finally, update:
 
  1. In your `config/ProjectConfiguration.class.php` file, make sure you have the plugin enabled.
 
-    $this->enablePlugins('sfHadoriThemePlugin');
+        $this->enablePlugins('sfHadoriThemePlugin');
 
  1. run the "publish assets" task to to symlink your web directory to the web assets of your plugins.
 
