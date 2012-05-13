@@ -275,8 +275,8 @@ Customizing the List View
 -------------------------
 
 Where before, you may have specified the `getTableMethod` parameter, now you override the `getBaseQuery()` function in your actions.class.php.  By default,
-this returns a `Doctrine_Query` object from your table via the `createQuery()` function.  Override `getBaseQuery` to add where clauses and other
-customizations.  Just be sure that method returns a `Doctrine_Query` instance, and you'll be all set!
+this returns a `Doctrine_Query` object from your table via the `createQuery()` function.  Override `getBaseQuery` to add WHERE clauses and other
+customizations.  Just be sure the method returns a `Doctrine_Query` instance, and you're set!
 
     // override getBaseQuery and join in the User table
     protected function getBaseQuery()
