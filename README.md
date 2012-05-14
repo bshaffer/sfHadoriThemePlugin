@@ -441,14 +441,6 @@ Set your application's stylesheets to the plugin's stylesheets:
         - /sfHadoriThemePlugin/css/theme.css
         - /sfHadoriThemePlugin/css/hadori.css
 
-Set your application's stylesheets to the plugin's stylesheets:
-
-    # app/YOUR-APP/config/view.yml
-    default:
-      stylesheets:
-        - /sfHadoriThemePlugin/css/theme.css
-        - /sfHadoriThemePlugin/css/hadori.css
-
 This will already get you a decent looking login form, but if you want to go the extra mile, copy over the \_signin\_form.php.sample file into your application.
 
     # cd /path/to/project
