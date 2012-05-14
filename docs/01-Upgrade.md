@@ -24,7 +24,7 @@ Upgrading an existing module to Hadori is easy.  Follow this guide to transform 
 
         cp plugins/sfHadoriThemePlugin/data/generator/sfDoctrineModule/hadori/skeleton/config/view.yml apps/myapp/modules/my_module/config/
 
-5. A whole slew of partials are deprecated in Hadori.  If you have custom logic in any of the partials below, it will need to be moved.
+5. A whole slew of partials are deprecated in Hadori.  If you have custom logic in any of the partials below, it will need to be moved
 
     - *\_assets.php*
     - *\_filters\_field.php*
@@ -46,7 +46,7 @@ Upgrading an existing module to Hadori is easy.  Follow this guide to transform 
     - *\_list\_th\_stacked.php* - functionality removed
     - *\_list\_th\_tabular.php* - this is now `_list_header.php`
     
-6. Some configuration has been deprecated in Hadori.  If you have any of the configuration below, it will need to be moved:
+6. Some configuration has been deprecated in Hadori.  If you have any of the configuration below, it will need to be moved
 
     - *form*: display (*use the form class*)
     - *filter*: display (*use the filter form class*)
