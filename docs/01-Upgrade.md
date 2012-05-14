@@ -45,7 +45,7 @@ Upgrading an existing module to Hadori is easy.  Follow this guide to transform 
     - *\_list\_td\_tabular.php* - consolidated into `_list_row.php`
     - *\_list\_th\_stacked.php* - functionality removed
     - *\_list\_th\_tabular.php* - this is now `_list_header.php`
-
+    
 6. Some configuration has been deprecated in Hadori.  If you have any of the configuration below, it will need to be moved:
 
     - *form*: display (*use the form class*)
