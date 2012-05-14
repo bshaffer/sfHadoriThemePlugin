@@ -11,6 +11,8 @@ Upgrading an existing module to Hadori is easy.  Follow this guide to transform 
 
     The `my_moduleGeneratorConfiguration` and `my_modelGeneratorHelper` classes are not needed in Hadori.  If you've customized these
     classes, this logic will need to be migrated to (most likely) the action.
+    
+    You will also need edit your action class to remove the references to these files.
         
 4. Add Hadori Assets
   
