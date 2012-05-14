@@ -450,7 +450,7 @@ This will already get you a decent looking login form, but if you want to go the
 Generated Code
 --------------
 
-View the [sfThemeGeneratorPlugin](http://github.com/bshaffer/sfHadoriThemePlugin) `README` for more options on how to customize this theme.
+View the [sfThemeGeneratorPlugin](https://github.com/bshaffer/sfThemeGeneratorPlugin) `README` for more options on how to customize this theme.
 
 Upgrading from the Original Symfony Admin Generator
 ---------------------------------------------------
