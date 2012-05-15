@@ -168,7 +168,7 @@ The generator.yml allows for several options you will be familiar with, with the
 
     * *actions*
 
-        Actions available to the edit form.  Defaults to `[save, delete, cancel]`.  See _Action Options_ below.  ex: `actions: [save, back]`
+        Actions available to the edit form.  Defaults to `[save, delete, cancel]`.  See _Action Options_ below.
 
   * **Show Options**
 
@@ -184,7 +184,7 @@ The generator.yml allows for several options you will be familiar with, with the
 
     * *actions*
 
-        Actions available to the show form.  Defaults to `[edit, cancel]`.  See _Action Options_ below.  ex: `actions: [edit, back]`
+        Actions available to the show form.  Defaults to `[edit, cancel]`.  See _Action Options_ below.
 
   * **Export Options**
 
