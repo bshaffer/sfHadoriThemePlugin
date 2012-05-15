@@ -76,7 +76,14 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
             }
 
             // Merge in actions for configurations defined in "actions"
-            $actions = Doctrine_Lib::arrayDeepMerge(array_intersect_key($configuration['actions'], $configuredActions), $this->filterNullValues($configuredActions));
+            $actions = Doctrine_Lib::arrayDeepMerge(
+                // merge in null values first.  That way, if they don't exist as defaults, they don't get removed alltogether
+                $configuredActions,
+                // merge in default actions
+                array_intersect_key($configuration['actions'], $configuredActions), 
+                // filter out null values so default actions take precedence.  In all other occasions, null values take precedence
+                $this->filterNullValues($configuredActions) 
+            );
 
             // set "label" and "action" if not set in configuration
             foreach ($actions as $actionName => $actionConfig) {
