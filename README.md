@@ -308,7 +308,7 @@ your forms like so:
 Hadori knows to only use these fields.  But don't forget to run `$ php symfony cache:clear`, otherwise you'll receive a 500 error when you view your
 form.  This is the same for filters:
 
-    // lib/form/doctrine/MyModelForm.class.php
+    // lib/filter/doctrine/MyModelForm.class.php
     class MyModelFormFilter extends BaseFormFilterDoctrine
     {
       public function configure()
