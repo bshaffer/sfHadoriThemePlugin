@@ -154,4 +154,14 @@ class sfHadoriField
   {
     $this->options['is_link'] = $boolean;
   }
+
+  /**
+   * Sets or unsets the relation flag.
+   *
+   * @param string the relation name (defaults to the name of the field)
+   */
+  public function getRelationName()
+  {
+    return $this->getOption('relation', $this->getName());
+  }
 }

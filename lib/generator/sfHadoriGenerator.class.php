@@ -100,8 +100,9 @@ EOF;
     {
       // Render Object Link (if possible)
       $table = Doctrine_Core::getTable($this->get('model_class'));
-      if ($table->hasRelation($field->getName())) {
-        $relation = $table->getRelation($field->getName());
+      if ($table->hasRelation($field->getRelationName())) {
+        $html = $this->getColumnGetter($field->getRelationName(), true);
+        $relation = $table->getRelation($field->getRelationName());
         if ($relation->getType() == Doctrine_Relation::MANY) {
           // This is a foreign alias.  Link To list
           $html = $this->linkToObjectList($relation['class'], $html, $field->getOptions());
