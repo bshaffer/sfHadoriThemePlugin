@@ -74,13 +74,28 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
                 $configuredActions[$action] = $options;
               }
             }
+            
+            $defaultActions = $configuration['actions'];
+            
+            // batch actions do not have the same configuration as the other actions
+            if ($actionType == 'batch_actions') {
+                $originalDefaults = $this->getDefaultConfiguration();
+                $defaultActions = $originalDefaults['list']['batch_actions'];
+            }
 
             // Merge in actions for configurations defined in "actions"
-            $actions = Doctrine_Lib::arrayDeepMerge(array_intersect_key($configuration['actions'], $configuredActions), $this->filterNullValues($configuredActions));
+            $actions = Doctrine_Lib::arrayDeepMerge(
+                // merge in null values first.  That way, if they don't exist as defaults, they don't get removed alltogether
+                $configuredActions,
+                // merge in default actions
+                array_intersect_key($defaultActions, $configuredActions), 
+                // filter out null values so default actions take precedence.  In all other occasions, null values take precedence
+                $this->filterNullValues($configuredActions) 
+            );
 
-            // set "label" and "action" if not set in configuration
+            // set "label" and "class" if not set in configuration
             foreach ($actions as $actionName => $actionConfig) {
-              $actions[$actionName] = $this->getActionsConfig($actionName, $actionConfig);
+              $actions[$actionName] = $this->getActionsConfig($actionName, $actionConfig, $actionType);
             }
 
             // set "credentials" if security.yml is defined and "use_security_yaml_credentials" is true
@@ -160,7 +175,7 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
     return $options;
   }
 
-  protected function getActionsConfig($action, $options)
+  protected function getActionsConfig($action, $options, $type = null)
   {
     if (!isset($options['class'])) {
       $options['class'] = $action;
@@ -168,6 +183,10 @@ class sfHadoriGeneratorConfiguration extends sfThemeGeneratorConfiguration
 
     if (!isset($options['label'])) {
       $options['label'] = sfInflector::humanize($action);
+    }
+    
+    if (!isset($options['action']) && $type == 'batch_actions') {
+      $options['action'] = $action;
     }
 
     return $options;

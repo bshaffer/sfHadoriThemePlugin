@@ -168,7 +168,7 @@ The generator.yml allows for several options you will be familiar with, with the
 
     * *actions*
 
-        Actions available to the edit form.  Defaults to `[save, delete, cancel]`.  See _Action Options_ below.  ex: `actions: [save, back]`
+        Actions available to the edit form.  Defaults to `[save, delete, cancel]`.  See _Action Options_ below.
 
   * **Show Options**
 
@@ -184,7 +184,7 @@ The generator.yml allows for several options you will be familiar with, with the
 
     * *actions*
 
-        Actions available to the show form.  Defaults to `[edit, cancel]`.  See _Action Options_ below.  ex: `actions: [edit, back]`
+        Actions available to the show form.  Defaults to `[edit, cancel]`.  See _Action Options_ below.
 
   * **Export Options**
 
@@ -308,7 +308,7 @@ your forms like so:
 Hadori knows to only use these fields.  But don't forget to run `$ php symfony cache:clear`, otherwise you'll receive a 500 error when you view your
 form.  This is the same for filters:
 
-    // lib/form/doctrine/MyModelForm.class.php
+    // lib/filter/doctrine/MyModelForm.class.php
     class MyModelFormFilter extends BaseFormFilterDoctrine
     {
       public function configure()
@@ -441,14 +441,6 @@ Set your application's stylesheets to the plugin's stylesheets:
         - /sfHadoriThemePlugin/css/theme.css
         - /sfHadoriThemePlugin/css/hadori.css
 
-Set your application's stylesheets to the plugin's stylesheets:
-
-    # app/YOUR-APP/config/view.yml
-    default:
-      stylesheets:
-        - /sfHadoriThemePlugin/css/theme.css
-        - /sfHadoriThemePlugin/css/hadori.css
-
 This will already get you a decent looking login form, but if you want to go the extra mile, copy over the \_signin\_form.php.sample file into your application.
 
     # cd /path/to/project
@@ -458,7 +450,7 @@ This will already get you a decent looking login form, but if you want to go the
 Generated Code
 --------------
 
-View the [sfThemeGeneratorPlugin](http://github.com/bshaffer/sfHadoriThemePlugin) `README` for more options on how to customize this theme.
+View the [sfThemeGeneratorPlugin](https://github.com/bshaffer/sfThemeGeneratorPlugin) `README` for more options on how to customize this theme.
 
 Upgrading from the Original Symfony Admin Generator
 ---------------------------------------------------
