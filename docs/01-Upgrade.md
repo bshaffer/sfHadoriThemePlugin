@@ -14,9 +14,9 @@ Upgrading an existing module to Hadori is easy.  Follow this guide to transform 
     The `my_moduleGeneratorConfiguration` and `my_modelGeneratorHelper` classes are not needed in Hadori.  If you've customized these
     classes, this logic will need to be migrated to (most likely) the action.
     
-    You will also need edit your action class to remove the references to these files.
+5. Remove the `require_once` calls at the top of your module's `actions.class.php`
         
-5. Add Hadori Assets
+6. Add Hadori Assets
   
     If you don't have a `_flashes.php` partial in your global templates directory (`apps/myapp/templates/_flashes.php`), copy it over
 
@@ -26,30 +26,30 @@ Upgrading an existing module to Hadori is easy.  Follow this guide to transform 
 
         cp plugins/sfHadoriThemePlugin/data/generator/sfDoctrineModule/hadori/skeleton/config/view.yml apps/myapp/modules/my_module/config/
 
-6. A whole slew of partials are deprecated in Hadori.  If you have custom logic in any of the partials below, it will need to be moved
+7. A whole slew of partials are deprecated in Hadori.  If you have custom logic in any of the partials below, it will need to be moved
 
-    - *\_assets.php*
-    - *\_filters\_field.php*
-    - *\_flashes.php*
-    - *\_form\_actions.php*
-    - *\_form\_field.php*
-    - *\_form\_fieldset.php*
-    - *\_form\_footer.php*
-    - *\_form\_header.php*
-    - *\_list\_actions.php*
-    - *\_list\_batch\_actions.php* - consolidated
-    - *\_list\_field\_boolean.php* - functionality removed
-    - *\_list\_footer.php* - functionality removed
-    - *\_list\_header.php* - functionality removed.  This is not the same as the new `_list_header.php`
-    - *\_list\_td\_actions.php* - consolidated into `_list_row.php`
-    - *\_list\_td\_batch\_actions.php* - consolidated into `_list_row.php`
-    - *\_list\_td\_stacked.php* - functionality removed
-    - *\_list\_td\_tabular.php* - consolidated into `_list_row.php`
-    - *\_list\_th\_stacked.php* - functionality removed
-    - *\_list\_th\_tabular.php* - this is now `_list_header.php`
+  - *\_assets.php*
+  - *\_filters\_field.php*
+  - *\_flashes.php*
+  - *\_form\_actions.php*
+  - *\_form\_field.php*
+  - *\_form\_fieldset.php*
+  - *\_form\_footer.php*
+  - *\_form\_header.php*
+  - *\_list\_actions.php*
+  - *\_list\_batch\_actions.php* - consolidated
+  -   *\_list\_field\_boolean.php* - functionality removed
+  - *\_list\_footer.php* - functionality removed
+  - *\_list\_header.php* - functionality removed.  This is not the same as the new `_list_header.php`
+  - *\_list\_td\_actions.php* - consolidated into `_list_row.php`
+  - *\_list\_td\_batch\_actions.php* - consolidated into `_list_row.php`
+  - *\_list\_td\_stacked.php* - functionality removed
+  - *\_list\_td\_tabular.php* - consolidated into `_list_row.php`
+  - *\_list\_th\_stacked.php* - functionality removed
+  - *\_list\_th\_tabular.php* - this is now `_list_header.php`
     
-7. Some configuration has been deprecated in Hadori.  If you have any of the configuration below, it will need to be moved
+8. Some configuration has been deprecated in Hadori.  If you have any of the configuration below, it will need to be moved
 
-    - *form*: display (*use the form class*)
-    - *filter*: display (*use the filter form class*)
-    - *list*: table\_method (*use `getBaseQuery`*), table\_count\_method (use *`getBaseQuery`*), params, layout, pager\_class
+  - *form*: display (*use the form class*)
+  - *filter*: display (*use the filter form class*)
+  - *list*: table\_method (*use `getBaseQuery`*), table\_count\_method (use *`getBaseQuery`*), params, layout, pager\_class
